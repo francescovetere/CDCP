@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Page Title</title>
+    <title>Registration</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,8 +24,8 @@
 
 <body>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+    <!-- Page Wrapper --> <!-- bug: scroll doesn't work -->
+    <div id="wrapper" class="overflow-auto">
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="content-container">
@@ -47,8 +47,33 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h3 class="h3 mb-0">Page Title</h3>
+                        <h3 class="h3 mb-0">Welcome!</h3>
                     </div>
+                    
+                    <!-- Registration form -->
+                    
+                    <!-- offset = 12/2 - dim/2 = 6 - 4/2 = 4 -->
+                    <form class="col-md-4 offset-md-4">
+                        <div class="form-group"> <label class="control-label" for="nickname">Nickname</label>  
+                            <div> <input type="text" class="form-control" id="nickname" placeholder="Choose a nickname"> </div>  
+                        </div>  
+                        
+                        <div class="form-group"> <label class="control-label" for="email">E-mail</label>  
+                            <div> <input type="email" class="form-control" id="email" placeholder="Enter your e-mail address"> </div>  
+                        </div>
+
+                        <div class="form-group"> <label class="control-label" for="password">Password</label>  
+                            <div> <input type="password" class="form-control" id="password" placeholder="Choose a password"> </div>  
+                        </div>
+
+                        <div class="form-group"> <label class="control-label" for="password">Confirm password</label>  
+                            <div> <input type="password" class="form-control" id="password" placeholder="Confirm your password"> </div>  
+                        </div>
+
+                        <div class="offset-md-10">
+                            <button type="submit" class="btn btn-primary text-center">Sign in</button>
+                        </div>
+                    </form>
                   
                 </div>
                 <!-- /.container-fluid -->
