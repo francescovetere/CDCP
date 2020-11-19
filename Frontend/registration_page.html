@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="description" content="CDCP - Registration Page">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<title>Registration</title>
 
-    <title>Registration</title>
+  	<!-- Fonts -->
+  	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-    <!-- Custom styles for this template-->
-
-    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet"> 
-
-       <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js" defer></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script> 
-
+  	<!-- Bootstrap CSS -->
+  	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Custom CSS -->
+	<link href="css/custom.css" rel="stylesheet"> 
+	  
+	<!-- JQuery -->
+	<script src="vendor/jquery/jquery.min.js" defer></script>
+	
+	<!-- Bootstrap core JavaScript-->
+  	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script> 
 </head>
 
-<body>
-
-    <!-- Page Wrapper --> <!-- bug: scroll doesn't work -->
-    <div id="wrapper" class="overflow-auto">
+<body">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="content-container">
@@ -34,11 +36,8 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Topbar Search -->
+                <nav class="navbar bg-white shadow mb-4">
                    <h1>CDCP</h1>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -47,34 +46,40 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h3 class="h3 mb-0">Welcome!</h3>
+                        <h3 class="h3 mb-0">Registration</h3>
                     </div>
                     
-                    <!-- Registration form -->
+                    <!-- Registration Form -->
                     
                     <!-- offset = 12/2 - dim/2 = 6 - 4/2 = 4 -->
-                    <form class="col-md-4 offset-md-4">
-                        <div class="form-group"> <label class="control-label" for="nickname">Nickname</label>  
-                            <div> <input type="text" class="form-control" id="nickname" placeholder="Choose a nickname"> </div>  
+                    <form class="col-md-4 offset-md-4 rounded p-2">
+                        <div class="form-group"> 
+                            <label class="control-label" for="nickname">Nickname</label>  
+                            <input name="nickname" type="text" class="form-control" id="id-nickname" placeholder="Choose a nickname">  
                         </div>  
                         
-                        <div class="form-group"> <label class="control-label" for="email">E-mail</label>  
-                            <div> <input type="email" class="form-control" id="email" placeholder="Enter your e-mail address"> </div>  
+                        <div class="form-group">
+                            <label class="control-label" for="email">E-mail</label>  
+                            <input name="email" type="email" class="form-control" id="id-email" placeholder="Enter your e-mail address">  
                         </div>
 
-                        <div class="form-group"> <label class="control-label" for="password">Password</label>  
-                            <div> <input type="password" class="form-control" id="password" placeholder="Choose a password"> </div>  
+                        <div class="form-group">
+                            <label class="control-label" for="password">Password</label>  
+                            <input name="password" type="password" class="form-control" id="id-password" placeholder="Choose a password">  
                         </div>
 
-                        <div class="form-group"> <label class="control-label" for="password">Confirm password</label>  
-                            <div> <input type="password" class="form-control" id="password" placeholder="Confirm your password"> </div>  
+                        <div class="form-group">
+                            <label class="control-label" for="password">Confirm password</label>  
+                            <input name="conf-password" type="password" class="form-control" id="id-conf-password" placeholder="Confirm your password">  
                         </div>
-
-                        <div class="offset-md-10">
-                            <button type="submit" class="btn btn-primary text-center">Sign in</button>
+                        
+                        <div>
+                            <button type="submit" class="btn btn-primary">Sign in</button>
                         </div>
                     </form>
-                  
+
+                    <!-- End of Registration Form -->
+
                 </div>
                 <!-- /.container-fluid -->
 
@@ -91,13 +96,12 @@
             </footer>
             <!-- End of Footer -->
 
-
         </div>
         <!-- End of Content Wrapper -->
-
+                    
+    
     </div>
     <!-- End of Page Wrapper -->
-
 
 </body>
 
