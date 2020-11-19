@@ -22,12 +22,20 @@
   font-weight: 800;
 }
 
+.content-container {
+  min-height: 100%; 
+  position: relative;
+  /* overflow: scroll; */
+  padding-bottom: 80px; /* Height of the footer (+ little space)*/
+}
+
 .sticky-footer {
   padding: 2rem 0;
   flex-shrink: 0;
-  width: 100%;
   position: fixed; 
   bottom: 0;
+  width: 100%;
+  height: 60px; /* Height of the footer */
 }
 
 .copyright {
@@ -35,7 +43,6 @@
   font-size: 1.2rem;
 }
 
-.content-container {
-  min-height: 100%; 
-  position: relative;
+form {
+  background-color:lightblue;
 }
