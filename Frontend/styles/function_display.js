@@ -1,28 +1,78 @@
 function display_header(){
-    const ajax = new XMLHttpRequest();
-    ajax.open("GET", "template/overall_header.html"); // debug: set async false
-    ajax.send();
-    document.body.innerHTML += ajax.responseText;
+    const template = `
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="content-container">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar bg-white shadow mb-4">
+                   <h1>CDCP</h1>
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid overflow-auto">`;
+
+    document.querySelector(".customHeader").innerHTML = template;
 }
 
 function display_footer(){
-    const ajax = new XMLHttpRequest();
-    ajax.open("GET", "template/overall_footer.html");
-    ajax.send();
-    document.body.innerHTML += ajax.responseText;
+    const template = `
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer shadow-lg bg-white mt-5">
+                <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                <span>Copyright &copy; SpaghettiCode-Labs</span>
+                </div>
+                </div>
+                </footer>
+                <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+
+        </div>
+        <!-- End of Page Wrapper -->
+`;
+
+    document.querySelector(".customFooter").innerHTML = template;
+
 }
 
+function init_vendors(){
+    const vendors = `
+    <!-- Fonts -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
 
-/* Jquery version: 
+    <!-- Bootstrap CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet"> 
+    
+    <!-- JQuery -->
+    <script src="vendor/jquery/jquery.min.js" type="text/javascript"></script> 
+  
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script> 
+`;
 
-$(function() {
-    $('#content').load('/templates.html');
-});
+    document.getElementById("vendors").innerHTML = vendors;
 
-*/
+}
 
-
-/*
-Access to Script at ' from origin 'null' has been blocked by CORS policy!
- -> file:// requests will not work, but you can run a local webserver
-*/
+init_vendors();
+display_header();
+display_footer();
