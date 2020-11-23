@@ -13,6 +13,21 @@ function createRegistrationPage() {
     variableContent.innerHTML = registrationHTML;
 }
 
+function createProjectsPage() {
+    //TODO
+    let projectCardHTML = document.querySelector('script#project-card-template').textContent;
+    variableContent.innerHTML = projectCardHTML;
+
+}
+
+function createLogsPage() {
+    //TODO
+}
+
+function createStatsPage() {
+    //TODO
+}
 
 // Logica di creazione delle pagine
-createLoginPage();
+// createLoginPage();
+createProjectsPage();
