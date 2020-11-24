@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html">
+		<meta name="description" content="CDCP">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<title>CDCP</title>
+
+		<!-- Fonts -->
+		<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+		<!-- Custom CSS -->
+		<link href="css/custom.css" rel="stylesheet"> 
+		
+		<!-- JQuery -->
+		<script src="vendor/jquery/jquery.min.js" type="text/javascript" defer></script> 
+	
+		<!-- Bootstrap core JavaScript -->
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript" defer></script> 
+		
+		<!-- Application logic 
+		<script src="js/application_logic.js" type="text/javascript" defer></script>-->
+		
+	</head>
+
+	<body>
+		<!-- Page Wrapper -->
+		<div id="wrapper">
+
+			<!-- Content Wrapper -->
+			<div id="content-wrapper" class="content-container">
+
+				<!-- Main Content -->
+				<div id="content">
+
+					<!-- Topbar -->
+					<nav class="navbar bg-white shadow mb-4">
+					<h1>CDCP</h1>
+					</nav>
+					<!-- End of Topbar -->
+
+					<!-- Begin Page Content -->
+					<div id="variable-content" class="container-fluid overflow-auto">
+						<div class="row" id="cardContent"></div>
+						<!-- Qui verrà inserito il codice HTML adeguato tramite JS -->
+						<script type="text/html" id="cardProject-template">
+						<div class="col-3">
+							<div class="card mb-4">
+								<!-- Card Header - Dropdown -->
+								<div class="card-header bg-dark py-3 d-flex flex-row align-items-center justify-content-between">
+								<h6 class="m-0 font-weight-bold text-white">Un titolo sopra se serve</h6>
+								<div class="dropdown no-arrow">
+									<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									</a>
+									<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
+									<div class="dropdown-header">Voci del menu:</div>
+									<a class="dropdown-item">Prima voce</a>
+									<a class="dropdown-item">Seconda voce</a>
+
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item">Nel dropdown diviso</a>
+									</div>
+								</div>
+								</div>
+								<div class="card-body bg-light">Il titolo del progetto <br>oppure un contenuto centrale</div> 
+								<div class="card-footer bg-info text-dark">
+									<div class="row">
+										<div class="col-3"></div>
+										<div class="col-4 ml-3"><div class="chip">#Examples</div></div>
+										<div class="col-3 ml-3"><div class="chip">#Tags</div></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</script>
+
+					<style>
+						.chip {
+							display: inline-block;
+							padding: 0 15px;
+							height: 30px;
+							font-size: 16px;
+							line-height: 28px;
+							border-radius: 25px;
+							background-color: #f1f1f1;
+							}
+					</style>
+
+					<!-- Produttore a bomba -->
+					<script>
+						let variableContent = document.getElementById("cardContent");
+						let cardHTML = document.querySelector('script#cardProject-template').textContent;
+						for(let i = 0; i<9; i++){
+							variableContent.innerHTML = variableContent.innerHTML + cardHTML;
+						}
+    					
+					</script>
+					
+					</div>
+					<!-- /.container-fluid -->
+
+				</div>
+				<!-- End of Main Content -->
+
+				<!-- Footer -->
+				<footer class="sticky-footer shadow-lg bg-white mt-5">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; SpaghettiCode-Labs</span>
+						</div>
+					</div>
+				</footer>
+				<!-- End of Footer -->
+
+
+			</div>
+			<!-- End of Content Wrapper -->
+
+		</div>
+		<!-- End of Page Wrapper -->
+		
+	</body>
+
+</html>
