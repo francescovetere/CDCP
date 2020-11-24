@@ -173,19 +173,36 @@
 			</form>
 		</script>
  
-		<!-- Projects page -->
 		<!-- Project card -->
 		<script type="text/html" id="project-card-template">
-			<div class="card col-md-2 rounded p-2">
-				<article class="card-body">
-					<h4 class="card-title text-center mb-4 mt-1">ProjectTitle</h4>
-					<hr>
-					
-					<input name="nickname" class="form-control" id="id-nickname" placeholder="Nickname" type="text">
-					<input name="nickname" class="form-control" id="id-nickname" placeholder="Nickname" type="text">
-					<input name="nickname" class="form-control" id="id-nickname" placeholder="Nickname" type="text">
-				</article>
-			</div> <!-- card.// -->
+			<div class="col-3">
+				<div class="card mb-4">
+					<!-- Card Header - Dropdown -->
+					<div class="card-header bg-dark py-3 d-flex flex-row align-items-center justify-content-between">
+					<h6 class="m-0 font-weight-bold text-white">Un titolo sopra se serve</h6>
+					<div class="dropdown no-arrow">
+						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						</a>
+						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
+						<div class="dropdown-header">Voci del menu:</div>
+						<a class="dropdown-item">Prima voce</a>
+						<a class="dropdown-item">Seconda voce</a>
+
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item">Nel dropdown diviso</a>
+						</div>
+					</div>
+					</div>
+					<div class="card-body bg-light">Il titolo del progetto <br>oppure un contenuto centrale</div> 
+					<div class="card-footer bg-info text-dark">
+						<div class="row">
+							<div class="col-3"></div>
+							<div class="col-4 ml-3"><div class="chip">#Examples</div></div>
+							<div class="col-3 ml-3"><div class="chip">#Tags</div></div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</script>
 	</body>
 
