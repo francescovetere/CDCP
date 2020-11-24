@@ -83,7 +83,7 @@
 		<!-- Login form -->
 		<script type="text/html" id="login-form-template">
 			<!-- offset = 12/2 - dim/2 = 6 - 4/2 = 4 -->
-			<form class="col-md-4 offset-md-4 rounded p-2">
+			<form class="col-md-4 offset-md-4 rounded p-2" method="POST" action="javascript:void(0)" >
 							
 				<div class="card mt-5">
 					<article class="card-body">
@@ -107,7 +107,7 @@
 							</div> <!-- form-group// -->
 
 						<div class="form-group">
-							<button type="submit" class="btn btn-primary btn-block">Login</button>
+							<button id="btn-login-id" type="submit" class="btn btn-primary btn-block">Login</button>
 						</div> <!-- form-group// -->						
 									
 						<p id="sign-in-redirect" class="btn badge badge-info">New to CDCP? Sign in!</p>
@@ -122,7 +122,7 @@
 		<!-- Registration form -->
 		<script type="text/html" id="registration-form-template">
 			<!-- offset = 12/2 - dim/2 = 6 - 4/2 = 4 -->
-			<form class="col-md-4 offset-md-4 rounded p-2">
+			<form class="col-md-4 offset-md-4 rounded p-2" method="POST" action="javascript:void(0)">
 				<div class="card mt-5">
 					<article class="card-body">
 						<h4 class="card-title text-center mb-4 mt-1">Registration</h4>
@@ -161,12 +161,12 @@
 									<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 								</div>
 											
-								<input class="form-control" id="id-password" name="id-conf-password" placeholder="Confirm Password" type="password">
+								<input class="form-control" id="id-password" name="conf-password" placeholder="Confirm Password" type="password">
 							</div> <!-- input-group.// -->
 						</div> <!-- form-group// -->
 				
 						<div class="form-group">
-							<button type="submit" class="btn btn-primary btn-block">Sign in</button>
+							<button type="submit" id="btn-registration-id" class="btn btn-primary btn-block">Sign in</button>
 						</div> <!-- form-group// -->
 					</article>
 				</div> <!-- card.// -->
@@ -197,6 +197,7 @@
 					<div class="card-footer bg-info text-dark">
 						<div class="row">
 							<div class="col-3"></div>
+							<!-- TODO: Comportamento strano sui .chip quando vieport diventa troppo piccola -->
 							<div class="col-4 ml-3"><div class="chip">#Examples</div></div>
 							<div class="col-3 ml-3"><div class="chip">#Tags</div></div>
 						</div>
