@@ -14,10 +14,20 @@ function createRegistrationPage() {
 }
 
 function createProjectsPage() {
-    //TODO
+    // Creo il div esterno che conterrà tutti i progetti
+    let externalProjectDiv = document.createElement("div");
+    externalProjectDiv.setAttribute("class", "row");
+    externalProjectDiv.setAttribute("id", "cardContent");
+    
+    // Recupero l'HTML del template della project card
     let projectCardHTML = document.querySelector('script#project-card-template').textContent;
-    variableContent.innerHTML = projectCardHTML;
+    
+    // Inserisco nel div appena creato l'HTML di 9 project card di esempio
+    for(let i = 0; i < 9; ++i)
+        externalProjectDiv.innerHTML += projectCardHTML;
 
+    // Appendo al div principale della pagina il nuovo div contenente tutti i progetti
+    variableContent.appendChild(externalProjectDiv);
 }
 
 function createLogsPage() {
