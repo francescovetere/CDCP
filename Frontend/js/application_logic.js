@@ -30,7 +30,7 @@ function createRegistrationPage() {
 
     // Cliccando su "Sign in", viene fatta la chiamata AJAX al server (validando prima i campi)
     // Se la registrazione va a buon fine, si viene redirezionati alla pagina di login
-    document.getElementById("btn-login-id").addEventListener("click",
+    document.getElementById("btn-registration-id").addEventListener("click",
         function() {
             // TODO
             // - validazione parametri
