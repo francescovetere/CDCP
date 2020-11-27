@@ -1,0 +1,40 @@
+=== MOCKUP ===
+- Add project:
+  Nella pagina dei progetti fare un bottone tondo, verde, con un +, posizionato in basso a destra che non scrolli col resto della pagina.
+  Il click su di esso, produce un form per l'aggiunta di un nuovo progetto, magari tramite un modal.
+  
+- Delete project:
+  Già implementato nella tendina del singolo project, bisogna magari solo fare uscire un alert
+  
+- Update project:
+  Quando si preme su questa opzione dalla tendina del singolo project, conviene fare apparire una nuova pagina per l'inserimento/modifica/cancellazione dei record
+  I record potrebbero essere visualizzati come righe di una tabella, con 2 colonne:
+  	input: il nome del file di testo o il nome dell'immagine
+  	tags: i nomi dei vari tag con i tagvalues associati, nella forma (tag: tagvalue1,...,tagvalueN) 
+  Ogni record potrebbe inoltre avere, sulla destra, due pulsanti per effettuarne la modifica e l'eliminazione (come nella todo app del corso)
+  Per l'inserimento di un nuovo record invece, si potrebbe sfruttare lo stesso bottone verde usato nella add project
+  
+  
+- Logs
+	Una tabella analoga a quella della pagina di update project, ma con le seguenti 5 colonne:
+	Nome progetto, nickname utente, azione compiuta, dettagli, timestamp
+	
+- Stats
+	Un grafico per illustrare quali tag (e tag values) hanno troppi pochi input associati (troppi pochi = scegliere una soglia)
+	Potremmo mostrare tutti i tag sulla x, il numero di input associati sulla y, e la soglia come riga orizzontale rossa
+	
+	Per mostrare invece il numero complessivo di tutti gli input dei progetti, e il numero complessivo di tutti gli input senza tag,
+	forse non serve nemmeno un grafico, alla fine si tratta solo di 2 numeri...
+	
+- 404
+	Problema: quando può avvenire un 404, se usiamo un approccio single page application?
+	Normalmente avviene se l'utente richiede una pagina non esistente, ma in questo caso la pagina è 1 sola, ed è navigabile solo tramite i pulsanti della pagina. Renderla navigabile ANCHE dalla barra degli indirizzi sarebbe molto complicato secondo me.
+	Altrimenti torniamo all'approccio classico, ovvero HTML separati, e lì il 404 ha più senso
+	
+	
+	
+=== STRUTTURA DEL PROGETTO ===
+Dobbiamo mettere in /var/www tutto ciò che riguarda il frontend (per Apache), mentre il backend possiamo scegliere noi secondo me
+L'importante è ricordarsi di modificare il file /etc/apache2/sites-available/<file>.conf per inserire:
+ProxyPass /api/ http://localhost:8000/
+Ovvero, dico ad apache che le richieste del tipo .../api/... NON vanno soddisfatte cercando in DocumentRoot un documento statico, ma vanno appunto girate a http://localhost:8000/ ovvero al server scritto in node, che avrà la varie routes (get, post, put, delete)
