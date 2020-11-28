@@ -3,6 +3,7 @@
   Nella pagina dei progetti fare un bottone tondo, verde, con un +, posizionato in basso a destra che non scrolli col resto della pagina.
   Il click su di esso, produce un form per l'aggiunta di un nuovo progetto, magari tramite un modal.
   
+  
 - Delete project:
   Già implementato nella tendina del singolo project, bisogna magari solo fare uscire un alert
   
