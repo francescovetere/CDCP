@@ -21,6 +21,7 @@
   vedere autocomplete() di jquery
   
   
+  
 - Logs
 	Una tabella analoga a quella della pagina di update project, ma con le seguenti 5 colonne:
 	Nome progetto, nickname utente, azione compiuta, dettagli, timestamp
