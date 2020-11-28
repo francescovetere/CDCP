@@ -41,6 +41,10 @@
 					<!-- Topbar -->
 					<nav class="navbar bg-white shadow mb-4">
 					<h1>CDCP</h1>
+					<div class="nickbar">
+						<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
+						Nickname
+					  </div>
 					</nav>
 					<!-- End of Topbar -->
 
@@ -56,9 +60,9 @@
 				<!-- End of Main Content -->
 
 				<!-- Footer -->
-				<footer class="sticky-footer shadow-lg bg-white mt-5">
+				<footer class="sticky-footer shadow-lg bg-white">
 					<div class="container my-auto">
-						<div class="copyright text-center my-auto">
+						<div class="copyright text-center mb-5">
 							<span>Copyright &copy; SpaghettiCode-Labs</span>
 						</div>
 					</div>
@@ -179,21 +183,21 @@
 				<div class="card mb-4">
 					<!-- Card Header - Dropdown -->
 					<div class="card-header bg-dark py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-white">Un titolo sopra se serve</h6>
+					<h6 class="m-0 font-weight-bold text-white IDProjectTitle"></h6>
 					<div class="dropdown no-arrow">
 						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						</a>
 						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
 						<div class="dropdown-header">Voci del menu:</div>
-						<a class="dropdown-item">Prima voce</a>
-						<a class="dropdown-item">Seconda voce</a>
+						<button class="dropdown-item">Prima voce</button>
+						<button class="dropdown-item">Seconda voce</button>
 
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item">Nel dropdown diviso</a>
+						<button class="dropdown-item" id="delete-" onclick="removeProject(this.id)">Elimina</button>
 						</div>
 					</div>
 					</div>
-					<div class="card-body bg-light">Il titolo del progetto <br>oppure un contenuto centrale</div> 
+					<div class="card-body bg-light IDProjectContent"></div> 
 					<div class="card-footer bg-info text-dark">
 						<div class="row">
 							<div class="col-3"></div>
@@ -205,6 +209,29 @@
 				</div>
 			</div>
 		</script>
+
+		<!-- Modal -->
+		<script type="text/html" id="delete-card-Modal">
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteModalLabel">Eliminazione Progetto</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+					<button type="button" class="btn btn-danger">Elimina</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+		
 	</body>
 
 </html>
