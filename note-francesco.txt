@@ -7,6 +7,7 @@
 - Delete project:
   Già implementato nella tendina del singolo project, bisogna magari solo fare uscire un alert
   
+  
 - Update project:
   Quando si preme su questa opzione dalla tendina del singolo project, conviene fare apparire una nuova pagina per l'inserimento/modifica/cancellazione dei record
   I record potrebbero essere visualizzati come righe di una tabella, con 2 colonne:
