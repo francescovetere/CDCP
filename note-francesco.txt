@@ -15,6 +15,7 @@
   Per l'inserimento di un nuovo record invece, si potrebbe sfruttare lo stesso bottone verde usato nella add project
   
   
+  
 - Logs
 	Una tabella analoga a quella della pagina di update project, ma con le seguenti 5 colonne:
 	Nome progetto, nickname utente, azione compiuta, dettagli, timestamp
