@@ -6,6 +6,9 @@ function createLoginPage() {
     // Recupero l'HTML del template della form di login
     let loginHTML = document.querySelector('script#login-form-template').textContent;
 
+    // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
+    variableContent.innerHTML = loginHTML;
+    
     // Cliccando su "New to CDCP? Sign in!", viene richiamata la funzione per la costruzione della pagina di login
     document.getElementById("sign-in-redirect").addEventListener("click", createRegistrationPage);
 
@@ -19,15 +22,15 @@ function createLoginPage() {
             // - se risposta positiva: createProjectsPage();
         }
     );
-
-    // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
-    variableContent.innerHTML = loginHTML;
 }
 
 function createRegistrationPage() {
     // Recupero l'HTML del template della form di registrazione
     let registrationHTML = document.querySelector('script#registration-form-template').textContent;
 
+    // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
+    variableContent.innerHTML = registrationHTML;
+    
     // Cliccando su "Sign in", viene fatta la chiamata AJAX al server (validando prima i campi)
     // Se la registrazione va a buon fine, si viene redirezionati alla pagina di login
     document.getElementById("btn-registration-id").addEventListener("click",
@@ -38,9 +41,6 @@ function createRegistrationPage() {
             // - se risposta positiva: createLoginPage();
         }
     );
-
-    // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
-    variableContent.innerHTML = registrationHTML;
 }
 
 function createProjectsPage() {
@@ -130,5 +130,5 @@ $(document).ready(function(){
 
 // Per il momento, commentare e decommentare per effettuare i test sulle varie pagine
 
-// createLoginPage();
-createProjectsPage();
+createLoginPage();
+// createProjectsPage();
