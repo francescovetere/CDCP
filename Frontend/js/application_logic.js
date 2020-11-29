@@ -2,6 +2,14 @@
 // TODO: dovrà chiaramente diventare locale, lasciarla globale è cattivo stile
 let variableContent = document.getElementById("variable-content");
 
+function login() {
+    let navbarContent = document.getElementById("customNavbar");
+    let navbarNick = document.querySelector('script#navbar-Nickname').textContent;
+    console.log(navbarNick);
+    navbarContent.innerHTML = navbarNick;
+    $('#NickLogged').html("prova"); // da sostituire con il nickname che viene passato in fase di login
+}
+
 function createLoginPage() {
     // Recupero l'HTML del template della form di login
     let loginHTML = document.querySelector('script#login-form-template').textContent;
@@ -20,6 +28,9 @@ function createLoginPage() {
             // - validazione parametri
             // - chiamata AJAX al server
             // - se risposta positiva: createProjectsPage();
+            variableContent.innerHTML = ""; // andrebbe fatto un remove node, ma non e' impostato come nodo!
+            createProjectsPage();
+            login();
         }
     );
 }
@@ -42,6 +53,7 @@ function createRegistrationPage() {
         }
     );
 }
+
 
 function createProjectsPage() {
     // Recupero l'HTML del template della project card

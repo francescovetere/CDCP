@@ -39,14 +39,15 @@
 				<div id="content">
 
 					<!-- Topbar -->
-					<nav class="navbar bg-white shadow mb-4">
+					<div id="customNavbar" class="navbar bg-white shadow mb-4">
 					<h1>CDCP</h1>
-					<div class="nickbar">
-						<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
-						Nickname
-					  </div>
-					</nav>
+					</div>
 					<!-- End of Topbar -->
+
+					<script type="text/html" id="navbar-Nickname">
+						<h1>CDCP</h1><div class="nickbar"><i class="far fa-user-circle nickbarAvatar fa-2x"></i><a id="NickLogged"></a>
+						</div>
+						</script>
 
 					<!-- Begin Page Content -->
 					<div id="variable-content" class="container-fluid overflow-auto">
