@@ -26,9 +26,32 @@
 		<!-- Bootstrap core JavaScript -->
 		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript" defer></script> 
 		
-		<!-- Application logic -->
-		<script src="js/application_logic.js" type="text/javascript" defer></script>
+
+		<!-- Custom JS scripts -->
+
+		<!-- Login page -->
+		<script src="js/login_page.js" type="text/javascript" defer></script>
 		
+		<!-- Registration page -->
+		<script src="js/registration_page.js" type="text/javascript" defer></script>
+
+		<!-- Projects page -->
+		<script src="js/projects_page.js" type="text/javascript" defer></script>
+
+		<!-- Logs page -->
+		<script src="js/logs_page.js" type="text/javascript" defer></script>
+
+		<!-- Stats page -->
+		<script src="js/stats_page.js" type="text/javascript" defer></script>
+
+		<!-- 404 page -->
+		<script src="js/404_page.js" type="text/javascript" defer></script>
+
+		<!-- Application logic  -->
+		<!-- N.B.: Deve essere necessariamente l'ultimo file incluso! Altrimenti non funziona -->
+		<!-- https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file -->
+		<script src="js/application_logic.js" type="text/javascript" defer></script>
+
 	</head>
 
 	<body>
@@ -41,16 +64,14 @@
 				<!-- Main Content -->
 				<div id="content">
 
-					<!-- Topbar -->
-					<div id="customNavbar" class="navbar bg-white shadow mb-4">
-					<h1><img class="logo mr-2" src="img/unipr-logo.png" width="52" alt="<unipr-logo.png>">CDCP</h1>
+					<!-- Navbar -->
+					<div id="id-navbar" class="navbar bg-white shadow mb-4">
+						<h1 class="font-weight-normal">
+							<img class="logo mr-2" src="img/unipr-logo.png" width="52" alt="unipr-logo.png">
+							CDCP
+						</h1>
 					</div>
-					<!-- End of Topbar -->
-
-					<script type="text/html" id="navbar-Nickname">
-						<h1>CDCP</h1><div class="nickbar"><i class="far fa-user-circle nickbarAvatar fa-2x"></i><a id="NickLogged"></a>
-						</div>
-						</script>
+					<!-- End of Navbar -->
 
 					<!-- Begin Page Content -->
 					<div id="variable-content" class="container-fluid overflow-auto">
@@ -127,6 +148,12 @@
 			</form>
 		</script>
 
+		<!-- Navbar nickname icon-->
+		<script type="text/html" id="navbar-nickname">
+			<div class="nickbar"><i class="far fa-user-circle nickbarAvatar fa-2x"></i><a id="NickLogged"></a>
+			</div>
+		</script>
+
 		<!-- Registration form -->
 		<script type="text/html" id="registration-form-template">
 			<!-- offset = 12/2 - dim/2 = 6 - 4/2 = 4 -->
@@ -192,12 +219,12 @@
 						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						</a>
 						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
-						<div class="dropdown-header">Voci del menu:</div>
-						<button class="dropdown-item">Prima voce</button>
-						<button class="dropdown-item">Seconda voce</button>
+						<!-- <div class="dropdown-header">Menu options</div> -->
+						<button class="dropdown-item">First option</button>
+						<button class="dropdown-item">Second option</button>
 
 						<div class="dropdown-divider"></div>
-						<button class="dropdown-item" id="delete-" onclick="removeProject(this.id)">Elimina</button>
+						<button id="id-btn-delete-project" class="dropdown-item">Delete</button>
 						</div>
 					</div>
 					</div>
@@ -215,7 +242,7 @@
 		</script>
 
 		<!-- Modal -->
-		<script type="text/html" id="delete-card-Modal">
+		<script type="text/html" id="delete-card-modal">
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -226,6 +253,7 @@
 					</button>
 					</div>
 					<div class="modal-body deleteBody">
+						<span>You're about to delete project #ID <span id="id-project-to-be-deleted"></span> <br>Are you sure?</span>
 					</div>
 					<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>

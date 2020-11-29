@@ -1,0 +1,3 @@
+function createLogsPage() {
+    //TODO
+}

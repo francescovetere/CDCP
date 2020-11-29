@@ -1,0 +1,3 @@
+function createStatsPage() {
+    //TODO
+}
