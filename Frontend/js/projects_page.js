@@ -101,7 +101,7 @@ function createProjectsPage() {
 }
 
 function addProject(id) {
-    console.log("Adding progect n. " + id);
+    console.log("Adding progect n. " + id); 
 }
 
 function viewProject(id) {
