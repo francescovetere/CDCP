@@ -210,11 +210,11 @@
  
 		<!-- Project card -->
 		<script type="text/html" id="project-card-template">
-			<div class="col-3">
+			<div id="card-content" class="col-3">
 				<div class="card mb-4">
 					<!-- Card Header - Dropdown -->
 					<div class="card-header bg-dark py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="m-0 font-weight-bold text-white IDProjectTitle"></h6>
+					<h6 class="project-title m-0 font-weight-bold text-white"></h6>
 					<div class="dropdown no-arrow">
 						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						</a>
@@ -228,7 +228,7 @@
 						</div>
 					</div>
 					</div>
-					<div class="card-body bg-light IDProjectContent"></div> 
+					<div id="id-project-description" class="card-body bg-light"></div> 
 					<div class="card-footer bg-info text-dark">
 						<div class="row">
 							<div class="col-3"></div>

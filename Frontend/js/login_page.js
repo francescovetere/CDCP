@@ -17,7 +17,10 @@ function createLoginPage() {
             // - chiamata AJAX al server
             // (N.B.: E' una chiamata AJAX, quindi la funzione in cui viene chiamata (questa) dovrà essere essere async!!!)
             // - se risposta positiva: createProjectsPage();
-
+            
+            // Svuoto la pagina
+            variableContent.innerHTML = "";
+            
             createProjectsPage();
         }
     );
