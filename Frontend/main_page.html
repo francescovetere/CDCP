@@ -38,6 +38,9 @@
 		<!-- Projects page -->
 		<script src="js/projects_page.js" type="text/javascript" defer></script>
 
+		<!-- View project page -->
+		<script src="js/view_project_page.js" type="text/javascript" defer></script>
+
 		<!-- Logs page -->
 		<script src="js/logs_page.js" type="text/javascript" defer></script>
 
@@ -220,15 +223,15 @@
 						</a>
 						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
 						<!-- <div class="dropdown-header">Menu options</div> -->
-						<button class="dropdown-item">First option</button>
-						<button class="dropdown-item">Second option</button>
+						<button class="btn-view-project dropdown-item">View</button>
+						<!-- <button class="dropdown-item">Second option</button> -->
 
 						<div class="dropdown-divider"></div>
-						<button id="id-btn-delete-project" class="dropdown-item">Delete</button>
+						<button class="btn-delete-project dropdown-item">Delete</button>
 						</div>
 					</div>
 					</div>
-					<div id="id-project-description" class="card-body bg-light"></div> 
+					<div class="project-description card-body bg-light"></div> 
 					<div class="card-footer bg-info text-dark">
 						<div class="row">
 							<div class="col-3"></div>
@@ -247,17 +250,17 @@
 				<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-					<h5 class="modal-title" id="deleteModalLabel">Eliminazione Progetto</h5>
+					<h5 class="modal-title" id="deleteModalLabel">Project deletion</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					</div>
 					<div class="modal-body deleteBody">
-						<span>You're about to delete project #ID <span id="id-project-to-be-deleted"></span> <br>Are you sure?</span>
+						<span>You're about to delete project n. <span id="id-project-to-be-deleted"></span>Are you sure?</span>
 					</div>
 					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-					<button type="button" class="btn btn-danger">Elimina</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
 					</div>
 				</div>
 				</div>

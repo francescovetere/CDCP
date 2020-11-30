@@ -1,7 +1,11 @@
-// Variabile globale che rappresenta il contenuto variabile della pagina 
-// TODO: dovrà chiaramente diventare locale, lasciarla globale è cattivo stile
+// Variabili globale
+// TODO: dovranno chiaramente diventare locale, lasciarla globale è cattivo stile
+
+// Il contenuto variabile della pagina 
 let variableContent = document.getElementById("variable-content");
 
+// Array di projects
+let projects = [];
 
 // Create Scroll to Top in all page
 $(document).ready(function(){
@@ -34,5 +38,5 @@ $(document).ready(function(){
 
 // Per il momento, commentare e decommentare per effettuare i test sulle varie pagine
 
-createLoginPage();
-// createProjectsPage();
+// createLoginPage();
+createProjectsPage();
