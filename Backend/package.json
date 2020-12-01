@@ -10,10 +10,10 @@
     "type": "git",
     "url": "git+ssh://git@github.com/SOI-2020/todo-server.git"
   },
-  "author": "Daniele Porta",
+  "author": "",
   "maintainers": [
-    "Fabio Strozzi <fabio.strozzi@mapsgroup.it>",
-    "Daniele Porta <daniele.porta@mapsgroup.it>"
+    "Francesco Vetere <francesco.vetere@studenti.unipr.it>",
+    "Giuseppe La Gualano <giuseppe.lagualano@studenti.unipr.it>"
   ],
   "license": "MIT",
   "bugs": {
@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
     "rotating-file-stream": "^2.1.3",
     "uuid": "^8.3.0"
   },
