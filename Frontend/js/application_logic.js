@@ -1,5 +1,5 @@
-// Variabili globale
-// TODO: dovranno chiaramente diventare locale, lasciarla globale è cattivo stile
+// Variabili globali
+// ************  TODO: dovranno chiaramente diventare locali, lasciarle globali è cattivo stile
 
 // Il contenuto variabile della pagina 
 let variableContent = document.getElementById("variable-content");
@@ -8,6 +8,7 @@ let variableContent = document.getElementById("variable-content");
 let projects = [];
 
 // Create Scroll to Top in all page
+// ************ TODO: Risolvere waning
 $(document).ready(function(){
     $('body').append('<div id="toTop" class="btn btn-info"><span class="fas fa-arrow-up"></span> Back to Top</div>');
 

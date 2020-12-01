@@ -7,26 +7,122 @@ class Project {
         this._title = title;
         this._inputType = inputType;
         this._timeStamp = new Date();
-        // controllare che il valore inpuType sia solamente "text" o "image"
+        
+        this.render();
+        // this.handleListeners(); // ---> Vorrei metterlo qui, ma non va, nemmeno con la on() di JQuery...
     }
+
+    // variabile statica (di classe) contente i soli due valori possibili per il tipo di input:
+    // testo o immagine
+    // esempio d'uso: Project.inputType.TEXT;
+    static inputType = {
+        TEXT: 0,
+        IMAGE: 1
+    };
 
     // getters/setters
     get id() { return this._id; }
     get title() { return this._title; }
     get inputType() { return this._inputType; }
     get timeStamp() { return this._timeStamp; }
+
+    /**
+     * Rendering grafico di un progetto
+     */
+    render() {
+        // Identifico il div esterno contenente tutti i progetti
+        let projectsDiv = document.getElementById("external-project-div");
+        
+        // Identifico il template del generico progetto
+        let projectTemplate = document.querySelector('script#project-card-template');
+
+        // Definisco la card html del progetto, e la inserisco nel div dei progetti
+        projectsDiv.innerHTML += projectTemplate.innerText; 
+        let cardNode = createProjectCard(this._id);
+        projectsDiv.appendChild(cardNode);
+    }
+    
+    /**
+     * Gestione dei listeners associati ai bottoni della card del progetto
+     */
+    handleListeners() {
+        // Card del progetto
+        let cardNode = document.querySelector("#card-content-"+this._id);
+
+        let id = this._id; // Salvo l'id per effettuare successivamente la closure, nei listener
+        
+        // Listener sul bottone di view della card
+        let btnViewProject = cardNode.querySelector(".btn-view-project");
+        btnViewProject.addEventListener("click", 
+            function() {
+                console.log("Viewing project n. " + id); // closure
+                createViewProjectPage(id);
+            }
+        );
+        
+        // Listener sul bottone di eliminazione della card
+        let btnDeleteProject = cardNode.querySelector(".btn-delete-project");
+        btnDeleteProject.addEventListener("click", 
+            function() {
+                console.log("Deleting project n. " + id); // closure
+                deleteProject(id);
+            }
+        );
+    }
 }
 
 /**
- * Funzione che riceve un id nel formato "card-content-<num>"
- * E restituisce <num> in formato numerico
+ * Aggiunta di un progetto
  */
-function extractId(card_content_id) {
-    let id = card_content_id.replace("card-content-", "");
-    let numeric_id = parseInt(id, 10);
-    return numeric_id;
+function addProject(id, title, inputType) {
+    console.log("Adding project n. " + id);
+
+    let currentProject = new Project(id, title, inputType);
+    projects.push(currentProject);
+
+    // currentProject.handleListeners();
 }
 
+/**
+ * Rimozione di un progetto
+ */
+function deleteProject(id){
+    // Inserisco l'id del progetto nell'elemento span più interno della modal
+    document.querySelector("#id-project-to-be-deleted").innerText = id;
+
+    // Mostro la modal
+    $('#deleteModal').modal('show');
+
+    // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
+}
+
+/**
+ * Funzione che riceve un id di un progetto,
+ * e costruisce e restituisce la card per il progetto avente tale id
+ */
+function createProjectCard(id) {
+    // Modifico alcuni opportuni elementi del card template (già caricato nel documento HTML, ed avente id="card-content"),
+    // per personalizzarli con quelli del progetto corrente
+
+    // id
+    let cardNode = document.getElementById("card-content");
+    cardNode.setAttribute("id", cardNode.getAttribute("id") + "-" + id); // e.g.: card-content-0
+
+    // title
+    let cardNodeTitle = cardNode.querySelector('.project-title');
+    cardNodeTitle.innerText = "Title-" + id;
+
+    // description
+    let cardNodeDescription = cardNode.querySelector('.project-description');
+    cardNodeDescription.innerText = "Description-" + id;
+    
+    return cardNode;
+}
+
+
+/**
+ * Creazione della pagina dei progetti
+ */
 function createProjectsPage() {
     /* CREAZIONE ELEMENT FISSI */
     // Creo il bottone dell'utente nella navbar, in alto a destra
@@ -50,74 +146,15 @@ function createProjectsPage() {
     // Appendo al div principale della pagina il nuovo div contenente tutti i progetti
     variableContent.appendChild(projectsDiv);
 
-    // Creo N progetti di esempio, e li inserisco nel vettore dei progetti
+    // Creo N progetti di esempio di tipo testuale, e li inserisco nel vettore dei progetti
     let N = 20;
-    for(let i = 0; i < N; ++i) projects.push(new Project(i, "Title" + i, "text"));
-
-    // Per ogni progetto, ne definisco la rispettiva card html
-    for(let i = 0; i < projects.length; ++i) {
-        let projectCardTemplate = document.querySelector('script#project-card-template');
-
-        projectsDiv.innerHTML += projectCardTemplate.innerText; 
-        
-        // Modifico gli attributi del card template, per personalizzarli con quelli del progetto corrente
-        let cardNode = document.getElementById("card-content");
-        cardNode.setAttribute("id", cardNode.getAttribute("id") + "-" + i); // e.g.: card-content-0
-
-        let cardNodeTitle = cardNode.querySelector('.project-title');
-        cardNodeTitle.innerText = "Title-" + i;
-
-        let cardNodeDescription = cardNode.querySelector('.project-description');
-        cardNodeDescription.innerText = "Description-" + i;
-
-        // Inserisco la nuova card nel div dei progetti
-        projectsDiv.appendChild(cardNode);
-    }
-        
-    // Aggiungo i listener necessari ai bottoni presenti nelle card
-    for(let i = 0; i < projects.length; ++i) {
-        // Identifico la card del progetto i-esimo, e ne estraggo l'id
-        let cardNode = document.getElementById("card-content-"+i);
-        let id = extractId(cardNode.getAttribute("id"));
-
-        // Listener sul bottone di view del progetto
-        let viewProjectBtn = cardNode.querySelector('.btn-view-project');
-        viewProjectBtn.addEventListener("click", 
-            function() {
-                viewProject(id);
-            }
-        );
-
-        // Listener sul bottone di eliminazione del progetto
-        let deleteProjectBtn = cardNode.querySelector('.btn-delete-project');
-        deleteProjectBtn.addEventListener("click", 
-            function() {
-                removeProject(id);
-            }
-        );
+    for(let i = 0; i < N; ++i) {
+        addProject(i, "<title-"+i+">", Project.inputType.TEXT);
     }
 
-
+    // Aggiungo i listener 
+    for(let i = 0; i < N; ++i) {
+        projects[i].handleListeners();
+    }
 }
-
-function addProject(id) {
-    console.log("Adding progect n. " + id); 
-}
-
-function viewProject(id) {
-    console.log("Viewing project n. " + id);
-    createViewProjectPage(id);
-}
-
-function removeProject(id){
-    console.log("Removing project n. " + id);
-    // Inserisco l'id del progetto nell'elemento span più interno della modal
-    document.querySelector("#id-project-to-be-deleted").innerText = id;
-
-    // Mostro la modal
-    $('#deleteModal').modal('show');
-
-    // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
-}
-
 
