@@ -1,1 +1,15 @@
-install mysql-server on linux
+## Link utili:
+https://docs.rackspace.com/support/how-to/install-mysql-server-on-the-ubuntu-operating-system
+https://phoenixnap.com/kb/access-denied-for-user-root-localhost
+https://stackoverflow.com/questions/43094726/your-password-does-not-satisfy-the-current-policy-requirements
+
+---------------------
+configurare mysql con:
+  user: "root",
+  password: "root"
+
+---------------------
+
+Per problemi di collegamento, nelle config di mysql:
+
+bind-address=0.0.0.0, all remote IP's are enable to gain access to my MySQL
