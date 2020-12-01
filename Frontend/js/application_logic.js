@@ -39,6 +39,7 @@ $(document).ready(function(){
 
 // Per il momento, commentare e decommentare per effettuare i test sulle varie pagine
 
+// https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
 $(window).on('load', function() {
     // createLoginPage();
     createProjectsPage();

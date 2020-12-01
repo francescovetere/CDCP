@@ -11,6 +11,13 @@ class Project {
         this.render();
     }
 
+    // getters/setters
+    get id() { return this._id; }
+    get title() { return this._title; }
+    get inputType() { return this._inputType; }
+    get timeStamp() { return this._timeStamp; }
+    
+
     // variabile statica (di classe) contente i soli due valori possibili per il tipo di input:
     // testo o immagine
     // esempio d'uso: Project.inputType.TEXT;
@@ -19,11 +26,15 @@ class Project {
         IMAGE: 1
     };
 
-    // getters/setters
-    get id() { return this._id; }
-    get title() { return this._title; }
-    get inputType() { return this._inputType; }
-    get timeStamp() { return this._timeStamp; }
+    // Data Transfer Object: oggetto adatto ad essere spedito in rete
+    toDTO() {
+        return {
+            id: this._id,
+            title: this._title,
+            inputType: this._inputType,
+            timeStamp: this._timeStamp
+        };
+    }
 
     /**
      * Metodo che costruisce e restituisce la card html per il progetto corrente
@@ -34,11 +45,11 @@ class Project {
 
         // id
         let cardNode = document.getElementById("card-content");
-        cardNode.setAttribute("id", cardNode.getAttribute("id") + "-" + this._id); // e.g.: card-content-0
+        cardNode.setAttribute("id", "card-content" + "-" + this._id); // e.g.: card-content-0
 
         // title
         let cardNodeTitle = cardNode.querySelector('.project-title');
-        cardNodeTitle.innerText = "Title-" + this._id;
+        cardNodeTitle.innerText = this._title;
 
         // description
         let cardNodeDescription = cardNode.querySelector('.project-description');
