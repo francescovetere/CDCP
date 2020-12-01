@@ -39,5 +39,7 @@ $(document).ready(function(){
 
 // Per il momento, commentare e decommentare per effettuare i test sulle varie pagine
 
-// createLoginPage();
-createProjectsPage();
+$(window).on('load', function() {
+    // createLoginPage();
+    createProjectsPage();
+});

@@ -9,7 +9,6 @@ class Project {
         this._timeStamp = new Date();
         
         this.render();
-        // this.handleListeners(); // ---> Vorrei metterlo qui, ma non va, nemmeno con la on() di JQuery...
     }
 
     // variabile statica (di classe) contente i soli due valori possibili per il tipo di input:
@@ -27,6 +26,28 @@ class Project {
     get timeStamp() { return this._timeStamp; }
 
     /**
+     * Metodo che costruisce e restituisce la card html per il progetto corrente
+     */
+    createProjectCard() {
+        // Modifico alcuni opportuni elementi del card template (già caricato nel documento HTML, ed avente id="card-content"),
+        // per personalizzarli con quelli del progetto corrente
+
+        // id
+        let cardNode = document.getElementById("card-content");
+        cardNode.setAttribute("id", cardNode.getAttribute("id") + "-" + this._id); // e.g.: card-content-0
+
+        // title
+        let cardNodeTitle = cardNode.querySelector('.project-title');
+        cardNodeTitle.innerText = "Title-" + this._id;
+
+        // description
+        let cardNodeDescription = cardNode.querySelector('.project-description');
+        cardNodeDescription.innerText = "Description-" + this._id;
+        
+        return cardNode;
+    }
+
+    /**
      * Rendering grafico di un progetto
      */
     render() {
@@ -38,7 +59,7 @@ class Project {
 
         // Definisco la card html del progetto, e la inserisco nel div dei progetti
         projectsDiv.innerHTML += projectTemplate.innerText; 
-        let cardNode = createProjectCard(this._id);
+        let cardNode = this.createProjectCard();
         projectsDiv.appendChild(cardNode);
     }
     
@@ -94,29 +115,6 @@ function deleteProject(id){
     $('#deleteModal').modal('show');
 
     // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
-}
-
-/**
- * Funzione che riceve un id di un progetto,
- * e costruisce e restituisce la card per il progetto avente tale id
- */
-function createProjectCard(id) {
-    // Modifico alcuni opportuni elementi del card template (già caricato nel documento HTML, ed avente id="card-content"),
-    // per personalizzarli con quelli del progetto corrente
-
-    // id
-    let cardNode = document.getElementById("card-content");
-    cardNode.setAttribute("id", cardNode.getAttribute("id") + "-" + id); // e.g.: card-content-0
-
-    // title
-    let cardNodeTitle = cardNode.querySelector('.project-title');
-    cardNodeTitle.innerText = "Title-" + id;
-
-    // description
-    let cardNodeDescription = cardNode.querySelector('.project-description');
-    cardNodeDescription.innerText = "Description-" + id;
-    
-    return cardNode;
 }
 
 
