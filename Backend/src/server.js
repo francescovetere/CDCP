@@ -5,6 +5,17 @@ const util = require('util');
 // utilities
 const uuid = require('uuid').v4;
 
+// // mysql
+// var knex = require('knex')({
+//     client: 'mysql',
+//     connection: {
+//       host : '127.0.0.1',
+//       user : 'root',
+//       password : 'root',
+//     //   database : 'myapp_test'
+//     }
+// });
+
 // express
 const express = require('express');
 const methodOverride = require('method-override');

@@ -1,34 +1,4 @@
-'use strict';
-
-class Project {
-    constructor(id, title, inputType) {
-        this._id = id;
-        this._title = title;
-        this._inputType = inputType;
-        this._timeStamp = new Date();
-    }
-
-    // getters/setters
-    get id() { return this._id; }
-
-    get title() { return this._title; }
-    set title(title) { this._title = title; }
-
-    get inputType() { return this._inputType; }
-    set inputType(inputType) { this._inputType = inputType; }
-
-    get timeStamp() { return this._timeStamp; }
-
-    // Data Transfer Object: oggetto adatto ad essere spedito in rete
-    toDTO() {
-        return {
-            id: this._id,
-            title: this._title,
-            inputType: this._inputType,
-            timeStamp: this._timeStamp
-        };
-    }
-}
+const Project = require("./project");
 
 let projects = [];
 
