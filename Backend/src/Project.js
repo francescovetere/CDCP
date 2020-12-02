@@ -25,7 +25,7 @@ class Project {
     get timeStamp() { return this._timeStamp; }
 
     get records() { return this._records; }
-    set records(inputType) { this._records = records; }
+    set records(records) { this._records = records; }
 
 
     insertRecord(val, tags) {

@@ -12,13 +12,13 @@ function sequencer() {
         return n;
     }
 }
+
 const seq = sequencer();
 
 for (let i = 0; i < 5; i++) {
     let currentProject = new Project(i, "<title-"+i+">", "text");
     projects.push(currentProject);
 }
-
 
 
 function routes(app, con) {
