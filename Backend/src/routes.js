@@ -1,6 +1,8 @@
-const Project = require("./project");
+const Project = require("./Project");
+const DBManager = require("./DBManager");
 
 let projects = [];
+let dbm = new DBManager();
 
 function sequencer() {
     let i = 1;
@@ -13,13 +15,12 @@ function sequencer() {
 const seq = sequencer();
 
 for (let i = 0; i < 5; i++) {
-    // tasks.push(new Task(id, `Spend more time hacking #${id}`));
     let currentProject = new Project(i, "<title-"+i+">", "text");
     projects.push(currentProject);
 }
 
 
-function routes(app) {
+function routes(app, con) {
 
     /******************
      * PROJECTS ROUTES 
@@ -31,9 +32,22 @@ function routes(app) {
      * Body: vuoto
      * Risposta: Tutti i progetti
      */
-    app.get('/projects', (req, resp) => {
-        console.log("Retrieving all projects");        
+    app.get('/projects', async (req, resp) => {
+        console.log("Retrieving all projects");
+        
+        /******************/
+        // Esempio di query (notare i costrutti async e await)
+        try {
+            let sql = "SELECT * FROM testTable";
+            let result = await dbm.query(sql);
+            console.log(result[0].id); // l'id della prima riga
+        }
 
+        catch(err) {
+            console.log(err);
+        }
+        /******************/
+        
         // Recupero tutti i progetti, li trasformo in oggetti DTO e li inserisco in un nuovo array
         let objects = [];
 

@@ -5,6 +5,8 @@ https://docs.rackspace.com/support/how-to/install-mysql-server-on-the-ubuntu-ope
 https://phoenixnap.com/kb/access-denied-for-user-root-localhost
 https://stackoverflow.com/questions/43094726/your-password-does-not-satisfy-the-current-policy-requirements
 
+// Francesco
+https://medium.com/codespace69/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server-consider-8afadc2385e2
 ---------------------
 configurare mysql con:
   user: "root",

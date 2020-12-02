@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Classe che modella un progetto
+ * Classe che modella un progetto (vedi esempio d'uso in seguito alla classe)
  */
 
 class Project {

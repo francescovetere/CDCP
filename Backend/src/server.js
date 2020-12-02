@@ -5,17 +5,6 @@ const util = require('util');
 // utilities
 const uuid = require('uuid').v4;
 
-// // mysql
-// var knex = require('knex')({
-//     client: 'mysql',
-//     connection: {
-//       host : '127.0.0.1',
-//       user : 'root',
-//       password : 'root',
-//     //   database : 'myapp_test'
-//     }
-// });
-
 // express
 const express = require('express');
 const methodOverride = require('method-override');
@@ -36,6 +25,7 @@ const options = opts();
  * @returns {void}
  */
 function init(app) {
+
     app.use(compression());
     app.use(methodOverride());
     app.use(bodyParser.json());
@@ -79,6 +69,7 @@ function fallbacks(app) {
 }
 
 const app = express();
+
 init(app);
 routes(app);
 fallbacks(app);
