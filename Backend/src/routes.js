@@ -3,6 +3,7 @@ const DBManager = require("./DBManager");
 
 let projects = [];
 let dbm = new DBManager();
+const uuid = require('uuid').v4;
 
 function sequencer() {
     let i = 1;
@@ -22,6 +23,74 @@ for (let i = 0; i < 5; i++) {
 
 
 function routes(app, con) {
+
+    /******************
+     * USERS ROUTES 
+     ******************/
+
+    app.post('/sign-up', async (req, resp) => {
+        console.log("Inserting new user");
+
+        let Nickname = "'"+req.body.nickname+"'";
+        let Email = "'"+req.body.email+"'";
+        let Password = "'"+req.body.password+"'"; // la password andra' cifrata con hash prima di essere inserita
+        let RegistrationDate = "'"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"'";
+
+        // Validazione campi body
+        if(req.body.password == "" || req.body.nickname == "" || req.body.email == "") {
+            console.log("User not inserted\n");
+
+            resp.status(400);
+            resp.json({error: "You have to pass all fields!"});
+            return;
+        }
+
+        // Inserimento del nuovo utente
+        let id = "'"+uuid()+"'";
+
+        try {
+            let sql = "INSERT INTO USERS (ID, Nickname, Email, Password, RegistrationDate) VALUES ("+id+","+Nickname+","+Email+","+Password+","+RegistrationDate+")";
+            let result = await dbm.query(sql);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+
+        console.log("User inserted correctly\n");
+        resp.status(201);
+        resp.json({success: "Registration successful\n'"});
+        
+    });
+
+    app.post('/login', async (req, resp) => {
+        console.log("Login Required...");
+
+        let Nickname = "'"+req.body.nickname+"'";
+        let Password = "'"+req.body.password+"'"; // la password andra' cifrata con hash prima di essere controllata
+        
+        try {
+            let sql = "SELECT * FROM USERS WHERE BINARY "+Nickname+" = Nickname AND BINARY "+Password+"=Password";
+            let result = await dbm.query(sql);
+
+            if(Object.keys(result).length==1){
+                console.log("User logged correctly\n");
+                resp.status(200);
+                resp.json({success: "Logged!\n'"});
+            }
+            else{
+                console.log("Wrong input!\n");
+                resp.status(401);
+                resp.json({error: "Login failed, wrong input!'"});
+            }
+            
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+        
+    });
 
     /******************
      * PROJECTS ROUTES 

@@ -12,16 +12,27 @@ function createLoginPage() {
     // Se il login va a buon fine, si viene redirezionati alla pagina dei progetti, che funge da home page per l'utente
     document.getElementById("btn-login-id").addEventListener("click",
         function() {
-            // TODO
-            // - validazione parametri
-            // - chiamata AJAX al server
-            // (N.B.: E' una chiamata AJAX, quindi la funzione in cui viene chiamata (questa) dovrà essere essere async!!!)
-            // - se risposta positiva: createProjectsPage();
-            
-            // Svuoto la pagina
-            variableContent.innerHTML = "";
-            
-            createProjectsPage();
+
+            let username = $("#id-nickname").val();
+            let pwd = $("#id-password").val();
+
+            // AJAX con JQuery
+            let formData = {nickname : username, password: pwd};
+            $.ajax({
+                url: 'api/login',
+                type: 'POST',
+                data : JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(response){
+                    variableContent.innerHTML = "";
+                    createProjectsPage();
+                    document.getElementById("NickLogged").innerHTML = username;
+                },
+                error: function(error){
+                    alert("Hai inserito i dati sbagliati!"); // e' solo per debug attualmente, poi lo faremo piu' carino...
+                }
+            });
+
         }
     );
 }

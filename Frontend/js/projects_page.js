@@ -139,7 +139,6 @@ function createProjectsPage() {
     let navbarNickHTML = document.querySelector("script#navbar-nickname").textContent;
 
     navbarContent.innerHTML += navbarNickHTML;
-    document.getElementById("NickLogged").innerHTML = "Nickname"; // da sostituire con il nickname che viene passato in fase di login
 
     // Crea finestra modale per eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
