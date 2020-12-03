@@ -84,7 +84,7 @@
 
 .custom .fa-circle:before {
   border-radius: 50%;
-  background: linear-gradient(#E8CBC0,#636FA4);
+  background: linear-gradient(#00c6ff,#0072ff);
   color: transparent;
 }
 
@@ -101,50 +101,21 @@
   margin: 0 !important;
 }
 
-/* Chat containers */
-.containerExample {
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
+.collection-card{
+  background-color: #f5f5f5 !important;
 }
 
-/* Clear floats */
-.containerExample::after {
-  content: "";
-  clear: both;
-  display: table;
+.TAGChip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background: linear-gradient(#4CA1AF,#C4E0E5);
+  opacity: 0.9;
 }
 
-/* Style time text */
-.time-right {
-  float: right;
-  color: #aaa;
-}
-
-/* Style the right image */
-.containerExample span.right {
-  float: right;
-  margin-left: 20px;
-  margin-right:0;
-}
-
-.icon-bar {
-  width: 100%; /* Full-width */
-  overflow: auto; /* Overflow due to float */
-}
-
-.icon-bar a {
-  float: left; /* Float links side by side */
-  text-align: center; /* Center-align text */
-  width: 5%; /* Equal width (5 icons with 20% width each = 100%) */
-  padding: 12px 0; /* Some top and bottom padding */
-  transition: all 0.3s ease; /* Add transition for hover effects */
-  color: black; /* White text color */
-  font-size: 16px; /* Increased font size */
-}
-
-.icon-bar a:hover {
-  color: blue; /* Add a hover color */
+.TAGChip i{
+  cursor: pointer;
 }
