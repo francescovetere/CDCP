@@ -22,7 +22,8 @@ for (let i = 0; i < 5; i++) {
 }
 
 
-function routes(app, con) {
+
+function routes(app) {
 
     /******************
      * USERS ROUTES 
@@ -92,6 +93,8 @@ function routes(app, con) {
         
     });
 
+
+
     /******************
      * PROJECTS ROUTES 
      ******************/
@@ -105,30 +108,27 @@ function routes(app, con) {
     app.get('/projects', async (req, resp) => {
         console.log("Retrieving all projects");
         
-        /******************/
-        // Esempio di query (notare i costrutti async e await)
+        // Recupero tutti i progetti
+        let queryResult = [];
         try {
-            let sql = "SELECT * FROM testTable";
-            let result = await dbm.query(sql);
-            console.log(result[0].id); // l'id della prima riga
+            let sql = 'SELECT * FROM Projects';
+            queryResult = await dbm.simpleQuery(sql);
         }
 
         catch(err) {
             console.log(err);
         }
-        /******************/
         
-        // Recupero tutti i progetti, li trasformo in oggetti DTO e li inserisco in un nuovo array
-        let objects = [];
-
-        for(let i = 0; i < projects.length; ++i) {
-            objects.push(projects[i].toDTO());
+        // Ciclo sull'array risultato e costruisco l'array di risposta
+        let projects = [];
+        for(let i = 0; i < queryResult.length; ++i) {
+            projects.push(queryResult[i]);
         }
 
         // Invio il numero totale dei progetti, e l'array dei progetti stessi
         resp.json({
-            total: objects.length,
-            results: objects
+            total: projects.length,
+            results: projects
         });
 
         console.log("Projects retrieved correctly\n");

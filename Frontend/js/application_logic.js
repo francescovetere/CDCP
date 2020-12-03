@@ -43,6 +43,6 @@ $(document).ready(function(){
 
 // https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
 $(window).on('load', function() {
-    createLoginPage();  // verificare presenza Cookie per "gia' loggato!".
-    //createProjectsPage();
+    // createLoginPage();  // verificare presenza Cookie per "gia' loggato!".
+    createProjectsPage();
 });

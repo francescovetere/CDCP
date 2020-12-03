@@ -13,10 +13,15 @@ class DBManager {
             host: "localhost",
             user: "root",
             password: "root",
-            database: "testDB"
+            database: "CDCP_DB"
         }
+
+        this.connect(config);
+    }
+
+    async connect(config) {
         try {
-            this._con = mysql.createConnection(config);
+            this._con = await mysql.createConnection(config);
         }
         
         catch(err) {
@@ -24,10 +29,29 @@ class DBManager {
         }
     }
 
-    async query(sql) {
+    async simpleQuery(sql) {
         try {
-            const result = (await this._con).query(sql);
-            return result;
+            const result = await this._con.query(sql);
+            // console.log(result); --> Posso farlo, grazie ad async/await
+
+            // ritorno direttamente il risultato nel modo più conveniente per le API
+            return JSON.parse(JSON.stringify(result)); 
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    // Per eseguire query preparate:
+    // https://github.com/mysqljs/mysql#preparing-queries
+    async preparedQuery(sql, params) {
+        try {
+            const result = await this._con.format(sql, params)
+            // console.log(result); --> Posso farlo, grazie ad async/await
+
+            // ritorno direttamente il risultato nel modo più conveniente per le API
+            return JSON.parse(JSON.stringify(result));
         }
 
         catch(err) {

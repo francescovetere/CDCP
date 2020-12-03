@@ -25,7 +25,6 @@ const options = opts();
  * @returns {void}
  */
 function init(app) {
-
     app.use(compression());
     app.use(methodOverride());
     app.use(bodyParser.json());
