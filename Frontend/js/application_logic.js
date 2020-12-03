@@ -14,6 +14,8 @@ $(document).ready(function(){
 
     // Warning: "This site appears to use a scroll-linked positioning effect. This may not work well with asynchronous panning;"
     // https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Scroll-linked_effects
+    // https://stackoverflow.com/questions/50443959/what-is-the-alternative-to-scroll-linked-positioning-effect-to-prevent-perform
+    
     $(window).scroll(function () { 
         if($(this).scrollTop() != 0) {
             $('#toTop').fadeIn();

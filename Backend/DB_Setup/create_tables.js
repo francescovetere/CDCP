@@ -4,7 +4,7 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "mydb"
+  database: "testDB"
 });
 
 con.connect(function(err) {
@@ -29,13 +29,13 @@ con.connect(function(err) {
     console.log("Table EXAMPLES created");
   });
 
-  var sql = "CREATE TABLE LABELS (PROJECTS_ID VARCHAR(36), FOREIGN KEY (PROJECTS_ID) REFERENCES PROJECTS(ID), EXAMPLES_ID VARCHAR(36), FOREIGN KEY (EXAMPLES_ID) REFERENCES EXAMPLES(ID), TAGName VARCHAR(36) PRIMARY KEY)";
+  var sql = "CREATE TABLE LABELS (PROJECTS_ID VARCHAR(36), FOREIGN KEY (PROJECTS_ID) REFERENCES PROJECTS(ID), EXAMPLES_ID VARCHAR(36), FOREIGN KEY (EXAMPLES_ID) REFERENCES EXAMPLES(ID), TAGName VARCHAR(36), PRIMARY KEY (PROJECTS_ID, EXAMPLES_ID, TAGName))";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table LABELS created");
   });
 
-  var sql = "CREATE TABLE TAGVALUES (PROJECTS_ID VARCHAR(36), FOREIGN KEY (PROJECTS_ID) REFERENCES PROJECTS(ID), EXAMPLES_ID VARCHAR(36), FOREIGN KEY (EXAMPLES_ID) REFERENCES EXAMPLES(ID), TAGName VARCHAR(36), FOREIGN KEY (TAGName) REFERENCES LABELS(TAGName), TAGValue VARCHAR(36) PRIMARY KEY)";
+  var sql = "CREATE TABLE TAGVALUES (PROJECTS_ID VARCHAR(36), EXAMPLES_ID VARCHAR(36), TAGName VARCHAR(36), TAGValue VARCHAR(36), FOREIGN KEY (PROJECTS_ID, EXAMPLES_ID, TAGValue) REFERENCES LABELS(PROJECTS_ID, EXAMPLES_ID, TAGName), PRIMARY KEY(PROJECTS_ID, EXAMPLES_ID, TAGName))";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table TAGVALUES created");
