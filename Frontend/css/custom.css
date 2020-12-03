@@ -30,6 +30,7 @@
 }
 
 .sticky-footer {
+  z-index: 5; /* because font-awesome has z-index: 4 */
   padding: 2rem 0;
   flex-shrink: 0;
   position: fixed; 
@@ -79,4 +80,71 @@
 .nickbarAvatar {
   float: left;
   margin: 10px 10px 0 -10px;
+}
+
+.custom .fa-circle:before {
+  border-radius: 50%;
+  background: linear-gradient(#E8CBC0,#636FA4);
+  color: transparent;
+}
+
+.label {
+  color: white;
+  padding: 8px;
+}
+
+.imageLabel {background: linear-gradient(#06beb6,#48b1bf);} /* Orange */
+.textLabel {background: linear-gradient(#434343,#2c3e50);} /* Gray */
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Chat containers */
+.containerExample {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* Clear floats */
+.containerExample::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Style time text */
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+/* Style the right image */
+.containerExample span.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.icon-bar {
+  width: 100%; /* Full-width */
+  overflow: auto; /* Overflow due to float */
+}
+
+.icon-bar a {
+  float: left; /* Float links side by side */
+  text-align: center; /* Center-align text */
+  width: 5%; /* Equal width (5 icons with 20% width each = 100%) */
+  padding: 12px 0; /* Some top and bottom padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: black; /* White text color */
+  font-size: 16px; /* Increased font size */
+}
+
+.icon-bar a:hover {
+  color: blue; /* Add a hover color */
 }

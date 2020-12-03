@@ -10,7 +10,7 @@ let projects = [];
 // Create Scroll to Top in all page
 // ************ TODO: Risolvere waning
 $(document).ready(function(){
-    $('body').append('<div id="toTop" class="btn btn-info"><span class="fas fa-arrow-up"></span> Back to Top</div>');
+    $('body').append('<div id="toTop" class="btn btn-info" style="z-index: 6;"><span class="fas fa-arrow-up"></span> Back to Top</div>');
 
     // Warning: "This site appears to use a scroll-linked positioning effect. This may not work well with asynchronous panning;"
     // https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Scroll-linked_effects
