@@ -1,27 +1,23 @@
 const Project = require("./Project");
 const DBManager = require("./DBManager");
 
-let projects = [];
 let dbm = new DBManager();
 const uuid = require('uuid').v4;
 
-function sequencer() {
-    let i = 1;
-    return function () {
-        const n = i;
-        i++;
-        return n;
-    }
-}
+// function sequencer() {
+//     let i = 1;
+//     return function () {
+//         const n = i;
+//         i++;
+//         return n;
+//     }
+// }
 
-const seq = sequencer();
+// const seq = sequencer();
 
-for (let i = 0; i < 5; i++) {
-    let currentProject = new Project(i, "<title-"+i+">", "text");
-    projects.push(currentProject);
-}
-
-
+// // Memorizzo un array di oggetti Project, aggiornato ad ogni query in modo opportuno
+// // (utile più che altro per debug lato server)
+// let projects = [];
 
 function routes(app) {
 
@@ -29,29 +25,37 @@ function routes(app) {
      * USERS ROUTES 
      ******************/
 
-    app.post('/sign-up', async (req, resp) => {
-        console.log("Inserting new user");
 
-        let Nickname = "'"+req.body.nickname+"'";
-        let Email = "'"+req.body.email+"'";
-        let Password = "'"+req.body.password+"'"; // la password andra' cifrata con hash prima di essere inserita
-        let RegistrationDate = "'"+new Date().toISOString().slice(0, 19).replace('T', ' ')+"'";
+    /**
+    * Registrazione di un nuovo utente
+    * Parametri: vuoto
+    * Body: nickname, email, password
+    * Risposta: success/error
+    */
+    app.post('/sign-up', async (req, resp) => {
+        console.log("Registrating user");
+
+        let nickname = req.body.nickname;
+        let email = req.body.email;
+        let password = req.body.password; // la password andra' cifrata con hash prima di essere inserita
+        let registrationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
         // Validazione campi body
         if(req.body.password == "" || req.body.nickname == "" || req.body.email == "") {
             console.log("User not inserted\n");
 
             resp.status(400);
-            resp.json({error: "You have to pass all fields!"});
+            resp.json({error: "Some fields are missing"});
             return;
         }
 
         // Inserimento del nuovo utente
-        let id = "'"+uuid()+"'";
+        let id = uuid();
 
         try {
-            let sql = "INSERT INTO USERS (ID, Nickname, Email, Password, RegistrationDate) VALUES ("+id+","+Nickname+","+Email+","+Password+","+RegistrationDate+")";
-            let result = await dbm.query(sql);
+            let sql = "INSERT INTO Users(id, nickname, email, password, registrationDate) VALUES (?, ?, ?, ?, ?)";
+            let params = [id, nickname, email, password, registrationDate];
+            await dbm.execQuery(sql, params);
         }
 
         catch(err) {
@@ -60,37 +64,45 @@ function routes(app) {
 
         console.log("User inserted correctly\n");
         resp.status(201);
-        resp.json({success: "Registration successful\n'"});
+        resp.json({success: "Registration successful"});
         
     });
 
+    
+    /**
+    * Login di un utente esistente
+    * Parametri: vuoto
+    * Body: nickname, password
+    * Risposta: success/error
+    */
     app.post('/login', async (req, resp) => {
-        console.log("Login Required...");
+        console.log("Loggin in user");
 
-        let Nickname = "'"+req.body.nickname+"'";
-        let Password = "'"+req.body.password+"'"; // la password andra' cifrata con hash prima di essere controllata
+        let nickname = req.body.nickname;
+        let password = req.body.password; // la password andra' cifrata con hash prima di essere controllata
         
-        try {
-            let sql = "SELECT * FROM USERS WHERE BINARY "+Nickname+" = Nickname AND BINARY "+Password+"=Password";
-            let result = await dbm.query(sql);
+        let result;
 
-            if(Object.keys(result).length==1){
-                console.log("User logged correctly\n");
-                resp.status(200);
-                resp.json({success: "Logged!\n'"});
-            }
-            else{
-                console.log("Wrong input!\n");
-                resp.status(401);
-                resp.json({error: "Login failed, wrong input!'"});
-            }
-            
-        }
-
+        try {   
+            let sql = "SELECT * FROM Users WHERE BINARY ? = nickname AND BINARY ? = password";
+            let params = [nickname, password];
+            result = await dbm.execQuery(sql, params);
+        } 
+        
         catch(err) {
             console.log(err);
         }
         
+        if(result.length == 0) {
+            console.log("Login failed\n");
+            resp.status(401);
+            resp.json({error: "Login failed"});
+            return;
+        }
+        
+        console.log("User logged correctly\n");
+        resp.status(200);
+        resp.json({success: "Login successful"});
     });
 
 
@@ -111,8 +123,8 @@ function routes(app) {
         // Recupero tutti i progetti
         let queryResult = [];
         try {
-            let sql = 'SELECT * FROM Projects';
-            queryResult = await dbm.simpleQuery(sql);
+            let sql = 'SELECT * FROM Projects;';
+            queryResult = await dbm.execQuery(sql);
         }
 
         catch(err) {
@@ -138,9 +150,9 @@ function routes(app) {
      * Inserimento di un nuovo progetto
      * Parametri: vuoto
      * Body: title, inputType
-     * Risposta: il progetto appena inserito
+     * Risposta: success/error
      */
-    app.post('/project', (req, resp) => {
+    app.post('/project', async (req, resp) => {
         console.log("Inserting new project");
 
         let title = req.body.title;
@@ -156,15 +168,22 @@ function routes(app) {
         }
 
         // Inserimento del nuovo progetto
-        let id = seq();
-        let project = new Project(id, title, inputType);
+        let id = uuid();
 
-        projects.push(project);
+        try {
+            let sql = 'INSERT INTO Projects(id, title, inputType) VALUES (?, ?, ?)';
+            let params = [id, title, inputType];
+            await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
 
         console.log("Project inserted correctly\n");
 
         resp.status(201);
-        resp.json(project.toDTO());
+        resp.json({success: "Project inserted correctly"});
         
     });
 
@@ -172,12 +191,12 @@ function routes(app) {
      * Aggiornamento di un progetto esistente
      * Parametri: id progetto
      * Body: title, inputType
-     * Risposta: il progetto appena aggiornato
+     * Risposta: success/error
      */
-    app.put('/project/:id', (req, resp) => {
+    app.put('/project/:id', async (req, resp) => {
         console.log("Updating project");
 
-        let id = parseInt(req.params.id, 10);
+        let id = req.params.id;
         let title = req.body.title;
         let inputType = req.body.inputType;
 
@@ -190,73 +209,73 @@ function routes(app) {
             return;
         }
 
+        let result;
+        try {
+            let sql = 'UPDATE Projects SET title=?, inputType=? WHERE id=?';
+            let params = [title, inputType, id];
+            result = await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+
         // Ricerca del progetto con l'id fornito nell'URL
-        let projectIndex = projects.findIndex(p => p.id === id);
-        if(projectIndex == -1) {
-            console.log("Project not updated\n");
+        // il campo affectedRows mi permette di capire se il progetto esiste o meno
+        if(result.affectedRows == "0") {
+            console.log("Project not found\n");
 
             resp.status(404);
             resp.json({error: "Project not found"});
             return;
         }
-    
-        // Se l'esecuzione arriva in questo punto l'id esiste, dunque viene aggiornato il progetto corrispondente
-    
-        // Se però l'utente cerca di modificare l'inputType sebbene il progetto non sia vuoto, viene restituito un errore
-        if(inputType != projects[projectIndex].inputType && projects.length > 0) {
-            console.log("Project not updated\n");
-    
-            resp.status(400);
-            resp.json({error: "Cannot modify inputType if project not empty"});
-            return;
-        }
-        
-        // Altrimenti, procedo con l'aggiornamento del progetto
-        projects[projectIndex].title = title;
-        projects[projectIndex].inputType = inputType;
 
         console.log("Project updated correctly\n");
 
         resp.status(200);
-        resp.json(projects[projectIndex].toDTO());
+        resp.json({success: "Project updated correctly"});
     });
 
     /**
      * Rimozione di un progetto esistente
      * Parametri: id progetto
      * Body: vuoto
-     * Risposta: il progetto appena eliminato
+     * Risposta: success/error
      */
-    app.delete('/project/:id', (req, resp) => {
+    app.delete('/project/:id', async (req, resp) => {
         console.log("Deleting project");
 
-        let id = parseInt(req.params.id, 10);
+        let id = req.params.id;
+
+        let result;
+        try {
+            let sql = 'DELETE FROM Projects WHERE id=?';
+            let params = [id];
+            result = await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
 
         // Ricerca del progetto con l'id fornito nell'URL
-        let projectIndex = projects.findIndex(p => p.id === id);
-        if(projectIndex == -1) {
-            console.log("Project not deleted\n");
+        // il campo affectedRows mi permette di capire se il progetto esiste o meno
+        if(result.affectedRows == "0") {
+            console.log("Project not found\n");
 
             resp.status(404);
             resp.json({error: "Project not found"});
             return;
         }
 
-        // Se l'esecuzione arriva in questo punto l'id esiste, dunque viene eliminato il progetto corrispondente
-        // splice ritorna gli elementi eliminati, in questo caso ne prendo il primo
-        let deletedProject = projects.splice(projectIndex, 1)[0];
-
         console.log("Project deleted correctly\n");
 
         resp.status(200);
-        resp.json(deletedProject.toDTO());
+        resp.json({success: "Project deleted correctly"});
     });
 
 
-
     
-
-
     /*************************
      * PROJECT RECORDS ROUTES 
      *************************/

@@ -9,7 +9,7 @@ class Project {
         this._id = id;
         this._title = title;
         this._inputType = inputType;
-        this._timeStamp = new Date();
+        // this._timeStamp = new Date();
         this._records = records;
     }
     
@@ -22,7 +22,7 @@ class Project {
     get inputType() { return this._inputType; }
     set inputType(inputType) { this._inputType = inputType; }
 
-    get timeStamp() { return this._timeStamp; }
+    // get timeStamp() { return this._timeStamp; }
 
     get records() { return this._records; }
     set records(records) { this._records = records; }
@@ -70,7 +70,7 @@ class Project {
             id: this._id,
             title: this._title,
             inputType: this._inputType,
-            timeStamp: this._timeStamp,
+            // timeStamp: this._timeStamp,
             records: this._records
         };
         

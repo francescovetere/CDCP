@@ -29,29 +29,13 @@ class DBManager {
         }
     }
 
-    async simpleQuery(sql) {
+    async execQuery(sql, params = []) {
         try {
-            const result = await this._con.query(sql);
+            const result = await this._con.query(sql, params);
             // console.log(result); --> Posso farlo, grazie ad async/await
 
-            // ritorno direttamente il risultato nel modo più conveniente per le API
+            // ritorno direttamente il risultato in JSON
             return JSON.parse(JSON.stringify(result)); 
-        }
-
-        catch(err) {
-            console.log(err);
-        }
-    }
-
-    // Per eseguire query preparate:
-    // https://github.com/mysqljs/mysql#preparing-queries
-    async preparedQuery(sql, params) {
-        try {
-            const result = await this._con.format(sql, params)
-            // console.log(result); --> Posso farlo, grazie ad async/await
-
-            // ritorno direttamente il risultato nel modo più conveniente per le API
-            return JSON.parse(JSON.stringify(result));
         }
 
         catch(err) {
