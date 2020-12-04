@@ -24,7 +24,7 @@ function routes(app) {
     /******************
      * USERS ROUTES 
      ******************/
-
+ 
 
     /**
     * Registrazione di un nuovo utente
@@ -275,7 +275,7 @@ function routes(app) {
     });
 
 
-    
+
     /*************************
      * PROJECT RECORDS ROUTES 
      *************************/
