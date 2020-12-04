@@ -25,7 +25,7 @@ class DBManager {
         }
         
         catch(err) {
-            console.log(err);
+            throw err;
         }
     }
 
@@ -35,11 +35,11 @@ class DBManager {
             // console.log(result); --> Posso farlo, grazie ad async/await
 
             // ritorno direttamente il risultato in JSON
-            return JSON.parse(JSON.stringify(result)); 
+            return JSON.parse(JSON.stringify(result));
         }
 
         catch(err) {
-            console.log(err);
+            throw err;
         }
     }
 
@@ -49,7 +49,7 @@ class DBManager {
         }
 
         catch(err) {
-            console.log(err);
+            throw err;
         }
     }
 }

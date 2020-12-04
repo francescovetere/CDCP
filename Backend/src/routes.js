@@ -5,7 +5,7 @@ let dbm = new DBManager();
 const uuid = require('uuid').v4;
 
 // Esempio di chiamata POST per l'inserimento di un example in un progetto esistente
-// > http POST localhost:8000/project/9deb6ee5-e401-4d8f-9796-feeae2d63d69 'inputType=text' 'inputValue=lorem ipsum' 
+// > http POST localhost:8000/project/<id-progetto> 'inputValue=lorem ipsum' 
 //  'tags=[
 //          {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
 //          {"tagName": "colors", "tagValues": ["white", "black"]}
@@ -279,7 +279,7 @@ function routes(app) {
      **********************************/
 
     /**
-     * Restituzione di tutti i record di un progetto
+     * Restituzione di tutti gli examples di un progetto
      * Parametri: id progetto
      * Body: vuoto
      * Risposta positiva: Tutti gli examples del progetto
@@ -337,16 +337,18 @@ function routes(app) {
     });
 
     /**
-     * Inserimento di un nuovo record nel progetto
+     * Inserimento di un nuovo example nel progetto
      * Parametri: id progetto
      * Body: inputType, inputValue, tags
      * Nota bene: tags è un campo composto in questo modo
      * tags: [
      *          {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
-     *          {"tagName": "colors", "tagValues": ["white", "black"]}
+     *          ...
      *       ]
      * Risposta positiva: success
      * Risposta negativa: error
+     * 
+     * TODO: verificare che inputType inserito sia uguale a quello del progetto
      */
     app.post('/project/:projectId', async (req, resp) => {
         let projectId = req.params.projectId;
@@ -354,13 +356,13 @@ function routes(app) {
 
         let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
-        let tags = JSON.parse(req.body.tags);
+        let tags;
+        if(req.body.tags) tags = JSON.parse(req.body.tags);
 
         // Validazione campi body
         // Controllo sull'inputType
         if(inputType != "text" && inputType != "image") {
             console.log("inputType must be 'text' or 'image'\n");
-
             resp.status(400);
             resp.json({error: "inputType must be 'text' or 'image'"});
             return;
@@ -389,8 +391,7 @@ function routes(app) {
         // In caso il progetto esista, inserisco il nuovo example
         let exampleId = uuid();
         try {
-            let sql = `INSERT INTO Examples(id, projectId, inputType, inputValue) VALUES (?, ?, ?, ?)`
-
+            let sql = 'INSERT INTO Examples(id, projectId, inputType, inputValue) VALUES (?, ?, ?, ?)'
             let params = [exampleId, projectId, inputType, inputValue];
             await dbm.execQuery(sql, params);
         }
@@ -400,24 +401,50 @@ function routes(app) {
         }
 
         // Inserisco tagNames e tagValues presenti eventualmente presenti nel campo tags, nelle rispettive tabelle
-        for(let i = 0; i < tags.length; ++i) {
-            let tagName = tags[i].tagName;
-            // console.log(tagName);
+
+        // esempio di accesso: console.log(tags[0].tagValues[1]);
+        if(tags) {
+            for(let i = 0; i < tags.length; ++i) {
+                /*** inserisco ogni tagName nella tabella TagNames ***/
+                let tagName = tags[i].tagName;
+                // console.log(tagName);
+                
+                try {
+                    let sql = 'INSERT INTO TagNames(projectId, exampleId, tagName) VALUES (?, ?, ?)';
+                    let params = [projectId, exampleId, tagName];
+                    await dbm.execQuery(sql, params);
+                }
+        
+                catch(err) {
+                    console.log(err);
+                    resp.status(400);
+                    resp.json({error: err});
+                    return;                
+                }
+                
+                /*** per ogni tagValue associato al tagName corrente, effettuo un inserimento nella tabella TagValues ***/
+                let tagValues = tags[i].tagValues;
+                // console.log(tagValues);
+
+                for(let j = 0; j < tagValues.length; ++j) {
+                    // console.log(tagValues[j]);
+                    try {
+                        let sql = 'INSERT INTO TagValues(projectId, exampleId, tagName, tagValue) VALUES (?, ?, ?, ?)';
             
-            try {
-                let sql = `INSERT INTO Examples(id, projectId, inputType, inputValue) VALUES (?, ?, ?, ?)`
-    
-                let params = [exampleId, projectId, inputType, inputValue];
-                await dbm.execQuery(sql, params);
-            }
-    
-            catch(err) {
-                console.log(err);
+                        let params = [projectId, exampleId, tagName, tagValues[j]];
+                        await dbm.execQuery(sql, params);
+                    }
+            
+                    catch(err) {
+                        console.log(err);
+                        resp.status(400);
+                        resp.json({error: err}); 
+                        return; 
+                    }
+                }
             }
         }
 
-
-        // console.log(tags[0].tagValues[1]);
         console.log("Example inserted correctly\n");
 
         resp.status(201);
@@ -425,25 +452,122 @@ function routes(app) {
     });
 
     /**
-     * Aggiornamento di un record esistente nel progetto
+     * Aggiornamento di un example esistente nel progetto
      * Parametri: id progetto, id record
-     * Body: TODO
+     * Body: inputType, inputValue, tags
      * Risposta positiva: success
      * Risposta negativa: error
+     * 
+     * TODO: verificare che inputType inserito sia uguale a quello del progetto
+     * TODO: non funziona l'aggiornamento dei tagValues
      */
-    app.put('/project/:projectId/:recordId', (req, resp) => {
-        resp.status(418);
-        resp.json("I'm a teapot");
+    app.put('/project/:projectId/:exampleId', async (req, resp) => {
+        let projectId = req.params.projectId;
+        let exampleId = req.params.exampleId;
+        console.log("Updating example with id=" + exampleId);
+
+        let inputType = req.body.inputType;
+        let inputValue = req.body.inputValue;
+        let tags;
+        if(req.body.tags) tags = JSON.parse(req.body.tags);
+
+        // Verifico l'esistenza dell'example
+        let queryResult;
+        try {
+            let sql = 'SELECT * FROM Examples WHERE id=?';
+            let params = [exampleId];
+            queryResult = await dbm.execQuery(sql, params);
+        }
+ 
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err});
+            return;
+        }
+
+        // Se l'example non esiste, viene restituito un errore
+        if(queryResult.length === 0) {
+            console.log("Example with id=" + exampleId + " not found\n");
+            resp.status(404);
+            resp.json({error: "Example with id=" + exampleId + " not found"});
+            return;
+        }
+
+        // In caso l'example esista, lo aggiorno
+        try {
+            let sql = 'UPDATE Examples SET inputType=?, inputValue=? WHERE id=?'
+            let params = [inputType, inputValue, exampleId];
+            await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err}); 
+            return; 
+        }
+
+        // Aggiorno tagNames e tagValues presenti eventualmente presenti nel campo tags, nelle rispettive tabelle
+        // esempio di accesso: console.log(tags[0].tagValues[1]);
+        if(tags) {
+            for(let i = 0; i < tags.length; ++i) {
+                /*** inserisco ogni tagName nella tabella TagNames ***/
+                let tagName = tags[i].tagName;
+                // console.log(tagName);
+                
+                try {
+                    let sql = 'UPDATE TagNames SET tagName=? WHERE exampleId=?';
+                    let params = [tagName, exampleId];
+                    await dbm.execQuery(sql, params);
+                }
+        
+                catch(err) {
+                    console.log(err);
+                    resp.status(400);
+                    resp.json({error: err});
+                    return;                
+                }
+                
+                /*** per ogni tagValue associato al tagName corrente, effettuo un inserimento nella tabella TagValues ***/
+                let tagValues = tags[i].tagValues;
+                // console.log(tagValues);
+
+                if(tagValues) {
+                    for(let j = 0; j < tagValues.length; ++j) {
+                        // console.log(tagValues[j]);
+                        try {
+                            let sql = 'UPDATE TagValues SET tagName=?, tagValue=? WHERE exampleId=?';
+                
+                            let params = [tagName, tagValues[j], exampleId];
+                            await dbm.execQuery(sql, params);
+                        }
+                
+                        catch(err) {
+                            console.log(err);
+                            resp.status(400);
+                            resp.json({error: err}); 
+                            return; 
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log("Example updated correctly\n");
+
+        resp.status(201);
+        resp.json({success: "Example updated correctly"});
     });
 
     /**
-     * Rimozione di un record esistente nel progetto
+     * Rimozione di un example esistente nel progetto
      * Parametri: id progetto, id record
      * Body: vuoto
      * Risposta positiva: success
      * Risposta negativa: error
      */
-    app.delete('/project/:projectId/:recordId', (req, resp) => {
+    app.delete('/project/:projectId/:exampleId', (req, resp) => {
         resp.status(418);
         resp.json("I'm a teapot");
     });
