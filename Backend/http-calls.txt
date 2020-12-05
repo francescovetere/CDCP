@@ -1,3 +1,7 @@
+Alcune chiamate HTTP di esempio significative:
+
+======================= POST ===========================
+
 # Inserisco un nuovo progetto
 http POST localhost:8000/project 'title=title1' 'inputType=text'
 http GET localhost:8000/projects
@@ -12,11 +16,21 @@ http GET localhost:8000/project/<projectId>/examples
 http POST localhost:8000/project/<projectId>/example/<exampleId>/tagName 'tagName=colors'
 http GET localhost:8000/project/<projectId>/example/<exampleId>/tagNames
 
+
 # Inserisco un nuovo tagValue per un tagName esistente
 http POST localhost:8000/project/<projectId>/example/<exampleId>/tagName/<tagName>/tagValue 'tagValue=black'
 http GET localhost:8000/project/<projectId>/example/<exampleId>/tagNames/<tagName>/tagValues
-===================s
 
-# Modifico un example esistente
-http PUT localhost:8000/project/<projectId>/example/<exampleId> 'inputValue=new lorem ipsum' 'inputType=text'
+
+======================= PUT ===========================
+
+# Modifico un tagName di un example esistente ==> La modifica si ripercuote anche sui TagValues!
+http POST localhost:8000/project/<projectId>/example/<exampleId>/tagName 'tagName=new colors'
+http GET localhost:8000/project/<projectId>/example/<exampleId>/tagNames
+
+
+======================= DELETE ===========================
+
+# Elimino un example esistente ==> L'eliminazione si ripercuote anche sui TagNames e TagValues!
+http DELETE localhost:8000/project/<projectId>/example/<exampleId>
 http GET localhost:8000/project/<projectId>/examples

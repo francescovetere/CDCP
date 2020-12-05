@@ -4,18 +4,102 @@ const DBManager = require("./DBManager");
 let dbm = new DBManager();
 const uuid = require('uuid').v4;
 
-// Esempio di chiamata POST per l'inserimento di un example in un progetto esistente
-// > http POST localhost:8000/project/<id-progetto> 'inputValue=lorem ipsum' 
-//  'tags=[
-//          {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
-//          {"tagName": "colors", "tagValues": ["white", "black"]}
-//        ]'
+
 function routes(app) {
+
+    /******************
+     * LOGS ROUTES 
+     ******************/
+
+    /**
+     * Restituzione di tutti i record della tabella Logs
+     * Parametri: vuoto
+     * Body: vuoto
+     * Risposta positiva: Tutti i logs
+     * Risposta negativa: nessuna
+     * 
+     * TODO: Aggiungere un record nella tabella Logs per (quasi) ogni API
+     */
+    app.get('/logs', async (req, resp) => {
+        console.log("Retrieving all log records\n");
+        
+        let queryResult = [];
+        try {
+            let sql = 'SELECT * FROM Logs';
+            queryResult = await dbm.execQuery(sql);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+        
+        // Ciclo sull'array risultato e costruisco l'array di risposta
+        let logs = [];
+        for(let i = 0; i < queryResult.length; ++i) {
+            logs.push(queryResult[i]);
+        }
+
+        // Invio il numero totale dei record, e l'array dei record stessi
+        resp.status(200);
+        resp.json({
+            total: logs.length,
+            results: logs
+        });
+
+        console.log("Logs retrieved correctly\n");
+    });
+
+    
+
+    /******************
+     * STATS ROUTES 
+     ******************/
+    
+     /**
+     * Restituzione di tutte le statistiche desiderate
+     * Parametri: vuoto
+     * Body: vuoto
+     * Risposta positiva: Tutti i record che soddisfano le statistiche richieste
+     * Risposta negativa: nessuna
+     * 
+     * TODO: Scrivere la stirnga SQL per il recupero delle statistiche dalle varie tabelle esistenti
+     */
+    app.get('/stats', async (req, resp) => {
+        console.log("Retrieving all stats\n");
+        
+        let queryResult = [];
+        try {
+            // TODO
+            // let sql = '...';
+            // queryResult = await dbm.execQuery(sql);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+        
+        // Ciclo sull'array risultato e costruisco l'array di risposta
+        let stats = [];
+        for(let i = 0; i < queryResult.length; ++i) {
+            logs.push(queryResult[i]);
+        }
+
+        // Invio il numero totale dei record, e l'array dei record stessi
+        resp.status(200);
+        resp.json({
+            total: stats.length,
+            results: stats
+        });
+
+        console.log("Stats retrieved correctly\n");
+    });
+
+
+
 
     /******************
      * USERS ROUTES 
      ******************/
- 
 
     /**
     * Registrazione utente
@@ -59,6 +143,7 @@ function routes(app) {
         resp.json({success: "Registration successful"});
         
     });
+
 
     
     /**
@@ -141,6 +226,8 @@ function routes(app) {
         console.log("Projects retrieved correctly\n");
     });
     
+
+
     /**
      * Inserimento di un nuovo progetto
      * Parametri: vuoto
@@ -182,6 +269,8 @@ function routes(app) {
         resp.json({success: "Project inserted correctly"});
         
     });
+
+
 
     /**
      * Aggiornamento di un progetto esistente
@@ -232,6 +321,8 @@ function routes(app) {
         resp.status(200);
         resp.json({success: "Project updated correctly"});
     });
+
+
 
     /**
      * Rimozione di un progetto esistente
@@ -285,9 +376,9 @@ function routes(app) {
      * Risposta positiva: Tutti gli examples del progetto
      * Risposta negativa: error
      */
-    app.get('/project/:projectId/examples', async (req, resp) => {
+    app.get('/project/:projectId/examples', async (req, resp) => {tag
         let projectId = req.params.projectId;
-        console.log("Retrieving all examples of project with id=" + projectId);
+        console.log("Retrieving examples");
         
         // Verifico l'esistenza del progetto
         let queryResult;
@@ -333,18 +424,15 @@ function routes(app) {
             results: examples
         });
 
-        console.log("Examples of project with id="+ projectId + " retrieved correctly\n");
+        console.log("Examples retrieved correctly\n");
     });
+
+
 
     /**
      * Inserimento di un nuovo example nel progetto
      * Parametri: id progetto
-     * Body: inputType, inputValue, tags
-     * Nota bene: tags è un campo composto in questo modo
-     * tags: [
-     *          {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
-     *          ...
-     *       ]
+     * Body: inputType, inputValue
      * Risposta positiva: success
      * Risposta negativa: error
      * 
@@ -352,12 +440,12 @@ function routes(app) {
      */
     app.post('/project/:projectId/example', async (req, resp) => {
         let projectId = req.params.projectId;
-        console.log("Inserting new example in project with id=" + projectId);
+        console.log("Inserting new example");
 
         let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
-        let tags;
-        if(req.body.tags) tags = JSON.parse(req.body.tags);
+        // let tags;
+        // if(req.body.tags) tags = JSON.parse(req.body.tags);
 
         // Validazione campi body
         // Controllo sull'inputType
@@ -451,27 +539,25 @@ function routes(app) {
         resp.json({success: "Example inserted correctly"});
     });
 
+
+
     /**
      * Aggiornamento di un example esistente nel progetto
-     * Parametri: id progetto, id record
-     * Body: inputType, inputValue, tags
+     * Parametri: id progetto, id example
+     * Body: inputType, inputValue
      * Risposta positiva: success
      * Risposta negativa: error
      * 
      * TODO: verificare che inputType inserito sia uguale a quello del progetto
-     * TODO: non funziona l'aggiornamento dei tagValues
      */
     app.put('/project/:projectId/example/:exampleId', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
-        console.log("Updating example with id=" + exampleId);
+        console.log("Updating example");
 
         let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
-        // let tags;
-        // if(req.body.tags) tags = JSON.parse(req.body.tags);
-
-        // Verifico l'esistenza dell'example
+        
         let queryResult;
         try {
             let sql = 'SELECT * FROM Examples WHERE id=?';
@@ -560,14 +646,15 @@ function routes(app) {
         resp.json({success: "Example updated correctly"});
     });
 
+
+
     /**
      * Rimozione di un example esistente nel progetto
-     * Parametri: id progetto, id record
+     * Parametri: id progetto, id example
      * Body: vuoto
      * Risposta positiva: success
      * Risposta negativa: error
      */
-    
     app.delete('/project/:projectId/example/:exampleId', async (req, resp) => {
         console.log("Deleting example");
 
@@ -606,6 +693,14 @@ function routes(app) {
     /******************
      * TAGNAMES ROUTES 
      ******************/
+
+    /**
+     * Restituzione di tutti i tagNames di un example
+     * Parametri: id progetto, id example
+     * Body: vuoto
+     * Risposta positiva: Tutti i tagNames dell'example
+     * Risposta negativa: error
+     */
     app.get('/project/:projectId/example/:exampleId/tagNames', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
@@ -660,7 +755,16 @@ function routes(app) {
     });
 
 
-    // TODO: controllare di non inserire un tagName che esista già in quell'example
+
+    /**
+     * Inserimento di un nuovo tagName nell'example
+     * Parametri: id progetto, id example
+     * Body: tagName
+     * Risposta positiva: success
+     * Risposta negativa: error
+     * 
+     * TODO: controllare di non inserire un tagName che esista già in quell'example
+     */
     app.post('/project/:projectId/example/:exampleId/tagName', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
@@ -708,10 +812,121 @@ function routes(app) {
 
 
 
+    /**
+     * Aggiornamento di un tagName esistente nell'example
+     * Parametri: id progetto, id example, tagName
+     * Body: tagName
+     * Risposta positiva: success
+     * Risposta negativa: error
+     * 
+     * TODO: controllare di non inserire un tagName che esista già in quell'example
+     */
+    app.put('/project/:projectId/example/:exampleId/tagName/:tagName', async (req, resp) => {
+        console.log("Updating tagName");
+
+        let projectId = req.params.projectId;
+        let exampleId = req.params.exampleId;
+        let tagName = req.params.tagName;
+
+        let newTagName = req.body.tagName;
+
+        // Verifico l'esistenza del tagName
+        let queryResult;
+        try {
+            let sql = 'SELECT * FROM TagNames WHERE projectId=? AND exampleId=? AND tagName=?';
+            let params = [projectId, exampleId, tagName];
+            queryResult = await dbm.execQuery(sql, params);
+        }
+ 
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err});
+            return;
+        }
+
+        // Se il tagName non esiste, viene restituito un errore
+        if(queryResult.length === 0) {
+            console.log("tagName not found\n");
+            resp.status(404);
+            resp.json({error: "tagName not found"});
+            return;
+        }
+
+        // In caso il tagName esista, lo aggiorno
+        try {
+            let sql = 'UPDATE TagNames SET tagName=? WHERE exampleId=? AND tagName=?'
+            let params = [newTagName, exampleId, tagName];
+            await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err}); 
+            return; 
+        }
+
+        console.log("tagName updated correctly\n");
+
+        resp.status(201);
+        resp.json({success: "tagName updated correctly"});
+    });
+
+
+
+    /**
+     * Rimozione di un tagName esistente nell'example
+     * Parametri: id progetto, id example, tagName
+     * Body: vuoto
+     * Risposta positiva: success
+     * Risposta negativa: error
+     */
+    app.delete('/project/:projectId/example/:exampleId/tagName/:tagName', async (req, resp) => {
+        console.log("Deleting tagName");
+
+        let projectId = req.params.projectId;
+        let exampleId = req.params.exampleId;
+        let tagName = req.params.tagName;
+
+        let result;
+        try {
+            let sql = 'DELETE FROM TagNames WHERE exampleId=? AND tagName=?';
+            let params = [exampleId, tagName];
+            result = await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+
+        if(result.affectedRows == "0") {
+            console.log("tagName not found\n");
+
+            resp.status(404);
+            resp.json({error: "tagName not found"});
+            return;
+        }
+
+        console.log("tagName deleted correctly\n");
+
+        resp.status(200);
+        resp.json({success: "tagName deleted correctly"});
+    });
+
+
 
     /******************
      * TAGVALUES ROUTES 
      ******************/
+
+    /**
+     * Restituzione di tutti i tagValues per un tagName di un example
+     * Parametri: id progetto, id example, tagName
+     * Body: vuoto
+     * Risposta positiva: Tutti i tagValues per il tagName indicato, nell'example indicato
+     * Risposta negativa: error
+     */
     app.get('/project/:projectId/example/:exampleId/tagName/:tagName/tagValues', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
@@ -767,7 +982,17 @@ function routes(app) {
     });
 
 
-    // TODO: controllare di non inserire un tagValue che esista già per quel tagName di quell'example
+
+    /**
+     * Inserimento di un nuovo tagValue per un tagName dell'example
+     * Parametri: id progetto, id example, tagName
+     * Body: tagValue
+     * Risposta positiva: success
+     * Risposta negativa: error
+     * 
+     * 
+     * TODO: controllare di non inserire un tagValue che esista già per quel tagName di quell'example
+     */
     app.post('/project/:projectId/example/:exampleId/tagName/:tagName/tagValue', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
@@ -815,6 +1040,110 @@ function routes(app) {
     });
 
 
+
+    /**
+     * Aggiornamento di un tagValue esistente per un tagValue dell'example
+     * Parametri: id progetto, id example, tagName, tagValue
+     * Body: nuovo tagValue
+     * Risposta positiva: success
+     * Risposta negativa: error
+     * 
+     * TODO: controllare di non inserire un tagValue che esista già per quel tagName di quell'example
+     */
+    app.put('/project/:projectId/example/:exampleId/tagName/:tagName/tagValue/:tagValue', async (req, resp) => {
+        console.log("Updating tagValue");
+
+        let projectId = req.params.projectId;
+        let exampleId = req.params.exampleId;
+        let tagName = req.params.tagName;
+        let tagValue = req.params.tagValue;
+
+        let newTagValue = req.body.tagValue;
+
+        // Verifico l'esistenza del tagValue
+        let queryResult;
+        try {
+            let sql = 'SELECT * FROM TagValues WHERE exampleId=? AND tagName=? AND tagValue=?';
+            let params = [exampleId, tagName, tagValue];
+            queryResult = await dbm.execQuery(sql, params);
+        }
+ 
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err});
+            return;
+        }
+
+        // Se il tagValue non esiste, viene restituito un errore
+        if(queryResult.length === 0) {
+            console.log("tagValue not found\n");
+            resp.status(404);
+            resp.json({error: "tagValue not found"});
+            return;
+        }
+
+        // In caso il tagValue esista, lo aggiorno
+        try {
+            let sql = 'UPDATE TagValues SET tagValue=? WHERE exampleId=? AND tagName=? AND tagValue=?'
+            let params = [newTagValue, exampleId, tagName, tagValue];
+            await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+            resp.status(400);
+            resp.json({error: err}); 
+            return; 
+        }
+
+        console.log("tagValue updated correctly\n");
+
+        resp.status(201);
+        resp.json({success: "tagValue updated correctly"});
+    });
+
+
+
+    /**
+     * Rimozione di un tagValue esistente per un tag Value nell'example
+     * Parametri: id progetto, id example, tagName, tagValue
+     * Body: vuoto
+     * Risposta positiva: success
+     * Risposta negativa: error
+     */
+    app.delete('/project/:projectId/example/:exampleId/tagName/:tagName/tagValue/:tagValue', async (req, resp) => {
+        console.log("Deleting tagValue");
+
+        let projectId = req.params.projectId;
+        let exampleId = req.params.exampleId;
+        let tagName = req.params.tagName;
+        let tagValue = req.params.tagValue;
+
+        let result;
+        try {
+            let sql = 'DELETE FROM TagValues WHERE exampleId=? AND tagName=? AND tagValue=?';
+            let params = [exampleId, tagName, tagValue];
+            result = await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+
+        if(result.affectedRows == "0") {
+            console.log("tagValue not found\n");
+
+            resp.status(404);
+            resp.json({error: "tagValue not found"});
+            return;
+        }
+
+        console.log("tagValue deleted correctly\n");
+
+        resp.status(200);
+        resp.json({success: "tagValue deleted correctly"});
+    });
 }
 
 module.exports = {routes};
