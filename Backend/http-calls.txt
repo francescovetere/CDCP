@@ -1,0 +1,22 @@
+# Inserisco un nuovo progetto
+http POST localhost:8000/project 'title=title1' 'inputType=text'
+http GET localhost:8000/projects
+
+
+# Inserisco un nuovo example
+http POST localhost:8000/project/<projectId>/example 'inputValue=lorem ipsum' 'inputType=text'
+http GET localhost:8000/project/<projectId>/examples
+
+
+# Inserisco un nuovo tagName per un example esistente
+http POST localhost:8000/project/<projectId>/example/<exampleId>/tagName 'tagName=colors'
+http GET localhost:8000/project/<projectId>/example/<exampleId>/tagNames
+
+# Inserisco un nuovo tagValue per un tagName esistente
+http POST localhost:8000/project/<projectId>/example/<exampleId>/tagName/<tagName>/tagValue 'tagValue=black'
+http GET localhost:8000/project/<projectId>/example/<exampleId>/tagNames/<tagName>/tagValues
+===================s
+
+# Modifico un example esistente
+http PUT localhost:8000/project/<projectId>/example/<exampleId> 'inputValue=new lorem ipsum' 'inputType=text'
+http GET localhost:8000/project/<projectId>/examples
