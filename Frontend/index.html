@@ -29,9 +29,7 @@
 		
 
 		<!-- Custom JS scripts -->
-		
-		<!-- View project page -->
-		<script src="js/view_project_page.js" type="text/javascript" defer></script>
+
 		<!-- Login page -->
 		<script src="js/login_page.js" type="text/javascript" defer></script>
 		
@@ -40,6 +38,9 @@
 
 		<!-- Projects page -->
 		<script src="js/projects_page.js" type="text/javascript" defer></script>
+
+		<!-- Examples page -->
+		<script src="js/examples_page.js" type="text/javascript" defer></script>
 
 		<!-- Logs page -->
 		<script src="js/logs_page.js" type="text/javascript" defer></script>
@@ -212,7 +213,10 @@
 		<!--**************** COMMON TEMPLATES ****************-->
 		<!-- Navbar nickname icon-->
 		<script type="text/html" id="navbar-nickname">
-			<div class="nickbar"><i class="far fa-user-circle nickbarAvatar fa-2x"></i>Nickname<a id="NickLogged"></a>
+			<div class="nickbar">
+				<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
+				<span id="id-nickname"></span>
+				<a id="NickLogged"></a>
 			</div>
 		</script>
 
@@ -307,7 +311,7 @@
 		
 							<!-- Project Header -->
 							<div class="row">
-								<div class="col-auto"><h1 class="display-4">Titolo del progetto</h1></div>
+								<div class="col-auto"><h1 class="project-title display-4">Titolo del progetto</h1></div>
 								<div class="col text-right"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Nuova collezione</button></div>
 							</div>
 							
@@ -351,7 +355,6 @@
 						</div>
 			</div>
 		</script>
-
 
 		<!-- TagName template -->
 		<script type="text/html" id="tagName-template">

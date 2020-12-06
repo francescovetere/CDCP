@@ -72,14 +72,17 @@ class Project {
         // Card del progetto
         let cardNode = document.querySelector("#card-content-"+this._id);
 
-        let id = this._id; // Salvo l'id per effettuare successivamente la closure, nei listener
+        // Salvo l'id, title, inputType, per effettuare successivamente la closure, nei listener
+        let id = this._id;
+        let title = this._title;
+        let inputType = this._inputType;
         
         // Listener sul bottone di view della card
         let btnViewProject = cardNode.querySelector(".btn-view-project");
         btnViewProject.addEventListener("click", 
             function() {
                 console.log("Viewing project n. " + id); // closure
-                createViewProjectPage(id);
+                createViewProjectPage(id, title, inputType); // closure
             }
         );
         
@@ -94,6 +97,8 @@ class Project {
     }
 }
 
+
+
 /**
  * Aggiunta di un progetto
  */
@@ -105,6 +110,8 @@ function addProject(id, title, inputType) {
 
     // currentProject.handleListeners();
 }
+
+
 
 /**
  * Rimozione di un progetto
@@ -120,16 +127,23 @@ function deleteProject(id){
 }
 
 
+
 /**
  * Creazione della pagina dei progetti
  */
-function createProjectsPage() {
+function createProjectsPage(nickname) {
+    variableContent.innerHTML = "";
+
     /* CREAZIONE ELEMENT FISSI */
     // Creo il bottone dell'utente nella navbar, in alto a destra
     let navbarContent = document.getElementById("id-navbar");
-    let navbarNickHTML = document.querySelector("script#navbar-nickname").textContent;
+    
+    let navbarNickname = document.createElement("div");
+    navbarNickname.innerHTML = document.querySelector("script#navbar-nickname").textContent;
+    navbarNickname.querySelector("#id-nickname").innerText = nickname;
 
-    navbarContent.innerHTML += navbarNickHTML;
+    navbarContent.appendChild(navbarNickname);
+
 
     // Crea finestra modale per eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;

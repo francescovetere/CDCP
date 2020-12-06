@@ -71,7 +71,6 @@ class Example {
             
             // Per il tagName corrente, renderizzo i suoi tagValues
             for(let j = 0; j < this._tags[i].tagValues.length; ++j) {
-                console.log("a");
                 let tagValueNode = document.createElement("div"); // Da sistemare, vedi nella console
                 tagValueNode.innerHTML = document.querySelector('script#tagValue-template').innerText;
                 tagValuesDiv.appendChild(tagValueNode);
@@ -104,6 +103,7 @@ class Example {
      * Gestione dei listeners associati ai bottoni della card dell'example
      */
     handleListeners() {
+        // TODO
         // // Card del progetto
         // let cardNode = document.querySelector("#card-content-"+this._id);
 
@@ -145,30 +145,31 @@ function addExample(id, inputType, inputValue, tags) {
  * Rimozione di un progetto
  */
 function deleteExample(id){
-    // Inserisco l'id del progetto nell'elemento span più interno della modal
-    document.querySelector("#id-project-to-be-deleted").innerText = id;
+    // TODO
+    // // Inserisco l'id del progetto nell'elemento span più interno della modal
+    // document.querySelector("#id-project-to-be-deleted").innerText = id;
 
-    // Mostro la modal
-    $('#deleteModal').modal('show');
+    // // Mostro la modal
+    // $('#deleteModal').modal('show');
 
-    // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
+    // // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
 }
 
 /**
  * Creazione della pagina di vista di un progetto (con tutti i suoi examples)
  */
-function createViewProjectPage(id) {
-    /* CREAZIONE ELEMENT FISSI */
-    // Creo il bottone dell'utente nella navbar, in alto a destra
-    let navbarContent = document.getElementById("id-navbar");
-    let navbarNickHTML = document.querySelector("script#navbar-nickname").textContent;
+function createViewProjectPage(projectId, projectTitle, projectInputType) {
+    variableContent.innerHTML = "";
 
-    navbarContent.innerHTML += navbarNickHTML;
+    /* CREAZIONE ELEMENT FISSI */
+    // Non creo più la navbar, la lascio invariata! Così in tutte le pagine che non siano la projects page
 
     // Creo il jumbotron esterno del progetto attuale
     let jumbotronProject = document.createElement("div");
-    jumbotronProject.setAttribute("class", "jumbotron jumbotron-fluid")
+    jumbotronProject.setAttribute("class", "jumbotron jumbotron-fluid");
     jumbotronProject.innerHTML = document.querySelector("script#project-jumbotron-template").textContent;
+    jumbotronProject.querySelector(".project-title").innerText = projectTitle;
+
 
     // Appendo al div principale della pagina il nuovo div contenente il jumbotron del progetto attuale
     variableContent.appendChild(jumbotronProject);
@@ -191,27 +192,18 @@ function createViewProjectPage(id) {
     $(examplesDiv).insertAfter(document.getElementById("hr-jumbotron-template"));
     
     // Creo N examples di esempio di tipo testuale, e li inserisco nel div
-    // let N = 20;
-    // for(let i = 0; i < N; ++i) {
-    //     let exampleCardTemplate = document.createElement("div");
-    //     exampleCardTemplate.innerHTML = document.querySelector('script#example-card-template').innerText;
-        
-    //     examplesDiv.appendChild(exampleCardTemplate);
-    //     console.log("ok");
-    // }
 
     let N = 20;
     for(let i = 0; i < N; ++i) {
+        let id = i;
+        let inputType = projectInputType;
+        let inputValue = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore blanditiis qui possimus, praesentium magni accusantium eveniet reiciendis aliquam et repudiandae dolores, esse debitis natus, provident itaque impedit inventore rem! Alias"; 
         let tags = 
         [
           {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
           {"tagName": "colors", "tagValues": ["brown", "black"]}
         ];
 
-        addExample(i, 
-            "[TEXT]",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore blanditiis qui possimus, praesentium magni accusantium eveniet reiciendis aliquam et repudiandae dolores, esse debitis natus, provident itaque impedit inventore rem! Alias",
-            tags
-        ); 
+        addExample(id, inputType, inputValue, tags); 
     }
 }
