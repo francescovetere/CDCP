@@ -16,15 +16,6 @@ class Project {
     get title() { return this._title; }
     get inputType() { return this._inputType; }
     get timeStamp() { return this._timeStamp; }
-    
-
-    // variabile statica (di classe) contente i soli due valori possibili per il tipo di input:
-    // testo o immagine
-    // esempio d'uso: Project.inputType.TEXT;
-    static inputType = {
-        TEXT: 0,
-        IMAGE: 1
-    };
 
     // Data Transfer Object: oggetto adatto ad essere spedito in rete
     toDTO() {
@@ -157,7 +148,7 @@ function createProjectsPage() {
     // Creo N progetti di esempio di tipo testuale, e li inserisco nel vettore dei progetti
     let N = 20;
     for(let i = 0; i < N; ++i) {
-        addProject(i, "<title-"+i+">", Project.inputType.TEXT);
+        addProject(i, "<title-"+i+">", "text");
     }
 
     // Aggiungo i listener 
