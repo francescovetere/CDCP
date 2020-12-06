@@ -158,7 +158,7 @@ function deleteExample(id){
 /**
  * Creazione della pagina di vista di un progetto (con tutti i suoi examples)
  */
-function createViewProjectPage(projectId, projectTitle, projectInputType) {
+function createExamplesPage(projectId, projectTitle, projectInputType) {
     variableContent.innerHTML = "";
 
     /* CREAZIONE ELEMENT FISSI */

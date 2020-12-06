@@ -82,7 +82,7 @@ class Project {
         btnViewProject.addEventListener("click", 
             function() {
                 console.log("Viewing project n. " + id); // closure
-                createViewProjectPage(id, title, inputType); // closure
+                createExamplesPage(id, title, inputType); // closure
             }
         );
         
