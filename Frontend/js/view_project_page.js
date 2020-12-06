@@ -6,7 +6,13 @@ class Example {
         this._id = id;
         this._inputType = inputType;
         this._inputValue = inputValue;
+        // [
+        //   {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
+        //   {"tagName": "colors", "tagValues": ["brown", "black"]}
+        // ]
         this._tags = tags;
+        // for(let i = 0; i < tags.length; ++i)
+        //     this._tags.push(tags[i]);
 
         this.render();
     }
@@ -47,6 +53,33 @@ class Example {
         // inputType
         let cardNodeInputValue = cardNode.querySelector('.example-inputValue');
         cardNodeInputValue.innerText = this._inputValue;
+        
+        // div che indica la fine del contenuto dell'example, e l'inizio dei tags
+        let tagsDiv = cardNode.querySelector(".tags-div");
+
+        // rendering di tagNames e rispettivi tagValues
+        for(let i = 0; i < this._tags.length; ++i) {
+            let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
+            tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
+            tagsDiv.appendChild(tagNameNode);
+
+            // Sostituisco il tagName del template con quello corrente
+            tagNameNode.querySelector(".tagName").innerText = this._tags[i].tagName;
+
+            // div che indica il contenuto del tagName, ossia i tagValues
+            let tagValuesDiv = tagNameNode.querySelector(".tagValues-div");
+            
+            // Per il tagName corrente, renderizzo i suoi tagValues
+            for(let j = 0; j < this._tags[i].tagValues.length; ++j) {
+                console.log("a");
+                let tagValueNode = document.createElement("div"); // Da sistemare, vedi nella console
+                tagValueNode.innerHTML = document.querySelector('script#tagValue-template').innerText;
+                tagValuesDiv.appendChild(tagValueNode);
+
+                // Sostituisco il tagName del template con quello corrente
+                tagValueNode.querySelector(".tagValue").innerText = this._tags[i].tagValues[j];
+            }
+        }
         
         return cardNode;
     }
@@ -98,108 +131,13 @@ class Example {
 
 
 
-// /**
-//  * Classe che modella le informazioni essenziali di un tag
-//  */
-// class Tag {
-//     constructor(tagName, tagValues = []) {
-//         this._tagName = tagName;
-//         this._tagValues = tagValues;
-//         this.render();
-//     }
-
-//     // getters/setters
-//     get id() { return this._id; }
-//     get inputType() { return this._inputType; }
-//     get inputValue() { return this._inputValue; }
-    
-//     get tags() { return this._tags; }
-//     set tags(tags) { this._tags = tags; }
-
-//     // Data Transfer Object: oggetto adatto ad essere spedito in rete
-//     toDTO() {
-//         return {
-//             id: this._id,
-//             inputType: this._inputType,
-//             inputValue: this._inputValue,
-//             tags: this._tags
-//         };
-//     }
-
-//     /**
-//      * Metodo che costruisce e restituisce la card html per l'example corrente
-//      */
-//     createExampleCard() {
-//         // Modifico alcuni opportuni elementi del template (già caricato nel documento HTML, ed avente id="example-content"),
-//         // per personalizzarli con quelli dell'example corrente
-
-//         // id
-//         let cardNode = document.getElementById("example-content");
-//         cardNode.setAttribute("id", "example-content" + "-" + this._id); // e.g.: example-content-0
-
-//         // inputType
-//         let cardNodeInputType = cardNode.querySelector('.example-inputType');
-//         cardNodeInputType.innerText = this._inputType;
-
-//         // inputType
-//         let cardNodeInputValue = cardNode.querySelector('.example-inputValue');
-//         cardNodeInputValue.innerText = this._inputValue;
-        
-//         return cardNode;
-//     }
-
-//     /**
-//      * Rendering grafico di un example
-//      */
-//     render() {
-//         // Identifico il div esterno contenente tutti gli examples
-//         let examplesDiv = document.getElementById("external-examples-div");
-        
-//         // Identifico il template del generico example
-//         let exampleTemplate = document.querySelector('script#example-card-template');
-
-//         // Definisco la card html dell'example, e la inserisco nel div degli examples
-//         examplesDiv.innerHTML += exampleTemplate.innerText; 
-//         let cardNode = this.createExampleCard();
-//         examplesDiv.appendChild(cardNode);
-//     }
-    
-//     /**
-//      * Gestione dei listeners associati ai bottoni della card dell'example
-//      */
-//     handleListeners() {
-//         // // Card del progetto
-//         // let cardNode = document.querySelector("#card-content-"+this._id);
-
-//         // let id = this._id; // Salvo l'id per effettuare successivamente la closure, nei listener
-        
-//         // // Listener sul bottone di view della card
-//         // let btnViewProject = cardNode.querySelector(".btn-view-project");
-//         // btnViewProject.addEventListener("click", 
-//         //     function() {
-//         //         console.log("Viewing project n. " + id); // closure
-//         //         createViewProjectPage(id);
-//         //     }
-//         // );
-        
-//         // // Listener sul bottone di eliminazione della card
-//         // let btnDeleteProject = cardNode.querySelector(".btn-delete-project");
-//         // btnDeleteProject.addEventListener("click", 
-//         //     function() {
-//         //         console.log("Deleting project n. " + id); // closure
-//         //         deleteProject(id);
-//         //     }
-//         // );
-//     }
-// }
-
 /**
  * Aggiunta di un example
  */
-function addExample(id, inputType, inputValue) {
+function addExample(id, inputType, inputValue, tags) {
     console.log("Adding example n. " + id);
 
-    let currentExample = new Example(id, inputType, inputValue);
+    let currentExample = new Example(id, inputType, inputValue, tags);
     examples.push(currentExample);
 }
 
@@ -265,10 +203,15 @@ function createViewProjectPage(id) {
     let N = 20;
     for(let i = 0; i < N; ++i) {
         let tags = 
+        [
+          {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
+          {"tagName": "colors", "tagValues": ["brown", "black"]}
+        ];
+
         addExample(i, 
             "[TEXT]",
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore blanditiis qui possimus, praesentium magni accusantium eveniet reiciendis aliquam et repudiandae dolores, esse debitis natus, provident itaque impedit inventore rem! Alias"
-            
-        );
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore blanditiis qui possimus, praesentium magni accusantium eveniet reiciendis aliquam et repudiandae dolores, esse debitis natus, provident itaque impedit inventore rem! Alias",
+            tags
+        ); 
     }
 }

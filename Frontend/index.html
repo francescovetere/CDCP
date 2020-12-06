@@ -337,43 +337,13 @@
 		<script type="text/html" id="example-card-template">
 			<div id="example-content" class="card collection-card" style="width: 100%">
 						<div class="card-body">
-							<h5 class="example-inputType">[TEXT]</h5>
-							<h5 class="example-inputValue">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore blanditiis qui possimus, praesentium magni accusantium eveniet reiciendis aliquam et repudiandae dolores, esse debitis natus, provident itaque impedit inventore rem! Alias</h5>
+							<h5 class="example-inputType"></h5>
+							<h5 class="example-inputValue"></h5>
 							<h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6>
-						
 
-							<p class="card-text">
+							<hr class="hr-example-card-template my-4">
 
-								<!-- TAGName (LABELS) Template -->
-								<div class="card collection-card" style="width: 100%">
-									<div class="card-body">
-										<div class="row card-title">
-											<div class="col-sm-7">
-												<h5>TAGName</h5>
-											</div>
-											<div class="col text-right">
-												<button type="button" class="btn btn-outline-success my-2"><i class="far fa-plus-square"></i> Aggiungi valore</button>
-												<button type="button" class="btn btn-outline-danger my-2"><i class="far fa-minus-square"></i> Elimina TAG</button>
-											</div>
-										</div>
-										
-										<h6 class="card-subtitle mb-2 text-muted">Posted on February 19, 2016 by User</h6>
-										
-										<!-- TAGValue (TAGVALUES) -->
-										<p class="card-text">
-											
-											<!-- TAGValue Template -->
-											<div class="TAGChip my-3">
-												John Doe
-													<i class="far fa-edit ml-3"></i>
-													<i class="fas fa-trash ml-1"></i>
-											</div> <!-- ./end of TAGValue Template --> 
-										</p>
-									</div>
-								</div>  
-							</p>
-
-							<hr class="my-4">
+							<div class="tags-div"></div>
 
 							<button type="button" class="btn btn-outline-success"><i class="fas fa-folder-plus"></i> Aggiungi un TAG</button>
 							<button type="button" class="btn btn-outline-danger"><i class="fas fa-folder-minus"></i> Elimina collezione</button>
@@ -381,7 +351,45 @@
 						</div>
 			</div>
 		</script>
-					
+
+
+		<!-- TagName template -->
+		<script type="text/html" id="tagName-template">
+			<div class="card collection-card" style="width: 100%">
+				<div class="card-body">
+					<div class="row card-title">
+												<div class="col-sm-7">
+													<h5 class="tagName">Colors</h5>
+													<div class="tagValues-div"></div>
+												</div>
+												<div class="col text-right">
+													<button type="button" class="btn btn-outline-success my-2"><i class="far fa-plus-square"></i> Aggiungi valore</button>
+													<button type="button" class="btn btn-outline-danger my-2"><i class="far fa-minus-square"></i> Elimina TAG</button>
+												</div>
+											</div>
+											
+											<!-- <hr id="hr-tagname-template" class="my-4"> -->
+
+											<!-- <h6 class="card-subtitle mb-2 text-muted">Posted on February 19, 2016 by User</h6> -->
+											
+											<!-- TAGValue (TAGVALUES) -->
+
+											<!-- <p class="card-text"> -->
+												
+
+											<!-- </p> -->
+										</div>
+			</div>  
+		</script>
+		
+		<!-- TagValue template -->
+		<script type="text/html" id="tagValue-template">
+			<div class="TAGChip my-3">
+				<span class="tagValue">Blue</span>
+				<i class="far fa-edit ml-3"></i>
+				<i class="fas fa-trash ml-1"></i>
+			</div> <!-- ./end of TAGValue Template --> 
+		</script>
 
 	</body>
 

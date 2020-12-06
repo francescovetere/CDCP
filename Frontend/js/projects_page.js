@@ -148,7 +148,7 @@ function createProjectsPage() {
     // Creo N progetti di esempio di tipo testuale, e li inserisco nel vettore dei progetti
     let N = 20;
     for(let i = 0; i < N; ++i) {
-        addProject(i, "<title-"+i+">", "text");
+        addProject(i, "<title-"+i+">", "[TEXT]");
     }
 
     // Aggiungo i listener 
