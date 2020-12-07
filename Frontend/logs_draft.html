@@ -1,0 +1,175 @@
+<!-- Test git pull -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html">
+		<meta name="description" content="CDCP">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<title>CDCP</title>
+
+		<!-- favicon -->
+		<link href="img/unipr-icon.ico" rel="shortcut icon" type="image/x-icon">
+		
+		<!-- Fonts -->
+		<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+		<!-- Custom CSS -->
+		<link href="css/custom.css" rel="stylesheet"> 
+		
+		<!-- JQuery -->
+		<script src="vendor/jquery/jquery.min.js" type="text/javascript" defer></script> 
+	
+		<!-- Bootstrap core JavaScript -->
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript" defer></script> 
+		
+
+		<!-- Custom JS scripts -->
+		
+		<!-- View project page -->
+		<script src="js/view_project_page.js" type="text/javascript" defer></script>
+		<!-- Login page -->
+		<script src="js/login_page.js" type="text/javascript" defer></script>
+		
+		<!-- Registration page -->
+		<script src="js/registration_page.js" type="text/javascript" defer></script>
+
+		<!-- Projects page -->
+		<script src="js/projects_page.js" type="text/javascript" defer></script>
+
+		<!-- Logs page -->
+		<script src="js/logs_page.js" type="text/javascript" defer></script>
+
+		<!-- 404 page -->
+		<script src="js/404_page.js" type="text/javascript" defer></script>
+
+		<!-- Application logic  -->
+		<script src="js/application_logic.js" type="text/javascript" defer></script>
+
+	</head>
+
+	<body>
+		<!-- Page Wrapper -->
+		<div id="wrapper">
+
+			<!-- Content Wrapper -->
+			<div id="content-wrapper" class="content-container">
+
+				<!-- Main Content -->
+				<div id="content">
+
+					<!-- Navbar -->
+					<div id="id-navbar" class="navbar bg-white shadow mb-4">
+						<h1 class="font-weight-normal">
+							<img class="logo mr-2" src="img/unipr-logo.png" width="52" alt="unipr-logo.png">
+							CDCP
+						</h1>
+					</div>
+					<!-- End of Navbar -->
+
+					<!-- Begin Page Content -->
+					<div id="variable-content" class="container-fluid overflow-auto">
+							
+						<!-- Qui verrà inserito il codice HTML adeguato tramite JS -->
+					
+					</div>
+					<!-- /.container-fluid -->
+
+				</div>
+				<!-- End of Main Content -->
+
+				<!-- Footer -->
+				<footer class="sticky-footer shadow-lg bg-white">
+					<div class="container my-auto">
+						<div class="copyright text-center mb-5">
+							<span>Copyright &copy; SpaghettiCode-Labs</span>
+						</div>
+					</div>
+				</footer>
+				<!-- End of Footer -->
+
+
+			</div>
+			<!-- End of Content Wrapper -->
+
+		</div>
+		<!-- End of Page Wrapper -->
+		
+
+		<!-------------------->
+		<!-------------------->
+		<!-- Page Templates -->
+		<!-------------------->
+		<!-------------------->
+        <div class = "container-fluid p-5 mb-5">
+			<h1>Logs Page</h1>
+
+			<!-- mi piacerebbe farla colorata. Ogni tipo di log si innesta con un colore diverso -->
+			<table class="table">
+				<thead>
+				  <tr>
+					<th>ActionType</th> 
+					<th>Nickname</th> <!-- non e' una buona prassi usare l'uuid, meglio recuperare il nickname -->
+					
+					<th>Details</th> <!-- volendo esplicitare tutti i campi di logs (tutti gli id nella tabella), 
+									sarebbe carino recuparere i titoli anziché scrivere l'uuid di ognuno-->
+					<th>Date</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>Default</td>
+					<td>Defaultson</td>
+					<td>def@somemail.com</td>
+					<td></td>
+				  </tr>      
+				  <tr class="table-primary">
+					<td>Primary</td>
+					<td>Joe</td>
+					<td>joe@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-success">
+					<td>Success</td>
+					<td>Doe</td>
+					<td>john@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-danger">
+					<td>Delete</td>
+					<td>Moe</td>
+					<td>mary@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-info">
+					<td>Info</td>
+					<td>Dooley</td>
+					<td>july@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-warning">
+					<td>Warning</td>
+					<td>Refs</td>
+					<td>bo@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-secondary">
+					<td>Secondary</td>
+					<td>Secondson</td>
+					<td>sec@example.com</td>
+					<td></td>
+				  </tr>
+
+				</tbody>
+			  </table>
+
+
+		</div>
+		
+	</body>
+
+</html>

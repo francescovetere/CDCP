@@ -121,6 +121,7 @@
 					<article class="card-body">
 						<h4 class="card-title text-center mb-4 mt-1">Login</h4>
 						<hr>
+
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -138,11 +139,18 @@
 								</div> <!-- input-group.// -->
 							</div> <!-- form-group// -->
 
+							<div class="custom-control custom-switch my-3">
+								<input type="checkbox" class="custom-control-input" id="RememberMe" name="RememberMe">
+								<label class="custom-control-label" for="RememberMe">Keep Me Logged In</label>
+							 </div>					
+
 						<div class="form-group">
 							<button id="btn-login-id" type="submit" class="btn btn-primary btn-block">Login</button>
 						</div> <!-- form-group// -->						
-									
-						<button id="sign-in-redirect" class="btn badge badge-info">New to CDCP? Sign in!</button>
+						
+						<!-- Use #register to "keep" pre and post navigation pages -->	
+						<a href="#register" id="sign-in-redirect" class="d-block text-center">New to CDCP? Sign in!</a>
+
 
 					</article>
 				</div> <!-- card.// -->
@@ -213,16 +221,30 @@
 		<!--**************** COMMON TEMPLATES ****************-->
 		<!-- Navbar nickname icon-->
 		<script type="text/html" id="navbar-nickname">
-			<div class="nickbar">
-				<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
-				<span id="id-nickname"></span>
-				<a id="NickLogged"></a>
-			</div>
+			<div class="dropdown">
+				<div class="nickbar dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
+					<span id="id-nickname"></span>
+					<a id="NickLogged"></a>
+				</div>
+				<div class="dropdown-menu" aria-labelledby="dropdownUser">
+					<button class="dropdown-item"><i class="far fa-chart-bar"></i> Stats</button>
+					<button class="dropdown-item"><i class="far fa-clipboard"></i> Logs</button>
+					<div class="dropdown-divider"></div>
+				  <button class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</button>
+				</div>
+			  </div>
+
 		</script>
 
 
 
 		<!--**************** PROJECTS PAGE ****************-->
+		<!-- Add Project Btn -->
+		<script type="text/html" id="add-project-template">
+		<div class="col text-right mb-4"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add Prokect</button></div>
+		</script>
+
 		<!-- Project card -->
 		<script type="text/html" id="project-card-template">
 			<div id="card-content" class="col-sm-4">
@@ -234,9 +256,7 @@
 						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						</a>
 						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
-						<!-- <div class="dropdown-header">Menu options</div> -->
-						<button class="btn-view-project dropdown-item">View</button>
-						<!-- <button class="dropdown-item">Second option</button> -->
+						<a  href="#viewProject" class="btn-view-project dropdown-item">View</a>
 
 						<div class="dropdown-divider"></div>
 						<button class="btn-delete-project dropdown-item">Delete</button>

@@ -1,4 +1,3 @@
-const Project = require("./Project");
 const DBManager = require("./DBManager");
 
 let dbm = new DBManager();

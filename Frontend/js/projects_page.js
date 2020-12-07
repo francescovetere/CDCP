@@ -121,6 +121,11 @@ function createProjectsPage(nickname) {
 
     navbarContent.appendChild(navbarNickname);
 
+    // Creo il bottone di aggiunta progetto, in alto a destra
+    let addProjectBtn = document.createElement("div");
+    addProjectBtn.innerHTML = document.querySelector("script#add-project-template").textContent;
+    variableContent.innerHTML += addProjectBtn.innerHTML;
+
 
     // Inserisce nel documento il codice per la modal di eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
