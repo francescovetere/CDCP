@@ -91,41 +91,18 @@ class Project {
         btnDeleteProject.addEventListener("click", 
             function() {
                 console.log("Deleting project n. " + id); // closure
-                deleteProject(id);
+                // deleteProject(id);
+                // Inserisco l'id del progetto nell'elemento span più interno della modal
+                document.querySelector("#id-project-to-be-deleted").innerText = id;
+
+                // Mostro la modal
+                $('#deleteModal').modal('show');
+
+                // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
             }
         );
     }
 }
-
-
-
-/**
- * Aggiunta di un progetto
- */
-function addProject(id, title, inputType) {
-    console.log("Adding project n. " + id);
-
-    let currentProject = new Project(id, title, inputType);
-    projects.push(currentProject);
-
-    // currentProject.handleListeners();
-}
-
-
-
-/**
- * Rimozione di un progetto
- */
-function deleteProject(id){
-    // Inserisco l'id del progetto nell'elemento span più interno della modal
-    document.querySelector("#id-project-to-be-deleted").innerText = id;
-
-    // Mostro la modal
-    $('#deleteModal').modal('show');
-
-    // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
-}
-
 
 
 /**
@@ -162,7 +139,14 @@ function createProjectsPage(nickname) {
     // Creo N progetti di esempio di tipo testuale, e li inserisco nel vettore dei progetti
     let N = 20;
     for(let i = 0; i < N; ++i) {
-        addProject(i, "<title-"+i+">", "[TEXT]");
+        let id = i;
+        let title = "Title" + i;
+        let inputType = "[TEXT]";
+
+        console.log("Adding project n. " + id);
+        
+        let currentProject = new Project(id, title, inputType);
+        projects.push(currentProject);
     }
 
     // Aggiungo i listener 

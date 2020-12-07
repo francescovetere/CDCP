@@ -195,7 +195,10 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
           {"tagName": "colors", "tagValues": ["brown", "black"]}
         ];
 
-        addExample(id, inputType, inputValue, tags); 
+        console.log("Adding example n. " + id);
+
+        let currentExample = new Example(id, inputType, inputValue, tags);
+        examples.push(currentExample);
     }
 
     // Aggiungo i listener 
