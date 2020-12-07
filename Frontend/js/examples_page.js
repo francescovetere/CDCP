@@ -60,6 +60,8 @@ class Example {
         // rendering di tagNames e rispettivi tagValues
         for(let i = 0; i < this._tags.length; ++i) {
             let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
+            tagNameNode.setAttribute("class", "card collection-card mb-3");
+            tagNameNode.setAttribute("style", "width: 100%");
             tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
             tagsDiv.appendChild(tagNameNode);
 
@@ -72,6 +74,7 @@ class Example {
             // Per il tagName corrente, renderizzo i suoi tagValues
             for(let j = 0; j < this._tags[i].tagValues.length; ++j) {
                 let tagValueNode = document.createElement("div"); // Da sistemare, vedi nella console
+                tagValueNode.setAttribute("class", "card-text TAGChip my-3 mr-3");
                 tagValueNode.innerHTML = document.querySelector('script#tagValue-template').innerText;
                 tagValuesDiv.appendChild(tagValueNode);
 
@@ -90,12 +93,20 @@ class Example {
         // Identifico il div esterno contenente tutti gli examples
         let examplesDiv = document.getElementById("external-examples-div");
         
+
+        // let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
+        //     tagNameNode.setAttribute("class", "card collection-card mb-3");
+        //     tagNameNode.setAttribute("style", "width: 100%");
+        //     tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
+        //     tagsDiv.appendChild(tagNameNode);
+
         // Identifico il template del generico example
         let exampleTemplate = document.querySelector('script#example-card-template');
 
         // Definisco la card html dell'example, e la inserisco nel div degli examples
         examplesDiv.innerHTML += exampleTemplate.innerText; 
         let cardNode = this.createExampleCard();
+        // cardNode.setAttribute("class", "mb-3");
         examplesDiv.appendChild(cardNode);
     }
     
@@ -184,8 +195,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     // Creo infatti un div esterno che conterrà tutte le card degli examples
 
     let examplesDiv = document.createElement("div");
-    examplesDiv.setAttribute("class", "card collection-card");
-    examplesDiv.setAttribute("style", "width: 100%")
     examplesDiv.setAttribute("id", "external-examples-div");
     
     // Inserisco il div degli examples subito dopo l'hr dell'header del jumbotron (JQuery per comodità)

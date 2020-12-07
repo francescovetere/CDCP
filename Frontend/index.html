@@ -339,59 +339,55 @@
 
 		<!-- Example card template -->
 		<script type="text/html" id="example-card-template">
-			<div id="example-content" class="card collection-card" style="width: 100%">
-						<div class="card-body">
-							<h5 class="example-inputType"></h5>
-							<h5 class="example-inputValue"></h5>
-							<h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6>
+			<div id="example-content" class="card collection-card mb-3" style="width: 100%">
+				<div class="card-body">
+					<h5 class="example-inputType"></h5>
+					<h5 class="example-inputValue"></h5>
+					<h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6>
 
-							<hr class="hr-example-card-template my-4">
+					<hr class="hr-example-card-template my-4">
 
-							<div class="tags-div"></div>
+					<div class="tags-div col-auto"></div>
 
-							<button type="button" class="btn btn-outline-success"><i class="fas fa-folder-plus"></i> Aggiungi un TAG</button>
-							<button type="button" class="btn btn-outline-danger"><i class="fas fa-folder-minus"></i> Elimina collezione</button>
+					<button type="button" class="btn btn-outline-success"><i class="fas fa-folder-plus"></i> Aggiungi un TAG</button>
+					<button type="button" class="btn btn-outline-danger"><i class="fas fa-folder-minus"></i> Elimina collezione</button>
 						
-						</div>
+				</div>
 			</div>
 		</script>
 
 		<!-- TagName template -->
 		<script type="text/html" id="tagName-template">
-			<div class="card collection-card" style="width: 100%">
+			<!-- <div class="card collection-card" style="width: 100%"> -->
 				<div class="card-body">
 					<div class="row card-title">
-												<div class="col-sm-7">
-													<h5 class="tagName">Colors</h5>
-													<div class="tagValues-div"></div>
-												</div>
-												<div class="col text-right">
-													<button type="button" class="btn btn-outline-success my-2"><i class="far fa-plus-square"></i> Aggiungi valore</button>
-													<button type="button" class="btn btn-outline-danger my-2"><i class="far fa-minus-square"></i> Elimina TAG</button>
-												</div>
-											</div>
+						<div class="col-sm-7">
+							<h5 class="tagName col-auto"></h5>
+							<div class="tagValues-div col-auto"></div>
+						</div>
+						
+						<div class="col text-right">
+							<button type="button" class="btn btn-outline-success my-2"><i class="far fa-plus-square"></i> Aggiungi valore</button>
+							<button type="button" class="btn btn-outline-danger my-2"><i class="far fa-minus-square"></i> Elimina TAG</button>
+						</div>
+					</div>
 											
-											<!-- <hr id="hr-tagname-template" class="my-4"> -->
+					<!-- <hr class="my-4"> -->
 
-											<!-- <h6 class="card-subtitle mb-2 text-muted">Posted on February 19, 2016 by User</h6> -->
-											
-											<!-- TAGValue (TAGVALUES) -->
-
-											<!-- <p class="card-text"> -->
-												
-
-											<!-- </p> -->
-										</div>
-			</div>  
+					<!-- <h6 class="card-subtitle mb-2 text-muted">Posted on February 19, 2016 by User</h6> -->
+				</div>
+			<!-- </div>   -->
 		</script>
 		
 		<!-- TagValue template -->
 		<script type="text/html" id="tagValue-template">
-			<div class="TAGChip my-3">
+			<!-- <p class="card-text"> -->
+			<!-- <div class="card-text TAGChip my-3"> -->
 				<span class="tagValue">Blue</span>
 				<i class="far fa-edit ml-3"></i>
 				<i class="fas fa-trash ml-1"></i>
-			</div> <!-- ./end of TAGValue Template --> 
+			<!-- </div> ./end of TAGValue Template  -->
+			<!-- </p> -->
 		</script>
 
 	</body>
