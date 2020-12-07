@@ -145,7 +145,7 @@ function createProjectsPage(nickname) {
     navbarContent.appendChild(navbarNickname);
 
 
-    // Crea finestra modale per eliminazione
+    // Inserisce nel documento il codice per la modal di eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
     variableContent.innerHTML += deleteModalHTML;
 

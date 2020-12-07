@@ -93,13 +93,6 @@ class Example {
         // Identifico il div esterno contenente tutti gli examples
         let examplesDiv = document.getElementById("external-examples-div");
         
-
-        // let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
-        //     tagNameNode.setAttribute("class", "card collection-card mb-3");
-        //     tagNameNode.setAttribute("style", "width: 100%");
-        //     tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
-        //     tagsDiv.appendChild(tagNameNode);
-
         // Identifico il template del generico example
         let exampleTemplate = document.querySelector('script#example-card-template');
 
@@ -114,57 +107,31 @@ class Example {
      * Gestione dei listeners associati ai bottoni della card dell'example
      */
     handleListeners() {
-        // TODO
-        // // Card del progetto
-        // let cardNode = document.querySelector("#card-content-"+this._id);
+        // Card dell'example
+        let cardNode = document.querySelector("#example-content-"+this._id);
 
-        // let id = this._id; // Salvo l'id per effettuare successivamente la closure, nei listener
+        let id = this._id; // Salvo i campi dell'example per effettuare successivamente la closure, nei listener
+        // altri campi che serviranno nei listener...
+
+        // Listener sul bottone di add tagName
+        let btnAddTagName = cardNode.querySelector(".btn-add-tagName");
+        btnAddTagName.addEventListener("click", 
+            function() {
+                // TODO ...
+
+                // Mostro la modal
+                $('#add-tagName-modal').modal('show');
+
+                // TODO ...
+            }
+        );
         
-        // // Listener sul bottone di view della card
-        // let btnViewProject = cardNode.querySelector(".btn-view-project");
-        // btnViewProject.addEventListener("click", 
-        //     function() {
-        //         console.log("Viewing project n. " + id); // closure
-        //         createViewProjectPage(id);
-        //     }
-        // );
-        
-        // // Listener sul bottone di eliminazione della card
-        // let btnDeleteProject = cardNode.querySelector(".btn-delete-project");
-        // btnDeleteProject.addEventListener("click", 
-        //     function() {
-        //         console.log("Deleting project n. " + id); // closure
-        //         deleteProject(id);
-        //     }
-        // );
+
+        // TODO: tutti gli altri listener per gli altri bottoni + 
+        // il listener (esterno a questa funzione) per il bottone di aggiunta di un example
     }
 }
 
-
-
-/**
- * Aggiunta di un example
- */
-function addExample(id, inputType, inputValue, tags) {
-    console.log("Adding example n. " + id);
-
-    let currentExample = new Example(id, inputType, inputValue, tags);
-    examples.push(currentExample);
-}
-
-/**
- * Rimozione di un progetto
- */
-function deleteExample(id){
-    // TODO
-    // // Inserisco l'id del progetto nell'elemento span più interno della modal
-    // document.querySelector("#id-project-to-be-deleted").innerText = id;
-
-    // // Mostro la modal
-    // $('#deleteModal').modal('show');
-
-    // // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
-}
 
 /**
  * Creazione della pagina di vista di un progetto (con tutti i suoi examples)
@@ -186,8 +153,24 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     variableContent.appendChild(jumbotronProject);
     // variableContent.innerHTML += jumbotronProject.innerHTML;
 
-    // Creo la finestra modale per l'eliminazione dell'example
-    let deleteExampleModalHTML = document.querySelector('script#delete-example-card-modal').innerText;
+    // Inserisce nel documento il codice per la modal di add tagName
+    let addTagNameModalHTML = document.querySelector('script#add-tagName-modal-script').textContent;
+    variableContent.innerHTML += addTagNameModalHTML;
+
+    // Inserisce nel documento il codice per la modal di delete tagName
+    let deleteTagNameModalHTML = document.querySelector('script#delete-tagName-modal-script').textContent;
+    variableContent.innerHTML += deleteTagNameModalHTML;
+
+    // Inserisce nel documento il codice per la modal di add tagValue
+    let addTagValueModalHTML = document.querySelector('script#add-tagValue-modal-script').textContent;
+    variableContent.innerHTML += addTagValueModalHTML;
+
+    // Inserisce nel documento il codice per la modal di add example
+    let addExampleModalHTML = document.querySelector('script#add-example-modal-script').textContent;
+    variableContent.innerHTML += addExampleModalHTML;
+
+    // Inserisce nel documento il codice per la modal di delete example
+    let deleteExampleModalHTML = document.querySelector('script#delete-example-modal-script').textContent;
     variableContent.innerHTML += deleteExampleModalHTML;
 
     /* CREAZIONE ELEMENTI VARIABILI (CARD DEGLI EXAMPLE) */
@@ -201,7 +184,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     $(examplesDiv).insertAfter(document.getElementById("hr-jumbotron-template"));
     
     // Creo N examples di esempio di tipo testuale, e li inserisco nel div
-
     let N = 20;
     for(let i = 0; i < N; ++i) {
         let id = i;
@@ -214,5 +196,11 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
         ];
 
         addExample(id, inputType, inputValue, tags); 
+    }
+
+    // Aggiungo i listener 
+    // (tranne quello di aggiunta di un example, che andrà gestito a parte poichè non fa parte della card dell'example)
+    for(let i = 0; i < N; ++i) {
+        examples[i].handleListeners();
     }
 }
