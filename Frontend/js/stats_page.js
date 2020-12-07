@@ -15,10 +15,10 @@ function createStatsPage() {
     new Chart(document.getElementById("bar-chart"), {
         type: 'bar',
         data: {
-        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        labels: ["Proj0", "Proj1", "Proj2", "Proj3", "Proj4"],
         datasets: [
             {
-            label: "Population (millions)",
+            label: "Num Examples",
             backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
             data: [2478,5267,734,784,433]
             }
@@ -28,7 +28,7 @@ function createStatsPage() {
         legend: { display: false },
         title: {
             display: true,
-            text: 'Predicted world population (millions) in 2050'
+            text: 'Top 5 most popular Projects'
         }
         }
     });
@@ -59,7 +59,8 @@ function createStatsPage() {
         }
     });
 
-    // line chart
+    /* Line Chart*/
+
     new Chart(document.getElementById("line-chart"), {
         type: 'line',
         data: {

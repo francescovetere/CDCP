@@ -136,3 +136,13 @@
 .bs-callout-success {
   border-left: 5px solid #5cb85c;
 }
+
+/* same height columns in row (instead of h-100 and d-flex) */ 
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
