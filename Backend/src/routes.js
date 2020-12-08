@@ -183,6 +183,84 @@ function routes(app) {
     });
 
 
+    /**
+    * Validazione cookie autenticazione
+    * Parametri: vuoto
+    * Body: nickname, 
+    * Risposta positiva: success
+    * Risposta negativa: error
+    */
+
+    app.post('/auth', async (req, resp) => {
+        console.log("Auth token user");
+
+        let nickname = req.body.nickname;
+        let tk = req.body.tk;
+
+        let currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        
+        let result;
+
+       
+        try {   
+            let sql = "SELECT * FROM TokenAuth WHERE BINARY ? = nickname AND BINARY ? = token AND ? <= expirationDate AND expired = 0";
+            let params = [nickname, tk, currentDate];
+            result = await dbm.execQuery(sql, params);
+        } 
+        
+        catch(err) {
+            console.log(err);
+        }
+        
+        if(result.length === 0) {
+            console.log("Auth cookie failed\n");
+            // Invalidiamo il cookie? (expired = 1)
+            resp.status(401);
+            resp.json({error: "Auth cookie failed"});
+            return;
+        }
+        
+
+        console.log("Cookie validated correctly\n");
+        resp.status(200);
+        resp.json({success: "auth successful"});
+    });
+
+
+    /**
+     * Restituzione di token
+     * Parametri: vuoto
+     * Body: vuoto
+     * Risposta positiva: token
+     * Risposta negativa: nessuna
+     */
+
+    app.post('/tk', async (req, resp) => {
+        console.log("Retrieving auth token");
+        
+        let tk = uuid();
+        let nickname = req.body.nickname;
+
+        // add 30 days to current day
+        let d = new Date();
+        d.setTime(d.getTime() + (30*24*60*60*1000));
+        d.toISOString().slice(0, 19).replace('T', ' ');
+
+        try {   
+            let sql = "INSERT INTO TokenAuth(nickname, token, expired, expirationDate) VALUES(?,?,?,?)";
+            let params = [nickname, tk, 0, d];
+            result = await dbm.execQuery(sql, params);
+        } 
+        
+        catch(err) {
+            console.log(err);
+        }
+
+        resp.status(200);
+        resp.json(tk);
+
+        console.log("Token retrieved correctly\n");
+    });
 
     /******************
      * PROJECTS ROUTES 
