@@ -42,9 +42,15 @@ class Project {
         let cardNodeTitle = cardNode.querySelector('.project-title');
         cardNodeTitle.innerText = this._title;
 
-        // description
-        let cardNodeDescription = cardNode.querySelector('.project-description');
-        cardNodeDescription.innerText = "Description-" + this._id;
+        // inputType
+        let cardNodeInputType = cardNode.querySelector('.project-inputType');
+        cardNodeInputType.innerText = this._inputType;
+        
+        // Gestisco il colore della callout in base al tipo del progetto
+        if(this._inputType === 'TEXT')
+            cardNode.querySelector('.bs-callout').setAttribute('class', 'bs-callout bs-callout-success');
+        else if(this._inputType === 'IMAGE')
+            cardNode.querySelector('.bs-callout').setAttribute('class', 'bs-callout bs-callout-danger');
         
         return cardNode;
     }
@@ -143,12 +149,15 @@ function createProjectsPage(nickname) {
     // Appendo al div principale della pagina il nuovo div contenente tutti i progetti
     variableContent.appendChild(projectsDiv);
 
-    // Creo N progetti di esempio di tipo testuale, e li inserisco nel vettore dei progetti
+    // Creo N progetti di esempio di tipo testuale/immagine, e li inserisco nel vettore dei progetti
     let N = 20;
     for(let i = 0; i < N; ++i) {
         let id = i;
         let title = "Title" + i;
-        let inputType = "[TEXT]";
+
+        let inputType;
+        if(i%2 == 0) inputType = "TEXT";
+        else inputType = "IMAGE";
 
         //console.log("Adding project n. " + id);
         

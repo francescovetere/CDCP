@@ -153,7 +153,7 @@ function routes(app) {
     * Risposta negativa: error
     */
     app.post('/login', async (req, resp) => {
-        console.log("Loggin in user");
+        console.log("Login in user");
 
         let nickname = req.body.nickname;
         let password = req.body.password; // la password andra' cifrata con hash prima di essere controllata

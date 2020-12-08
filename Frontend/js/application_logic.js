@@ -51,7 +51,7 @@ $(window).on('load', function() {
 
 // Logout (evita di doverlo fare in un file a parte e risolve l'errore se il bottone non esiste ancora)
 function logout() {
-    deleteCookie("tk_auth", "/", "cdcp");
+    deleteCookie("tk_auth", "/", "localhost");
 
     // fare un clear della navbar (parte del nickname)
     let nickbarContent = document.getElementById("nickChip");

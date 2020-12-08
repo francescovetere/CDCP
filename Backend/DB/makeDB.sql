@@ -1,4 +1,6 @@
 -- sudo mysql -u root -p < makeDB.sql
+-- DROP DATABASE CDCP_DB;
+
 CREATE DATABASE IF NOT EXISTS CDCP_DB;
 USE CDCP_DB;
 

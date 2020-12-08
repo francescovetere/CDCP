@@ -127,14 +127,24 @@
   border-radius: 3px;
   border: 1px solid #eee;
 }
-.bs-callout h4 {
+
+.bs-callout-success h4 {
   margin-top: 0;
   color:  #5cb85c;
+}
+
+.bs-callout-danger h4 {
+  margin-top: 0;
+  color:  red;
 }
 
 /* Themes for different contexts */
 .bs-callout-success {
   border-left: 5px solid #5cb85c;
+}
+
+.bs-callout-danger {
+  border-left: 5px solid red;
 }
 
 /* same height columns in row (instead of h-100 and d-flex) */ 

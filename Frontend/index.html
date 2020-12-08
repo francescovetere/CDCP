@@ -207,7 +207,7 @@
 									<span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 								</div>
 											
-								<input class="form-control" id="id-password" name="conf-password" placeholder="Confirm Password" type="password">
+								<input class="form-control" id="id-conf-password" name="conf-password" placeholder="Confirm Password" type="password">
 							</div> <!-- input-group.// -->
 						</div> <!-- form-group// -->
 				
@@ -244,37 +244,37 @@
 		<!--**************** PROJECTS PAGE ****************-->
 		<!-- Add Project Btn -->
 		<script type="text/html" id="add-project-template">
-		<div class="col text-right mb-4"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add Prokect</button></div>
+		<div class="col text-right mb-4"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add Project</button></div>
 		</script>
 
-		<!-- Project card -->
+		<!-- Project card (callout) -->
 		<script type="text/html" id="project-card-template">
-			<div id="card-content" class="col-sm-4">
-				<div class="card mb-4">
-					<!-- Card Header - Dropdown -->
-					<div class="card-header bg-dark py-3 d-flex flex-row align-items-center justify-content-between">
-					<h6 class="project-title m-0 font-weight-bold text-white"></h6>
-					<div class="dropdown no-arrow">
-						<a class="dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						</a>
-						<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
-						<a  href="#viewProject" class="btn-view-project dropdown-item">View</a>
-
-						<div class="dropdown-divider"></div>
-						<button class="btn-delete-project dropdown-item">Delete</button>
-						</div>
+			<div id="card-content" class="col-auto ml-5">
+				<div class="bs-callout">
+					<div class="row">
+					<div class="col-auto">
+						<h4 class="project-title">Project's title</h4>
 					</div>
-					</div>
-					<!-- TODO: Aggiungere descrizione progetto nel modello di DB ? -->
-					<div class="project-description card-body bg-light"></div> 
-					<div class="card-footer bg-info text-dark">
-						<div class="row">
-							<div class="col-auto my-1"><div class="chip">#Examples</div></div>
-							<div class="col-auto my-1"><div class="chip">#Tags</div></div>
+				
+					<div class="col-auto text-right">
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" style="color: black;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							</a>
+							<div class="dropdown-menu dropdown-menu-left animated--fade-in" aria-labelledby="dropdownMenuLink">
+							<a href="#viewProject" class="btn-view-project dropdown-item">View</a>
+		
+							<div class="dropdown-divider"></div>
+								<button class="btn-delete-project dropdown-item">Delete</button>
+							</div>
 						</div>
 					</div>
 				</div>
+				
+				<span class="project-inputType">Project's input type</span>
+				</div>
 			</div>
+
+			
 		</script>
 
 		<!-- Project delete modal -->
@@ -306,33 +306,33 @@
 		<!-- Jumbotron project -->
 		<script type="text/html" id="project-jumbotron-template">
 			<div class="jumbotron jumbotron-fluid">
-						<div class="container">
+				<div class="container">
 		
 							<!-- Project Header -->
 							<div class="row">
-								<div class="col-auto"><h1 class="project-title display-4">Titolo del progetto</h1></div>
-								<div class="col text-right"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Nuova collezione</button></div>
+								<div class="col-auto"><h1 class="project-title display-4">Project's title</h1></div>
+								<div class="col text-right"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus mr-2"></i>Add example</button></div>
 							</div>
 							
-							<div class="container mt-3">
+							<!-- <div class="container mt-3">
 								<div class="media border p-3">
 									<span class="fa-stack fa-2x custom">
 										<i class="fas fa-circle fa-stack-2x" ></i>
 										<i class="fas fa-user-astronaut fa-stack-1x fa-inverse"></i>
 									</span>
 								<div class="media-body">
-									<h4>Nickname <small><i>Posted on February 19, 2016</i></small></h4>
+									<h4 project-creator>Creator's nickname<small><i>Posted on February 19, 2016</i></small></h4>
 									<div class="row">
 										<div class="col-auto"><h5><strong>Tipo: </strong></h5></div>
-										<div clasS="col-auto nopadding"><span class="label textLabel">Testuale</span> </div>
+										<div class="project-inputType col-auto nopadding"><span class="label textLabel">Testuale</span> </div>
 									</div>
 								
 								</div>
-								</div>
-							</div>
-							<hr id="hr-jumbotron-template" class="my-4">
+								</div> -->
+						<!-- </div> -->
+						<hr id="hr-jumbotron-template" class="my-4">
 
-						</div>
+					</div>
 			</div> <!-- ./end of jumbotron -->
 		</script>
 
@@ -341,8 +341,8 @@
 			<div id="example-content" class="card collection-card mb-3" style="width: 100%">
 				<div class="card-body">
 					<h5 class="example-inputType"></h5>
-					<h5 class="example-inputValue"></h5>
-					<h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6>
+					<div class="example-inputValue text-center"></div>
+					<!-- <h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6> -->
 
 					<hr class="hr-example-card-template my-4">
 
