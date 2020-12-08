@@ -46,7 +46,16 @@ $(document).ready(function(){
 
 // https://stackoverflow.com/questions/25962958/calling-a-javascript-function-in-another-js-file
 $(window).on('load', function() {
-    //createLoginPage();  // verificare presenza Cookie per "gia' loggato!".
-    createProjectsPage("Nickname");
-    // createExamplesPage(1, "Project Title", "text");
+    checkAuth("tk_auth");
 });
+
+// Logout (evita di doverlo fare in un file a parte e risolve l'errore se il bottone non esiste ancora)
+function logout() {
+    deleteCookie("tk_auth", "/", "cdcp");
+
+    // fare un clear della navbar (parte del nickname)
+    let nickbarContent = document.getElementById("nickChip");
+    nickbarContent.remove();
+
+    createLoginPage();
+}

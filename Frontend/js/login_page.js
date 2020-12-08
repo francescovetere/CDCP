@@ -1,4 +1,5 @@
 function createLoginPage() {
+    
     // Recupero l'HTML del template della form di login
     let loginHTML = document.querySelector('script#login-form-template').textContent;
 
@@ -24,9 +25,26 @@ function createLoginPage() {
                 data : JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function(response){
+                    
+                    if ($('#RememberMe').prop('checked')) {
+                        
+                        // AJAX GET (JQuery) to retrieve TK from backend
+                        $.post("api/tk",
+                        {
+                          nickname: username
+                        },
+                        function(data, status){
+                            let cookieArguments = [username, data];
+                            setCookie("tk_auth", JSON.stringify(cookieArguments), 30); // set cookie 30 days                      
+                        });
+
+                    }
+
                     variableContent.innerHTML = "";
                     createProjectsPage();
                     document.getElementById("NickLogged").innerHTML = username;
+                    
+
                 },
                 error: function(error){
                     alert("Hai inserito i dati sbagliati!"); // e' solo per debug attualmente, poi lo faremo piu' carino...

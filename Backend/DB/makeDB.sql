@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS TagValues (projectId VARCHAR(36), exampleId VARCHAR(3
                             PRIMARY KEY (projectId, exampleId, tagName, tagValue));
 
 
--- Nei Logs non uso la ON DELETE CASCADE/ON UPDATE CASCADE, perchè sono interessato a tenere traccia di tutte le modifiche!
+-- Nei Logs e Token non uso la ON DELETE CASCADE/ON UPDATE CASCADE, perchè sono interessato a tenere traccia di tutte le modifiche!
 CREATE TABLE IF NOT EXISTS Logs (id VARCHAR(36) PRIMARY KEY, userId VARCHAR(36), projectId VARCHAR(36), exampleId VARCHAR(36), actionType VARCHAR(50), details VARCHAR(255), timeStamp DATETIME, 
                             FOREIGN KEY (userId) REFERENCES Users(id), 
                             FOREIGN KEY (exampleId) REFERENCES Examples(id), 
                             FOREIGN KEY (projectId) REFERENCES Projects(id));
+
+CREATE TABLE IF NOT EXISTS TokenAuth (id int NOT NULL AUTO_INCREMENT, nickname VARCHAR(25), token VARCHAR(36), expired BIT, expirationDate DATETIME, PRIMARY KEY(id));

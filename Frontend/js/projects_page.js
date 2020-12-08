@@ -116,10 +116,12 @@ function createProjectsPage(nickname) {
     let navbarContent = document.getElementById("id-navbar");
     
     let navbarNickname = document.createElement("div");
+    navbarNickname.setAttribute("id","nickChip");
     navbarNickname.innerHTML = document.querySelector("script#navbar-nickname").textContent;
-    navbarNickname.querySelector("#id-nickname").innerText = nickname;
 
     navbarContent.appendChild(navbarNickname);
+
+    document.getElementById("NickLogged").innerHTML = nickname;
 
     // Creo il bottone di aggiunta progetto, in alto a destra
     let addProjectBtn = document.createElement("div");
@@ -148,7 +150,7 @@ function createProjectsPage(nickname) {
         let title = "Title" + i;
         let inputType = "[TEXT]";
 
-        console.log("Adding project n. " + id);
+        //console.log("Adding project n. " + id);
         
         let currentProject = new Project(id, title, inputType);
         projects.push(currentProject);
