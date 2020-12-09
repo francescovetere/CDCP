@@ -28,9 +28,8 @@ function getCookie(cname) {
 // Validazione cookie di autenticazione
 function checkAuth(name) {
     let cookieValues = getCookie(name);
-    let pwd = $("#id-password").val();
 
-    if(cookieValues!= ""){ // check if cookie exist
+    if(cookieValues!= "") { // check if cookie exist (Remember me checked)
 
         cookieValues = JSON.parse(cookieValues);
 
@@ -45,24 +44,30 @@ function checkAuth(name) {
                 success: function(response){
                      createProjectsPage(cookieValues[0]);
                 },
-                error: function(error){
-                   /* TODO: Che succede se il cookie non e' valido dal check nel db? -> cancello/invalido */
+                error: function(error) {
+                  variableContent.innerHTML = "<h1>Server error</h1>";
+                  deleteCookie(name, "/", "cdcp");
                 }
             });
 
              
         }
-        else{
+
+        else {
           /* TODO: Che succede se il cookie e' in formato non valido? -> cancello/invalido */
+          variableContent.innerHTML = "<h1>Server error</h1>";
+          deleteCookie(name, "/", "cdcp");
           createLoginPage();
         }
 
-    } else { // if not exist, go to login page
+    } 
+
+    else { // if not exist, go to login page
         createLoginPage();
     }
 }
 
-// Cancella un cookie impostando la data di scadenza al minimo (comporta cancellazione dal browser)
+// Cancella ("invalida") un cookie impostando la data di scadenza al minimo (comporta cancellazione dal browser)
 function deleteCookie( name, path, domain ) {
   if( getCookie( name ) ) {
     document.cookie = name + "=" +

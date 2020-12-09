@@ -1,5 +1,6 @@
 ***Cose da fare***
-- risolvere problema causato dal click sul logo CDCP dalla pagina di login
+- risolvere problema causato dal click sul logo CDCP dalla pagina di login 
+    ==> risolto (ci sarebbe da effettuare il controllo di server error in generale, non solo per il login)
 
 - In teoria, ci servono i bottoni per get, post, put, delete
  per le entità project, example, tagName, tagValue

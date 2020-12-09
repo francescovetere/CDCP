@@ -91,8 +91,11 @@ class Project {
         // $(document).on("click", "#card-content-"+id+ " .btn-view-project",
         // cardNode.querySelector(".btn-view-project").addEventListener("click",
         
+        
+
         $(document).on("click", "#card-content-"+id+ " .btn-view-project",
-            function() {
+            function(e) {
+                e.stopImmediatePropagation();
                 console.log("Viewing project n. " + id); // closure
                 createExamplesPage(id, title, inputType); // closure
                 
@@ -102,11 +105,12 @@ class Project {
         
         // Listener sul bottone di eliminazione di un progetto
          $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
-            function() {
+            function(e) {
                 console.log("Deleting project n. " + id); // closure
                 // deleteProject(id);
                 // Inserisco l'id del progetto nell'elemento span più interno della modal
-                // document.querySelector("#id-project-to-be-deleted").innerText = id;
+                document.querySelector("#title-project-to-be-deleted").innerText = title;
+                e.stopImmediatePropagation();
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');

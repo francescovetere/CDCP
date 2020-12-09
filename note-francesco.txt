@@ -18,7 +18,6 @@
   Ogni record potrebbe inoltre avere, sulla destra, due pulsanti per effettuarne la modifica e l'eliminazione (come nella todo app del corso)
   Per l'inserimento di un nuovo record invece, si potrebbe sfruttare lo stesso bottone verde usato nella add project (modal con un form con 
   area di testo nel caso di input testuale, oppure un bottone "choose image" nel caso di input immagine
-  vedere autocomplete() di jquery
   
   
   

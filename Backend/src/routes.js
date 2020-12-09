@@ -3,6 +3,9 @@ const DBManager = require("./DBManager");
 let dbm = new DBManager();
 const uuid = require('uuid').v4;
 
+function formatDate(date) {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
 
 function routes(app) {
 
@@ -113,7 +116,7 @@ function routes(app) {
         let nickname = req.body.nickname;
         let email = req.body.email;
         let password = req.body.password; // la password andra' cifrata con hash prima di essere inserita
-        let registrationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        let registrationDate = formatDate(new Date());
 
         // Validazione campi body
         if(req.body.password == "" || req.body.nickname == "" || req.body.email == "") {
@@ -121,6 +124,23 @@ function routes(app) {
 
             resp.status(400);
             resp.json({error: "Some fields are missing"});
+            return;
+        }
+
+        try {
+            let sql = "SELECT * FROM Users WHERE BINARY nickname = ?";
+            let params = [nickname];
+            await dbm.execQuery(sql, params);
+        }
+
+        catch(err) {
+            console.log(err);
+        }
+
+        if(result.length != 0) {
+            console.log("Nickname unavailable\n");
+            resp.status(401);
+            resp.json({error: "Nickname unavailable"});
             return;
         }
 
@@ -197,13 +217,13 @@ function routes(app) {
         let nickname = req.body.nickname;
         let tk = req.body.tk;
 
-        let currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        let currentDate = formatDate(new Date());
         
         let result;
 
        
         try {   
-            let sql = "SELECT * FROM TokenAuth WHERE BINARY ? = nickname AND BINARY ? = token AND ? <= expirationDate AND expired = 0";
+            let sql = "SELECT * FROM TokenAuth WHERE BINARY ? = nickname AND BINARY ? = token AND ? <= expirationDate";
             let params = [nickname, tk, currentDate];
             result = await dbm.execQuery(sql, params);
         } 
@@ -214,7 +234,6 @@ function routes(app) {
         
         if(result.length === 0) {
             console.log("Auth cookie failed\n");
-            // Invalidiamo il cookie? (expired = 1)
             resp.status(401);
             resp.json({error: "Auth cookie failed"});
             return;
@@ -244,11 +263,11 @@ function routes(app) {
         // add 30 days to current day
         let d = new Date();
         d.setTime(d.getTime() + (30*24*60*60*1000));
-        d.toISOString().slice(0, 19).replace('T', ' ');
+        d = formatDate(d);
 
         try {   
-            let sql = "INSERT INTO TokenAuth(nickname, token, expired, expirationDate) VALUES(?,?,?,?)";
-            let params = [nickname, tk, 0, d];
+            let sql = "INSERT INTO TokenAuth(nickname, token, expirationDate) VALUES (?,?,?)";
+            let params = [nickname, tk, d];
             result = await dbm.execQuery(sql, params);
         } 
         
@@ -331,12 +350,17 @@ function routes(app) {
         }
 
         // Inserimento del nuovo progetto
-        let id = uuid();
+        let projectId = uuid();
 
         try {
             let sql = 'INSERT INTO Projects(id, title, inputType) VALUES (?, ?, ?)';
-            let params = [id, title, inputType];
+            let params = [projectId, title, inputType];
             await dbm.execQuery(sql, params);
+
+            // params = ['366564c9-a120-4f0b-a8e7-afd5c57703f1', projectId, uuid(), "POST", "Insert new project", formatDate(new Date())];
+            // params = ['123', '456', '789', "POST", "blabla", formatDate(new Date())];
+            // sql = 'INSERT INTO Logs(userId, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
+            // await dbm.execQuery(sql, params);
         }
 
         catch(err) {
@@ -346,7 +370,7 @@ function routes(app) {
         console.log("Project inserted correctly\n");
 
         resp.status(201);
-        resp.json({result: {"id": id, "title": title, "inputType": inputType}});
+        resp.json({result: {"id": projectId, "title": title, "inputType": inputType}});
         
     });
 
