@@ -81,12 +81,17 @@ class Project {
         let id = this._id;
         let title = this._title;
         let inputType = this._inputType;
-        let cardNode = document.querySelector("#card-content-"+this._id);
-        
+        let cardNode = document.querySelector("#card-content-"+id);
+        let btnView = cardNode.querySelector(".btn-view-project");
+
+        // console.log()
         
         // Listener sul bottone di view della card 
         // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
-        $("#card-content-"+this._id).on("click", ".btn-view-project", 
+        // $(document).on("click", "#card-content-"+id+ " .btn-view-project",
+        // cardNode.querySelector(".btn-view-project").addEventListener("click",
+        
+        $(document).on("click", "#card-content-"+id+ " .btn-view-project",
             function() {
                 console.log("Viewing project n. " + id); // closure
                 createExamplesPage(id, title, inputType); // closure
@@ -96,12 +101,12 @@ class Project {
         );
         
         // Listener sul bottone di eliminazione di un progetto
-        $("#card-content-"+this._id).on("click", ".btn-delete-project",
+         $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
             function() {
                 console.log("Deleting project n. " + id); // closure
                 // deleteProject(id);
                 // Inserisco l'id del progetto nell'elemento span più interno della modal
-                document.querySelector("#id-project-to-be-deleted").innerText = id;
+                // document.querySelector("#id-project-to-be-deleted").innerText = id;
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');
@@ -119,7 +124,6 @@ class Project {
  */
 function createProjectsPage(nickname) {
     // Azzero il contenuto variabile della pagina
-    console.log("new\n");
     variableContent.innerHTML = "";
     // Azzero l'array dei progetti, che verranno presi con una get
     projects.splice(0, projects.length);
@@ -167,7 +171,7 @@ function createProjectsPage(nickname) {
             // Mostro la modal
             $('#add-project-modal').modal('show');
         }
-    ); 
+    );
     
     // GET di tutti i progetti
     $.get('api/projects',
@@ -178,14 +182,14 @@ function createProjectsPage(nickname) {
             });
     
     // POST di un progetto 
-    $('#modal-form').on('submit', function() {
+    $('#modal-form').on('submit', function(e) {
+        e.preventDefault();
         let title =  $("#modal-project-title").val();
         let inputType = $("#modal-project-inputType option:selected").text();
         let formData = {"title" : title, "inputType": inputType};
         $.post('api/project',
             formData,
             function(response) {
-                console.log(response);
                 let p = new Project(response.result.id, title, inputType);
                 projects.push(p);
                 $('#add-project-modal').modal('hide');
