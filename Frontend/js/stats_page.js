@@ -1,4 +1,5 @@
-function createStatsPage() {
+
+function createCharts() {
 
     /* Questi oggetti di esempio richiedono unicamente dei dati, all'interno delle liste, 
         che verranno recuperati con delle chiamate ajax al server. 
@@ -139,4 +140,11 @@ function createStatsPage() {
 
 }
 
-createStatsPage(); // here only for debug
+function createStatsPage(){
+    // Identifico il template dei grafici
+    let statsTemplate = document.querySelector('script#stats-jumbotron-template');
+    variableContent.innerHTML += statsTemplate.innerText; 
+
+    createCharts(); // ERROR: Chart is not defined??? problema di sincronizzazione?
+
+}

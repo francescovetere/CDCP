@@ -53,9 +53,52 @@ $(window).on('load', function() {
 function logout() {
     deleteCookie("tk_auth", "/", "cdcp");
 
-    // fare un clear della navbar (parte del nickname)
+    // Rimuovo navbar (parte del nickname)
     let nickbarContent = document.getElementById("nickChip");
     nickbarContent.remove();
 
     createLoginPage();
+}
+
+// Apertura Stats
+function viewStats() {
+
+    // Clear della pagina 
+    document.getElementById("variable-content").innerHTML = "";
+
+    createStatsPage();
+}
+
+// Apertura Logs
+function viewLogs() {
+
+    // Clear della pagina
+    document.getElementById("variable-content").innerHTML = "";
+
+    createLogsPage();
+}
+
+// Go to Home Logo 
+function goToHome(){
+    document.getElementById("variable-content").innerHTML = "";
+
+    // devo salvarmi il nickname prima di eliminarlo
+    let nickname = document.getElementById("NickLogged").textContent
+
+    // Faccio un refresh navbar (parte del nickname)
+    // Questo perche' abbiamo inserito la creazione di questa barra all'interno di createProjects..
+    let nickbarContent = document.getElementById("nickChip");
+    nickbarContent.remove();
+
+    createProjectsPage(nickname);
+}
+
+/* SPERIMENTALE: Questa funzione impedisce ogni forma di refresh della pagina (anche dei form)
+ Facendo cosi', dovremmo poi solo gestire il page back - page next! (guarda la funzione goToHome sopra)
+ https://stackoverflow.com/questions/3527041/prevent-any-form-of-page-refresh-using-jquery-javascript 
+P.S.: Se fai un refresh  con cookie salvato, ti fa rimanere nel sito. Se lo fai senza, ti riporta al login! 
+Potrebbe aver senso, no? Il browser ti avvisa del reload (a modo suo) oppure dell'uscita dal sito (se fai il pageback dalla root)
+ */
+window.onbeforeunload = function() {
+    return "Dude, are you sure you want to leave? Think of the kittens!"; // non viene mostrato però..
 }

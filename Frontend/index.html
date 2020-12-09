@@ -48,6 +48,9 @@
 		<!-- Logs page -->
 		<script src="js/logs_page.js" type="text/javascript" defer></script>
 
+		<!-- Charts  (before Stats page) -->
+		<script src="vendor/charts/dist/Chart.js" type="text/javascript" defer></script>
+
 		<!-- Stats page -->
 		<script src="js/stats_page.js" type="text/javascript" defer></script>
 
@@ -71,7 +74,7 @@
 
 					<!-- Navbar -->
 					<div id="id-navbar" class="navbar bg-white shadow mb-4">
-						<h1 class="font-weight-normal">
+						<h1 class="font-weight-normal navLogo" onclick="goToHome();">
 							<img class="logo mr-2" src="img/unipr-logo.png" width="52" alt="unipr-logo.png">
 							CDCP
 						</h1>
@@ -230,8 +233,8 @@
 					<a id="NickLogged"></a>
 				</div>
 				<div class="dropdown-menu" aria-labelledby="dropdownUser">
-					<button class="dropdown-item"><i class="far fa-chart-bar"></i> Stats</button>
-					<button class="dropdown-item"><i class="far fa-clipboard"></i> Logs</button>
+					<button class="dropdown-item" onclick="viewStats();"><i class="far fa-chart-bar"></i> Stats</button>
+					<button class="dropdown-item" onclick="viewLogs();"><i class="far fa-clipboard"></i> Logs</button>
 					<div class="dropdown-divider"></div>
 				  <button class="dropdown-item" onclick="logout();"><i class="fas fa-sign-out-alt"></i> Logout</button>
 				</div>
@@ -244,7 +247,7 @@
 		<!--**************** PROJECTS PAGE ****************-->
 		<!-- Add Project Btn -->
 		<script type="text/html" id="add-project-template">
-		<div class="col text-right mb-4"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus"></i> Add Project</button></div>
+		<div class="col text-right mb-4"><button type="button" class="btn-add-project btn btn-outline-success"><i class="fas fa-plus"></i> Add Project</button></div>
 		</script>
 
 		<!-- Project card (callout) -->
@@ -275,6 +278,40 @@
 			</div>
 
 			
+		</script>
+
+		<!-- Add Project modal -->
+		<script type="text/html" id="add-project-modal">
+			<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="addProjectModalLabel">Add Project</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body addBody">
+						<form>
+							<div class="form-group">
+							  <select id="project-TypeModal" class="custom-select" required>
+								<option selected>Select Project Type</option>
+								<option value="1">Text only</option>
+								<option value="2">Image only</option>
+							  </select>
+							</div>
+							<div class="form-group">
+							  <input type="text" placeholder="Insert Title" class="form-control" id="project-titleModal" required></textarea>
+							</div>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+					<button type="submit" class="btn btn-success">Submit</button>
+					</form>
+					</div>
+				</div>
+				</div>
+			</div>
 		</script>
 
 		<!-- Project delete modal -->
@@ -366,8 +403,8 @@
 						</div>
 						
 						<div class="col text-right">
-							<button type="button" class="btn btn-outline-success my-2"><i class="far fa-plus-square mr-2"></i>Add tagValue</button>
-							<button type="button" class="btn btn-outline-danger my-2"><i class="far fa-minus-square mr-2"></i>Delete tagName</button>
+							<button type="button" class="btn btn-outline-success my-2 btn-add-TagValue"><i class="far fa-plus-square mr-2"></i>Add tagValue</button>
+							<button type="button" class="btn btn-outline-danger my-2 btn-delete-TagName"><i class="far fa-minus-square mr-2"></i>Delete tagName</button>
 						</div>
 					</div>
 											
@@ -390,24 +427,143 @@
 		</script>
 
 
+		<!--**************** STATS PAGE TEMPLATES ****************-->
+		<script type="text/html" id="stats-jumbotron-template">
+			<div class = "container-fluid jumbotron" style="background-color: aliceblue;">
+				<h1>Stats Page</h1>
+
+				<div class="alert alert-danger mt-3">
+					Tags and tag values with insufficient number of examples: <br>
+					- Tag: <strong id="stats-a-TagName">tag1, tag2, tag3 </strong> <br>
+					- Tag values: <strong id="stats-a-TaValue"> tagval1, tagval2, tagval3 ...</strong>
+				</div>
+
+				<div class="alert alert-success">
+					Total number of examples in the datasets: <strong id="stats-b">0</strong>
+				</div>
+
+				<div class="alert alert-info">
+					Total number of examples w/o tags: <strong id="stats-c">0</strong>
+				</div>
+
+				<div class="row mt-5">
+
+					<div class="col-6">
+						<canvas id="bar-chart"></canvas>
+					</div>
+
+					<div class="col-6">
+						<canvas id="doughnut-chart"></canvas>
+					</div>
+
+				</div>
+
+				<hr class="my-5">
+
+				<div class="row">
+
+					<div class="col-6">
+						<canvas id="line-chart"></canvas>
+					</div>
+
+					<div class="col-6">
+						<canvas id="radar-chart"></canvas>
+					</div>
+				
+				</div>
+			</div>
+		
+		</script>
+
+
+		<!--**************** LOGS PAGE TEMPLATES ****************-->
+		<script type="text/html" id="logs-container-template">
+
+			<div class = "container-fluid p-5 mb-5">
+			<h1>Logs Page</h1>
+
+			<!-- mi piacerebbe farla colorata. Ogni tipo di log si innesta con un colore diverso -->
+			<table class="table">
+				<thead>
+				  <tr>
+					<th>ActionType</th> 
+					<th>Nickname</th> <!-- non e' una buona prassi usare l'uuid, meglio recuperare il nickname -->
+					
+					<th>Details</th> <!-- volendo esplicitare tutti i campi di logs (tutti gli id nella tabella), 
+									sarebbe carino recuparere i titoli anziché scrivere l'uuid di ognuno-->
+					<th>Date</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>Default</td>
+					<td>Defaultson</td>
+					<td>def@somemail.com</td>
+					<td></td>
+				  </tr>      
+				  <tr class="table-primary">
+					<td>Primary</td>
+					<td>Joe</td>
+					<td>joe@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-success">
+					<td>Success</td>
+					<td>Doe</td>
+					<td>john@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-danger">
+					<td>Delete</td>
+					<td>Moe</td>
+					<td>mary@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-info">
+					<td>Info</td>
+					<td>Dooley</td>
+					<td>july@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-warning">
+					<td>Warning</td>
+					<td>Refs</td>
+					<td>bo@example.com</td>
+					<td></td>
+				  </tr>
+				  <tr class="table-secondary">
+					<td>Secondary</td>
+					<td>Secondson</td>
+					<td>sec@example.com</td>
+					<td></td>
+				  </tr>
+
+				</tbody>
+			  </table>
+
+		</div>
+
+		</script>
+
 		<!--*** MODALS (TODO: contenuto testuale)***-->
+
 		<!-- Add tagName modal -->
 		<script type="text/html" id="add-tagName-modal-script">
-			<div class="modal fade" id="add-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
+			<div class="modal fade" id="add-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Add tagName</h5>
+					<h5 class="modal-title" id="addTagNameModalLabel">Add tagName</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					</div>
 					<div class="modal-body">
-						<span>Insert a new tagName</span>
+						<input type="text" class="w-100" placeholder="Type a TagName"> <!-- inserire una funzione di autocomplete? vedi jquery -->
 					</div>
 					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+					<button type="button" class="btn btn-success">Insert</button>
 					</div>
 				</div>
 				</div>
@@ -416,17 +572,17 @@
 
 		<!-- Delete tagName modal -->
 		<script type="text/html" id="delete-tagName-modal-script">
-			<div class="modal fade" id="delete-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="delete-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="deleteTagNameModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Example deletion</h5>
+					<h5 class="modal-title" id="deleteTagNameModalLabel">TagName deletion</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					</div>
 					<div class="modal-body deleteBody">
-						<span>You're about to delete this Example.<br>Are you sure?</span>
+						<span>You're about to delete this TagName.<br>Are you sure?</span>
 					</div>
 					<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
@@ -485,7 +641,7 @@
 
 		<!-- Delete example modal -->
 		<script type="text/html" id="delete-example-modal-script">
-			<div class="modal fade" id="delete-example-modal"> tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="delete-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">

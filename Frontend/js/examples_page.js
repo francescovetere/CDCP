@@ -125,6 +125,34 @@ class Example {
                 // TODO ...
             }
         );
+
+        // Listener sul bottone di delete Example
+        let btnDeleteExample = cardNode.querySelector(".btn-delete-example");
+        btnDeleteExample.addEventListener("click", 
+            function() {
+                // TODO ...
+
+                // Mostro la modal
+                $('#delete-example-modal').modal('show');
+
+                // TODO ...
+            }
+        );
+
+        /* Listener sul bottone di delete Example || !! da sistemare, non con document.
+        // Forse andrebbe usato tagNameNode, ma qui dentro non viene visto! 
+        let btnDeleteTagName = document.querySelector(".btn-delete-TagName");
+        btnDeleteTagName.addEventListener("click", 
+            function() {
+                // TODO ...
+                console.log("vengo richiamato 20 volte qui dentro");
+                // Mostro la modal
+                $('#delete-tagName-modal').modal('show');
+
+
+                // TODO ...
+            }
+        ); */
         
 
         // TODO: tutti gli altri listener per gli altri bottoni + 
@@ -200,7 +228,7 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
           {"tagName": "colors", "tagValues": ["brown", "black"]}
         ];
 
-        console.log("Adding example n. " + id);
+        //console.log("Adding example n. " + id);
 
         let currentExample = new Example(id, inputType, inputValue, tags);
         examples.push(currentExample);

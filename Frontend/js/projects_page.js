@@ -107,6 +107,22 @@ class Project {
                 // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
             }
         );
+
+        // Listener sul bottone di Aggiunta Progetto
+         let btnAddProject = document.querySelector(".btn-add-project");
+         btnAddProject.addEventListener("click", 
+             function() {
+                 console.log("Add a project"); 
+
+                 // Mostro la modal
+                 $('#AddModal').modal('show');
+ 
+                 // TODO: Listener sul bottone "Yes, I'm sure", e conseguente aggiunta in db
+                 // In realta' usando un form direttamente, si può evitare di dover recuperare i dati cosi.
+
+             }
+         );     
+  
     }
 }
 
@@ -138,6 +154,10 @@ function createProjectsPage(nickname) {
     // Inserisce nel documento il codice per la modal di eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
     variableContent.innerHTML += deleteModalHTML;
+
+    // Inserisce nel documento il codice per la modal di aggiunta del progetto
+    let addProjectModalHTML = document.querySelector('script#add-project-modal').textContent;
+    variableContent.innerHTML += addProjectModalHTML;
 
     /* CREAZIONE ELEMENTI VARIABILI (CARD DEI PROGETTI) */
     // La card non andrà inserita direttamente nel div variabile:
