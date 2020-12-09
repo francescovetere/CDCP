@@ -245,11 +245,6 @@
 
 
 		<!--**************** PROJECTS PAGE ****************-->
-		<!-- Add Project Btn -->
-		<script type="text/html" id="add-project-template">
-		<div class="col text-right mb-4"><button type="button" class="btn-add-project btn btn-outline-success"><i class="fas fa-plus"></i> Add Project</button></div>
-		</script>
-
 		<!-- Project card (callout) -->
 		<script type="text/html" id="project-card-template">
 			<div id="card-content" class="col-auto ml-5">
@@ -280,9 +275,14 @@
 			
 		</script>
 
+		<!-- Add Project Btn -->
+		<script type="text/html" id="add-project-template">
+			<div class="col text-right mb-4"><button id="btn-add-project" type="button" class="btn btn-outline-success"><i class="fas fa-plus mr-2"></i>Add Project</button></div>
+		</script>
+
 		<!-- Add Project modal -->
 		<script type="text/html" id="add-project-modal">
-			<div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+			<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -348,7 +348,7 @@
 							<!-- Project Header -->
 							<div class="row">
 								<div class="col-auto"><h1 class="project-title display-4">Project's title</h1></div>
-								<div class="col text-right"><button type="button" class="btn btn-outline-success"><i class="fas fa-plus mr-2"></i>Add example</button></div>
+								<div class="col text-right"><button id="btn-add-example" type="button" class="btn btn-outline-success"><i class="fas fa-plus mr-2"></i>Add example</button></div>
 							</div>
 							
 							<!-- <div class="container mt-3">
@@ -403,8 +403,8 @@
 						</div>
 						
 						<div class="col text-right">
-							<button type="button" class="btn btn-outline-success my-2 btn-add-TagValue"><i class="far fa-plus-square mr-2"></i>Add tagValue</button>
-							<button type="button" class="btn btn-outline-danger my-2 btn-delete-TagName"><i class="far fa-minus-square mr-2"></i>Delete tagName</button>
+							<button type="button" class="btn btn-outline-success my-2 btn-add-tagValue"><i class="far fa-plus-square mr-2"></i>Add tagValue</button>
+							<button type="button" class="btn btn-outline-danger my-2 btn-delete-tagName"><i class="far fa-minus-square mr-2"></i>Delete tagName</button>
 						</div>
 					</div>
 											
@@ -425,6 +425,123 @@
 			<!-- </div> ./end of TAGValue Template  -->
 			<!-- </p> -->
 		</script>
+
+		<!--*** MODALS (TODO: contenuto testuale)***-->
+		<!-- Add tagName modal -->
+		<script type="text/html" id="add-tagName-modal-script">
+			<div class="modal fade" id="add-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="addTagNameModalLabel">Add tagName</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="w-100" placeholder="Type a TagName"> <!-- inserire una funzione di autocomplete? vedi jquery -->
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+					<button type="button" class="btn btn-success">Insert</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Delete tagName modal -->
+		<script type="text/html" id="delete-tagName-modal-script">
+			<div class="modal fade" id="delete-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="deleteTagNameModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteTagNameModalLabel">TagName deletion</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+						<span>You're about to delete this TagName.<br>Are you sure?</span>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Add tagValue modal -->
+		<script type="text/html" id="add-tagValue-modal-script">
+			<div class="modal fade" id="add-tagValue-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteExampleModalLabel">Add tagValue</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+						<span>You're about to delete this Example.<br>Are you sure?</span>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Add example modal -->
+		<script type="text/html" id="add-example-modal-script">
+			<div class="modal fade" id="add-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteExampleModalLabel">Add example</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+						<span>You're about to delete this Example.<br>Are you sure?</span>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Delete example modal -->
+		<script type="text/html" id="delete-example-modal-script">
+			<div class="modal fade" id="delete-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteExampleModalLabel">Example deletion</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+						<span>You're about to delete this Example.<br>Are you sure?</span>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
 
 
 		<!--**************** STATS PAGE TEMPLATES ****************-->
@@ -543,123 +660,6 @@
 
 		</div>
 
-		</script>
-
-		<!--*** MODALS (TODO: contenuto testuale)***-->
-
-		<!-- Add tagName modal -->
-		<script type="text/html" id="add-tagName-modal-script">
-			<div class="modal fade" id="add-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="addTagNameModalLabel">Add tagName</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body">
-						<input type="text" class="w-100" placeholder="Type a TagName"> <!-- inserire una funzione di autocomplete? vedi jquery -->
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
-					<button type="button" class="btn btn-success">Insert</button>
-					</div>
-				</div>
-				</div>
-			</div>
-		</script>
-
-		<!-- Delete tagName modal -->
-		<script type="text/html" id="delete-tagName-modal-script">
-			<div class="modal fade" id="delete-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="deleteTagNameModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="deleteTagNameModalLabel">TagName deletion</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body deleteBody">
-						<span>You're about to delete this TagName.<br>Are you sure?</span>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
-					</div>
-				</div>
-				</div>
-			</div>
-		</script>
-
-		<!-- Add tagValue modal -->
-		<script type="text/html" id="add-tagValue-modal-script">
-			<div class="modal fade" id="add-tagValue-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Example deletion</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body deleteBody">
-						<span>You're about to delete this Example.<br>Are you sure?</span>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
-					</div>
-				</div>
-				</div>
-			</div>
-		</script>
-
-		<!-- Add example modal -->
-		<script type="text/html" id="add-example-modal-script">
-			<div class="modal fade" id="add-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Example deletion</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body deleteBody">
-						<span>You're about to delete this Example.<br>Are you sure?</span>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
-					</div>
-				</div>
-				</div>
-			</div>
-		</script>
-
-		<!-- Delete example modal -->
-		<script type="text/html" id="delete-example-modal-script">
-			<div class="modal fade" id="delete-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Example deletion</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body deleteBody">
-						<span>You're about to delete this Example.<br>Are you sure?</span>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
-					</div>
-				</div>
-				</div>
-			</div>
 		</script>
 	</body>
 

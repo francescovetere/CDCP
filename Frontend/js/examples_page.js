@@ -113,6 +113,39 @@ class Example {
         let id = this._id; // Salvo i campi dell'example per effettuare successivamente la closure, nei listener
         // altri campi che serviranno nei listener...
 
+        // Listener(s) sui bottoni di add tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsAddTagValue = cardNode.querySelectorAll(".btn-add-tagValue");
+        for(let i = 0; i < btnsAddTagValue.length; ++i) {
+            btnsAddTagValue[i].addEventListener("click", 
+                function() {
+                    // TODO ...
+                    console.log("Adding a tagValue\n");
+
+                    // Mostro la modal
+                    $('#add-tagValue-modal').modal('show');
+
+                    // TODO ...
+                }
+            );
+        }
+
+        // Listener(s) sui bottoni di delete tagName ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsDeleteTagName = cardNode.querySelectorAll(".btn-delete-tagName");
+        for(let i = 0; i < btnsDeleteTagName.length; ++i) {
+            btnsDeleteTagName[i].addEventListener("click", 
+                function() {
+                    // TODO ...
+                    console.log("Deleting a tagName\n");
+
+                    // Mostro la modal
+                    $('#delete-tagName-modal').modal('show');
+
+                    // TODO ...
+                }
+            );
+        }
+
+
         // Listener sul bottone di add tagName
         let btnAddTagName = cardNode.querySelector(".btn-add-tagName");
         btnAddTagName.addEventListener("click", 
@@ -126,7 +159,7 @@ class Example {
             }
         );
 
-        // Listener sul bottone di delete Example
+        // Listener sul bottone di delete example
         let btnDeleteExample = cardNode.querySelector(".btn-delete-example");
         btnDeleteExample.addEventListener("click", 
             function() {
@@ -234,9 +267,23 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
         examples.push(currentExample);
     }
 
-    // Aggiungo i listener 
-    // (tranne quello di aggiunta di un example, che andrà gestito a parte poichè non fa parte della card dell'example)
+    // Aggiungo i listener su ciascun example
     for(let i = 0; i < N; ++i) {
         examples[i].handleListeners();
     }
+    
+    // Listener gestito a parte sul bottone di aggiunta di un example
+    let btnAddExample = document.getElementById("btn-add-example");
+    btnAddExample.addEventListener("click", 
+        function() {
+            console.log("Adding an example\n"); 
+        
+            // Mostro la modal
+            $('#add-example-modal').modal('show');
+        
+            // TODO: Listener sul bottone "Yes, I'm sure", e conseguente aggiunta in db
+            // In realta' usando un form direttamente, si può evitare di dover recuperare i dati cosi.
+        
+        }
+    );
 }

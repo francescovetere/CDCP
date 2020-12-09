@@ -92,7 +92,7 @@ class Project {
             }
         );
         
-        // Listener sul bottone di eliminazione della card
+        // Listener sul bottone di eliminazione di un progetto
         let btnDeleteProject = cardNode.querySelector(".btn-delete-project");
         btnDeleteProject.addEventListener("click", 
             function() {
@@ -107,21 +107,6 @@ class Project {
                 // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
             }
         );
-
-        // Listener sul bottone di Aggiunta Progetto
-         let btnAddProject = document.querySelector(".btn-add-project");
-         btnAddProject.addEventListener("click", 
-             function() {
-                 console.log("Add a project"); 
-
-                 // Mostro la modal
-                 $('#AddModal').modal('show');
- 
-                 // TODO: Listener sul bottone "Yes, I'm sure", e conseguente aggiunta in db
-                 // In realta' usando un form direttamente, si può evitare di dover recuperare i dati cosi.
-
-             }
-         );     
   
     }
 }
@@ -145,11 +130,9 @@ function createProjectsPage(nickname) {
 
     document.getElementById("NickLogged").innerHTML = nickname;
 
-    // Creo il bottone di aggiunta progetto, in alto a destra
-    let addProjectBtn = document.createElement("div");
-    addProjectBtn.innerHTML = document.querySelector("script#add-project-template").textContent;
-    variableContent.innerHTML += addProjectBtn.innerHTML;
-
+    // Inserisce nel documento il codice per il bottone di add project
+    let addProjectHTML = document.querySelector('script#add-project-template').textContent;
+    variableContent.innerHTML += addProjectHTML;
 
     // Inserisce nel documento il codice per la modal di eliminazione
     let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
@@ -185,9 +168,25 @@ function createProjectsPage(nickname) {
         projects.push(currentProject);
     }
 
-    // Aggiungo i listener 
+    // Aggiungo i listener su ciascun progetto
     for(let i = 0; i < N; ++i) {
         projects[i].handleListeners();
     }
+
+    // Listener gestito a parte sul bottone di aggiunta di un progetto
+    let btnAddProject = document.getElementById("btn-add-project");
+    btnAddProject.addEventListener("click", 
+        function() {
+            console.log("Adding a project\n"); 
+    
+            // Mostro la modal
+            $('#add-project-modal').modal('show');
+    
+            // TODO: Listener sul bottone "Yes, I'm sure", e conseguente aggiunta in db
+            // In realta' usando un form direttamente, si può evitare di dover recuperare i dati cosi.
+    
+        }
+    );     
+    
 }
 

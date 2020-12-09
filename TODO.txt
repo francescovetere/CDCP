@@ -1,0 +1,6 @@
+- risolvere problema causato dal click sul logo CDCP dalla pagina di login
+- modals + loro funzionamento
+  notare il querySelectAll per add tagValue e delete tagName
+- riempire tabella Logs
+- implementare API di logs e stats
+- AJAX per recupero dati, pensare a come farlo in modo pulito (solito problema della callback)
