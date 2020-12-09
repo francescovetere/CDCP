@@ -81,20 +81,22 @@ class Project {
         let id = this._id;
         let title = this._title;
         let inputType = this._inputType;
+        let cardNode = document.querySelector("#card-content-"+this._id);
         
-        console.log(title);
+        
         // Listener sul bottone di view della card 
         // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
-        $(document).on("click", "#card-content-" + id + " .btn-view-project", 
+        $("#card-content-"+this._id).on("click", ".btn-view-project", 
             function() {
                 console.log("Viewing project n. " + id); // closure
                 createExamplesPage(id, title, inputType); // closure
-                // $(this).off("click");
+                
+                // BUG --> viene eseguita troppe volte...
             }
         );
         
         // Listener sul bottone di eliminazione di un progetto
-        $(document).on("click", "#card-content-" + id + " .btn-delete-project",
+        $("#card-content-"+this._id).on("click", ".btn-delete-project",
             function() {
                 console.log("Deleting project n. " + id); // closure
                 // deleteProject(id);
@@ -103,7 +105,8 @@ class Project {
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');
-                // $(this).off("click");
+                
+                // BUG --> viene eseguita troppe volte...
             }
         );
   
@@ -116,6 +119,7 @@ class Project {
  */
 function createProjectsPage(nickname) {
     // Azzero il contenuto variabile della pagina
+    console.log("new\n");
     variableContent.innerHTML = "";
     // Azzero l'array dei progetti, che verranno presi con una get
     projects.splice(0, projects.length);
@@ -172,7 +176,7 @@ function createProjectsPage(nickname) {
                 for(let i = 0; i < response.total; ++i)
                     projects.push(new Project(response.results[i].id, response.results[i].title, response.results[i].inputType));
             });
-            
+    
     // POST di un progetto 
     $('#modal-form').on('submit', function() {
         let title =  $("#modal-project-title").val();
@@ -184,6 +188,7 @@ function createProjectsPage(nickname) {
                 console.log(response);
                 let p = new Project(response.result.id, title, inputType);
                 projects.push(p);
+                $('#add-project-modal').modal('hide');
             });
     });
     
