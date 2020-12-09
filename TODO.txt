@@ -1,7 +1,22 @@
+***Cose da fare***
 - risolvere problema causato dal click sul logo CDCP dalla pagina di login
-- inserire bottone di update tagName, modificare bottone di delete tagName
-- modals + loro funzionamento
-  notare il querySelectAll per add tagValue e delete tagName
+
+- In teoria, ci servono i bottoni per get, post, put, delete
+ per le entità project, example, tagName, tagValue
+ Molti li abbiamo fatti, ma non tutti. Mancano infatti: 
+     1) modifica(put) progetto (solo title...inputType non ha molto senso...)
+     2) modifica(put) example (solo inputValue...inputType non ha molto senso...)
+     (Io farei entrambe sempre con l'iconcina edit di font awesome, ma ho un dubbio su dove posizionare quella del progetto)
+
+// - azioni conseguenti alle modal 
+
 - riempire tabella Logs
+
 - implementare API di logs e stats
+
 - AJAX per recupero dati, pensare a come farlo in modo pulito (solito problema della callback)
+
+***Cose fatte***
+- Inserito bottone di modifica di un tagName
+- Inserite tutte le modal fatte fin'ora (notare il querySelectAll per add tagValue e delete tagName)
+- Gestione js delle modal: un metodo un po' brutto, ma è l'unico che ho trovato (come si farebbe con la action della form altrimenti?)

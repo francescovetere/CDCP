@@ -9,6 +9,7 @@ class Project {
         this._timeStamp = new Date();
         
         this.render();
+        this.handleListeners();
     }
 
     // getters/setters
@@ -75,26 +76,25 @@ class Project {
      * Gestione dei listeners associati ai bottoni della card del progetto
      */
     handleListeners() {
-        // Card del progetto
-        let cardNode = document.querySelector("#card-content-"+this._id);
 
         // Salvo l'id, title, inputType, per effettuare successivamente la closure, nei listener
         let id = this._id;
         let title = this._title;
         let inputType = this._inputType;
         
-        // Listener sul bottone di view della card
-        let btnViewProject = cardNode.querySelector(".btn-view-project");
-        btnViewProject.addEventListener("click", 
+        console.log(title);
+        // Listener sul bottone di view della card 
+        // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
+        $(document).on("click", "#card-content-" + id + " .btn-view-project", 
             function() {
                 console.log("Viewing project n. " + id); // closure
                 createExamplesPage(id, title, inputType); // closure
+                // $(this).off("click");
             }
         );
         
         // Listener sul bottone di eliminazione di un progetto
-        let btnDeleteProject = cardNode.querySelector(".btn-delete-project");
-        btnDeleteProject.addEventListener("click", 
+        $(document).on("click", "#card-content-" + id + " .btn-delete-project",
             function() {
                 console.log("Deleting project n. " + id); // closure
                 // deleteProject(id);
@@ -103,8 +103,7 @@ class Project {
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');
-
-                // TODO: Listener sul bottone "Yes, I'm sure", e conseguente eliminazione dal DB
+                // $(this).off("click");
             }
         );
   
@@ -116,7 +115,10 @@ class Project {
  * Creazione della pagina dei progetti
  */
 function createProjectsPage(nickname) {
+    // Azzero il contenuto variabile della pagina
     variableContent.innerHTML = "";
+    // Azzero l'array dei progetti, che verranno presi con una get
+    projects.splice(0, projects.length);
 
     /* CREAZIONE ELEMENT FISSI */
     // Creo il bottone dell'utente nella navbar, in alto a destra
@@ -152,27 +154,6 @@ function createProjectsPage(nickname) {
     // Appendo al div principale della pagina il nuovo div contenente tutti i progetti
     variableContent.appendChild(projectsDiv);
 
-    // Creo N progetti di esempio di tipo testuale/immagine, e li inserisco nel vettore dei progetti
-    let N = 20;
-    for(let i = 0; i < N; ++i) {
-        let id = i;
-        let title = "Title" + i;
-
-        let inputType;
-        if(i%2 == 0) inputType = "TEXT";
-        else inputType = "IMAGE";
-
-        //console.log("Adding project n. " + id);
-        
-        let currentProject = new Project(id, title, inputType);
-        projects.push(currentProject);
-    }
-
-    // Aggiungo i listener su ciascun progetto
-    for(let i = 0; i < N; ++i) {
-        projects[i].handleListeners();
-    }
-
     // Listener gestito a parte sul bottone di aggiunta di un progetto
     let btnAddProject = document.getElementById("btn-add-project");
     btnAddProject.addEventListener("click", 
@@ -181,12 +162,30 @@ function createProjectsPage(nickname) {
     
             // Mostro la modal
             $('#add-project-modal').modal('show');
-    
-            // TODO: Listener sul bottone "Yes, I'm sure", e conseguente aggiunta in db
-            // In realta' usando un form direttamente, si può evitare di dover recuperare i dati cosi.
-    
         }
-    );     
+    ); 
+    
+    // GET di tutti i progetti
+    $.get('api/projects',
+            {},
+            function(response) {
+                for(let i = 0; i < response.total; ++i)
+                    projects.push(new Project(response.results[i].id, response.results[i].title, response.results[i].inputType));
+            });
+            
+    // POST di un progetto 
+    $('#modal-form').on('submit', function() {
+        let title =  $("#modal-project-title").val();
+        let inputType = $("#modal-project-inputType option:selected").text();
+        let formData = {"title" : title, "inputType": inputType};
+        $.post('api/project',
+            formData,
+            function(response) {
+                console.log(response);
+                let p = new Project(response.result.id, title, inputType);
+                projects.push(p);
+            });
+    });
     
 }
 

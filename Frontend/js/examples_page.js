@@ -113,16 +113,46 @@ class Example {
         let id = this._id; // Salvo i campi dell'example per effettuare successivamente la closure, nei listener
         // altri campi che serviranno nei listener...
 
-        // Listener(s) sui bottoni di add tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
-        let btnsAddTagValue = cardNode.querySelectorAll(".btn-add-tagValue");
-        for(let i = 0; i < btnsAddTagValue.length; ++i) {
-            btnsAddTagValue[i].addEventListener("click", 
+        /***  EXAMPLE ***/
+        // Listener sul bottone di delete example
+        let btnDeleteExample = cardNode.querySelector(".btn-delete-example");
+        btnDeleteExample.addEventListener("click", 
+            function() {
+                // TODO ...
+
+                // Mostro la modal
+                $('#delete-example-modal').modal('show');
+
+                // TODO ...
+            }
+        );
+
+
+
+        /***  TAGNAME ***/
+        // Listener sul bottone di add tagName
+        let btnAddTagName = cardNode.querySelector(".btn-add-tagName");
+        btnAddTagName.addEventListener("click", 
+            function() {
+                // TODO ...
+
+                // Mostro la modal
+                $('#add-tagName-modal').modal('show');
+
+                // TODO ...
+            }
+        );
+
+        // Listener(s) sui bottoni di update tagName ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsUpdateTagName = cardNode.querySelectorAll(".btn-update-tagName");
+        for(let i = 0; i < btnsUpdateTagName.length; ++i) {
+            btnsUpdateTagName[i].addEventListener("click", 
                 function() {
                     // TODO ...
-                    console.log("Adding a tagValue\n");
+                    console.log("Updating a tagName\n");
 
                     // Mostro la modal
-                    $('#add-tagValue-modal').modal('show');
+                    $('#update-tagName-modal').modal('show');
 
                     // TODO ...
                 }
@@ -146,48 +176,58 @@ class Example {
         }
 
 
-        // Listener sul bottone di add tagName
-        let btnAddTagName = cardNode.querySelector(".btn-add-tagName");
-        btnAddTagName.addEventListener("click", 
-            function() {
-                // TODO ...
 
-                // Mostro la modal
-                $('#add-tagName-modal').modal('show');
+        /***  TAGVALUE ***/
+        // Listener(s) sui bottoni di add tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsAddTagValue = cardNode.querySelectorAll(".btn-add-tagValue");
+        for(let i = 0; i < btnsAddTagValue.length; ++i) {
+            btnsAddTagValue[i].addEventListener("click", 
+                function() {
+                    // TODO ...
+                    console.log("Adding a tagValue\n");
 
-                // TODO ...
-            }
-        );
+                    // Mostro la modal
+                    $('#add-tagValue-modal').modal('show');
 
-        // Listener sul bottone di delete example
-        let btnDeleteExample = cardNode.querySelector(".btn-delete-example");
-        btnDeleteExample.addEventListener("click", 
-            function() {
-                // TODO ...
-
-                // Mostro la modal
-                $('#delete-example-modal').modal('show');
-
-                // TODO ...
-            }
-        );
-
-        /* Listener sul bottone di delete Example || !! da sistemare, non con document.
-        // Forse andrebbe usato tagNameNode, ma qui dentro non viene visto! 
-        let btnDeleteTagName = document.querySelector(".btn-delete-TagName");
-        btnDeleteTagName.addEventListener("click", 
-            function() {
-                // TODO ...
-                console.log("vengo richiamato 20 volte qui dentro");
-                // Mostro la modal
-                $('#delete-tagName-modal').modal('show');
-
-
-                // TODO ...
-            }
-        ); */
+                    // TODO ...
+                }
+            );
+        }
         
+        // Listener(s) sui bottoni di update tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsUpdateTagValue = cardNode.querySelectorAll(".btn-update-tagValue");
+        for(let i = 0; i < btnsUpdateTagValue.length; ++i) {
+            btnsUpdateTagValue[i].addEventListener("click", 
+                function() {
+                    // TODO ...
+                    console.log("Updating a tagValue\n");
 
+                    // Mostro la modal
+                    $('#update-tagValue-modal').modal('show');
+
+                    // TODO ...
+                }
+            );
+        }
+
+        // Listener(s) sui bottoni di delete tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
+        let btnsDeleteTagValue = cardNode.querySelectorAll(".btn-delete-tagValue");
+        for(let i = 0; i < btnsDeleteTagValue.length; ++i) {
+            btnsDeleteTagValue[i].addEventListener("click", 
+                function() {
+                    // TODO ...
+                    console.log("Deleting a tagValue\n");
+
+                    // Mostro la modal
+                    $('#delete-tagValue-modal').modal('show');
+
+                    // TODO ...
+                }
+            );
+        }
+
+
+        
         // TODO: tutti gli altri listener per gli altri bottoni + 
         // il listener (esterno a questa funzione) per il bottone di aggiunta di un example
     }
@@ -218,6 +258,10 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     let addTagNameModalHTML = document.querySelector('script#add-tagName-modal-script').textContent;
     variableContent.innerHTML += addTagNameModalHTML;
 
+    // Inserisce nel documento il codice per la modal di update tagName
+    let updateTagNameModalHTML = document.querySelector('script#update-tagName-modal-script').textContent;
+    variableContent.innerHTML += updateTagNameModalHTML;
+
     // Inserisce nel documento il codice per la modal di delete tagName
     let deleteTagNameModalHTML = document.querySelector('script#delete-tagName-modal-script').textContent;
     variableContent.innerHTML += deleteTagNameModalHTML;
@@ -225,6 +269,14 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     // Inserisce nel documento il codice per la modal di add tagValue
     let addTagValueModalHTML = document.querySelector('script#add-tagValue-modal-script').textContent;
     variableContent.innerHTML += addTagValueModalHTML;
+
+    // Inserisce nel documento il codice per la modal di update tagValue
+    let updateTagValueModalHTML = document.querySelector('script#update-tagValue-modal-script').textContent;
+    variableContent.innerHTML += updateTagValueModalHTML;
+
+    // Inserisce nel documento il codice per la modal di delete tagValue
+    let deleteTagValueModalHTML = document.querySelector('script#delete-tagValue-modal-script').textContent;
+    variableContent.innerHTML += deleteTagValueModalHTML;
 
     // Inserisce nel documento il codice per la modal di add example
     let addExampleModalHTML = document.querySelector('script#add-example-modal-script').textContent;

@@ -309,7 +309,7 @@ function routes(app) {
      * Inserimento di un nuovo progetto
      * Parametri: vuoto
      * Body: title, inputType
-     * Risposta positiva: success
+     * Risposta positiva: il progetto appena inserito
      * Risposta negativa: error
      */
     app.post('/project', async (req, resp) => {
@@ -318,12 +318,15 @@ function routes(app) {
         let title = req.body.title;
         let inputType = req.body.inputType;
 
+        console.log("title: " + title);
+        console.log("inputType: " + inputType);
+
         // Validazione campi body
-        if(inputType != "text" && inputType != "image") {
+        if(inputType != "TEXT" && inputType != "IMAGE") {
             console.log("Project not inserted\n");
 
             resp.status(400);
-            resp.json({error: "inputType must be 'text' or 'image'"});
+            resp.json({error: "inputType must be 'TEXT' or 'IMAGE'"});
             return;
         }
 
@@ -343,7 +346,7 @@ function routes(app) {
         console.log("Project inserted correctly\n");
 
         resp.status(201);
-        resp.json({success: "Project inserted correctly"});
+        resp.json({result: {"id": id, "title": title, "inputType": inputType}});
         
     });
 
@@ -364,11 +367,11 @@ function routes(app) {
         let inputType = req.body.inputType;
 
         // Validazione campi body
-        if(inputType != "text" && inputType != "image") {
+        if(inputType != "TEXT" && inputType != "IMAGE") {
             console.log("Project not updated\n");
 
             resp.status(400);
-            resp.json({error: "inputType must be 'text' or 'image'"});
+            resp.json({error: "inputType must be 'TEXT' or 'IMAGE'"});
             return;
         }
 
@@ -526,10 +529,10 @@ function routes(app) {
 
         // Validazione campi body
         // Controllo sull'inputType
-        if(inputType != "text" && inputType != "image") {
-            console.log("inputType must be 'text' or 'image'\n");
+        if(inputType != "TEXT" && inputType != "IMAGE") {
+            console.log("inputType must be 'TEXT' or 'IMAGE'\n");
             resp.status(400);
-            resp.json({error: "inputType must be 'text' or 'image'"});
+            resp.json({error: "inputType must be 'TEXT' or 'IMAGE'"});
             return;
         }
 

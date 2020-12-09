@@ -116,6 +116,25 @@
 		<!-------------------->
 		<!-------------------->
 
+		<!--**************** COMMON TEMPLATES ****************-->
+		<!-- Navbar nickname icon-->
+		<script type="text/html" id="navbar-nickname">
+			<div class="dropdown">
+				<div class="nickbar dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
+					<a id="NickLogged"></a>
+				</div>
+				<div class="dropdown-menu" aria-labelledby="dropdownUser">
+					<button class="dropdown-item" onclick="viewStats();"><i class="far fa-chart-bar"></i> Stats</button>
+					<button class="dropdown-item" onclick="viewLogs();"><i class="far fa-clipboard"></i> Logs</button>
+					<div class="dropdown-divider"></div>
+				  <button class="dropdown-item" onclick="logout();"><i class="fas fa-sign-out-alt"></i> Logout</button>
+				</div>
+			  </div>
+
+		</script>
+
+
 
 		<!--**************** LOGIN PAGE ****************-->
 		<!-- Login form -->
@@ -221,26 +240,7 @@
 				</div> <!-- card.// -->
 			</form>
 		</script>
-		
-
-
-		<!--**************** COMMON TEMPLATES ****************-->
-		<!-- Navbar nickname icon-->
-		<script type="text/html" id="navbar-nickname">
-			<div class="dropdown">
-				<div class="nickbar dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="far fa-user-circle nickbarAvatar fa-2x"></i>
-					<a id="NickLogged"></a>
-				</div>
-				<div class="dropdown-menu" aria-labelledby="dropdownUser">
-					<button class="dropdown-item" onclick="viewStats();"><i class="far fa-chart-bar"></i> Stats</button>
-					<button class="dropdown-item" onclick="viewLogs();"><i class="far fa-clipboard"></i> Logs</button>
-					<div class="dropdown-divider"></div>
-				  <button class="dropdown-item" onclick="logout();"><i class="fas fa-sign-out-alt"></i> Logout</button>
-				</div>
-			  </div>
-
-		</script>
+	
 
 
 
@@ -284,32 +284,37 @@
 		<script type="text/html" id="add-project-modal">
 			<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="addProjectModalLabel">Add Project</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body addBody">
-						<form>
+					<form id="modal-form" action="" method="">
+						<div class="modal-content">
+				
+						<div class="modal-header">
+							<h5 class="modal-title" id="addProjectModalLabel">Add Project</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						
+						<div class="modal-body addBody">
+								
 							<div class="form-group">
-							  <select id="project-TypeModal" class="custom-select" required>
-								<option selected>Select Project Type</option>
-								<option value="1">Text only</option>
-								<option value="2">Image only</option>
-							  </select>
+								<select id="modal-project-inputType" class="custom-select" required>
+									<option selected>Select project's input type</option>
+									<option value="1">TEXT</option>
+									<option value="2">IMAGE</option>
+								</select>
 							</div>
 							<div class="form-group">
-							  <input type="text" placeholder="Insert Title" class="form-control" id="project-titleModal" required></textarea>
+						
+								<input type="text" placeholder="Insert title" class="form-control" id="modal-project-title" required></textarea>
 							</div>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
-					<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+				
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+							<button type="submit" class="btn btn-success">Create project</button>
+							
+						</div>
 					</form>
-					</div>
-				</div>
 				</div>
 			</div>
 		</script>
@@ -425,8 +430,8 @@
 			<!-- <p class="card-text"> -->
 			<!-- <div class="card-text TAGChip my-3"> -->
 				<span class="tagValue">Blue</span>
-				<i class="far fa-edit ml-3"></i>
-				<i class="fas fa-trash ml-1"></i>
+				<i class="btn-update-tagValue far fa-edit ml-3"></i>
+				<i class="btn-delete-tagValue fas fa-trash ml-1"></i>
 			<!-- </div> ./end of TAGValue Template  -->
 			<!-- </p> -->
 		</script>
@@ -449,6 +454,29 @@
 					<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
 					<button type="button" class="btn btn-success">Insert</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Update tagName modal -->
+		<script type="text/html" id="update-tagName-modal-script">
+			<div class="modal fade" id="update-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="addTagNameModalLabel">Update tagName</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="w-100" placeholder="Type a TagName"> <!-- inserire una funzione di autocomplete? vedi jquery -->
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+					<button type="button" class="btn btn-success">Update</button>
 					</div>
 				</div>
 				</div>
@@ -478,6 +506,7 @@
 			</div>
 		</script>
 
+		
 		<!-- Add tagValue modal -->
 		<script type="text/html" id="add-tagValue-modal-script">
 			<div class="modal fade" id="add-tagValue-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
@@ -500,6 +529,53 @@
 				</div>
 			</div>
 		</script>
+
+		<!-- Update tagValue modal -->
+		<script type="text/html" id="update-tagValue-modal-script">
+			<div class="modal fade" id="update-tagValue-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="addTagValueModalLabel">Update TagValue</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="w-100" placeholder="Type a TagValue"> <!-- inserire una funzione di autocomplete? vedi jquery -->
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+					<button type="button" class="btn btn-success">Update</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
+		<!-- Delete tagValue modal -->
+		<script type="text/html" id="delete-tagValue-modal-script">
+			<div class="modal fade" id="delete-tagValue-modal" tabindex="-1" role="dialog" aria-labelledby="deleteTagValueModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="deleteTagValueModalLabel">TagValue deletion</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body deleteBody">
+						<span>You're about to delete this TagValue.<br>Are you sure?</span>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
+					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</script>
+
 
 		<!-- Add example modal -->
 		<script type="text/html" id="add-example-modal-script">
