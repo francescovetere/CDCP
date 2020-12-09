@@ -396,15 +396,20 @@
 		<script type="text/html" id="tagName-template">
 			<!-- <div class="card collection-card" style="width: 100%"> -->
 				<div class="card-body">
-					<div class="row card-title">
+					<div class="row">
 						<div class="col-sm-7">
-							<h5 class="tagName col-auto"></h5>
+							<!-- <div class="row card-text"> -->
+								<span class="tagName col-auto"></span>
+								<button type="button" class="btn btn-update-tagName p-0"> <i class="far fa-edit btn-update-tagName"></i> </button>
+								<button type="button" class="btn btn-delete-tagName p-0 ml-1"> <i class="fas fa-trash btn-delete-tagName"></i> </button>
+							<!-- </div> -->
+
 							<div class="tagValues-div col-auto"></div>
 						</div>
 						
 						<div class="col text-right">
 							<button type="button" class="btn btn-outline-success my-2 btn-add-tagValue"><i class="far fa-plus-square mr-2"></i>Add tagValue</button>
-							<button type="button" class="btn btn-outline-danger my-2 btn-delete-tagName"><i class="far fa-minus-square mr-2"></i>Delete tagName</button>
+							<!-- <button type="button" class="btn btn-outline-danger my-2 btn-delete-tagName"><i class="far fa-minus-square mr-2"></i>Delete tagName</button> -->
 						</div>
 					</div>
 											

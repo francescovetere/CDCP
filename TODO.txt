@@ -1,4 +1,5 @@
 - risolvere problema causato dal click sul logo CDCP dalla pagina di login
+- inserire bottone di update tagName, modificare bottone di delete tagName
 - modals + loro funzionamento
   notare il querySelectAll per add tagValue e delete tagName
 - riempire tabella Logs
