@@ -1,5 +1,5 @@
 echo "Starting mysql..."
-sudo mysql -u root -proot < DB/makeDB.sql
+echo "root" > sudo mysql -u root -p < DB/makeDB.sql
 
-echo "Starting server..."
+echo "Starting node server..."
 node src/server.js

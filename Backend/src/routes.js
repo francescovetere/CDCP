@@ -15,26 +15,26 @@ function formatDate(date) {
     */
 
 async function SaveLog(contentLog){
-    console.log("Inserting a new log...");
+    console.log("Inserting a new log...\n");
 
-        let userNick = contentLog[0];
-        let projectId = contentLog[1];
-        let exampleId = contentLog[2];
-        let actionType = contentLog[3];
-        let details = contentLog[4];
+    let userNick = contentLog[0];
+    let projectId = contentLog[1];
+    let exampleId = contentLog[2];
+    let actionType = contentLog[3];
+    let details = contentLog[4];
 
-        params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
+    params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
 
-        try {   
-            sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
-            await dbm.execQuery(sql, params);
-        } 
+    try {   
+        sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
+        await dbm.execQuery(sql, params);
+    } 
         
-        catch(err) {
-            console.log(err);
-        }
+    catch(err) {
+        console.log(err);
+    }
 
-        console.log("Log inserted correctly\n");
+    console.log("Log inserted correctly\n");
 
 }
 
@@ -240,7 +240,7 @@ function routes(app) {
     /**
     * Validazione cookie autenticazione
     * Parametri: vuoto
-    * Body: nickname, 
+    * Body: nickname,  tk
     * Risposta positiva: success
     * Risposta negativa: error
     */
@@ -361,7 +361,7 @@ function routes(app) {
     /**
      * Inserimento di un nuovo progetto
      * Parametri: vuoto
-     * Body: title, inputType
+     * Body: title, inputType, nickname
      * Risposta positiva: il progetto appena inserito
      * Risposta negativa: error
      */
@@ -370,10 +370,6 @@ function routes(app) {
         let title = req.body.title;
         let inputType = req.body.inputType;
         let User = req.body.nickname;
-
-        console.log("Inserting new project by "+ User);
-        console.log("title: " + title);
-        console.log("inputType: " + inputType);
 
         // Validazione campi body
         if(inputType != "TEXT" && inputType != "IMAGE") {
@@ -402,7 +398,8 @@ function routes(app) {
         resp.status(201);
         resp.json({result: {"id": projectId, "title": title, "inputType": inputType}});
 
-        SaveLog([User, projectId, "", "POST", "Project '"+ title +"' created."])
+        // Non metto await perchè non mi interessa avere sincronìa
+        SaveLog([User, projectId, "", "POST", "Project '"+ title +"' created."]);
         
     });
 
