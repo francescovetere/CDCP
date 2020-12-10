@@ -40,7 +40,11 @@ function createLogsPage() {
                 ActionType.innerHTML = response.results[i].actionType;
                 Nickname.innerHTML = response.results[i].userNick;
                 Details.innerHTML = response.results[i].details;
-                Date.innerHTML = response.results[i].timeStamp; // aggiustare il formato data
+
+                let FormattedDate = new window.Date(response.results[i].timeStamp);
+                FormattedDate = FormattedDate.getDate() + "/" +FormattedDate.getMonth()+"/" + FormattedDate.getFullYear().toString().substr(-2) + " " +
+                                + FormattedDate.getHours()+":"+FormattedDate.getMinutes()+":"+FormattedDate.getSeconds();
+                Date.innerHTML = FormattedDate;
 
                 log.appendChild(ActionType);
                 log.appendChild(Nickname);
