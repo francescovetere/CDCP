@@ -127,10 +127,12 @@ function routes(app) {
             return;
         }
 
+        let result;
+
         try {
             let sql = "SELECT * FROM Users WHERE BINARY nickname = ?";
             let params = [nickname];
-            await dbm.execQuery(sql, params);
+            result = await dbm.execQuery(sql, params);
         }
 
         catch(err) {

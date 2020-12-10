@@ -45,7 +45,7 @@ function checkAuth(name) {
                      createProjectsPage(cookieValues[0]);
                 },
                 error: function(error) {
-                  variableContent.innerHTML = "<h1>Server error</h1>";
+                  variableContent.innerHTML = "<h1>Server error<br>Try to reload page</h1>";
                   deleteCookie(name, "/", "cdcp");
                 }
             });
