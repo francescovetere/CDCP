@@ -1,0 +1,9 @@
+##### LOGS ######
+1) Bisogna tenere traccia anche della registrazione dell'utente e dei login? credo di no. 
+
+
+##### Footer #####
+1) Necessario un restyling (il testo è bloccato, non si riesce a sollevare un po' dal bottom)
+
+##### Registrazione #####
+1) Se il Nickname già esiste -> mostro una label di help (o un <p> normale) che dice che è già in uso.

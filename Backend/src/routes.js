@@ -14,6 +14,37 @@ function routes(app) {
      ******************/
 
     /**
+    * Inserimento Logs
+    * Parametri: vuoto
+    * Body: userNick, projectId, exampleId, actionType, details 
+    * Risposta positiva: success
+    * Risposta negativa: error
+    */
+    app.post('/logs', async (req, resp) => {
+        console.log("Inserting a new log...");
+
+        let nickname = req.body.userNick;
+        let project = req.body.projectId;
+        let example = req.body.exampleId;
+        let action = req.body.actionType;
+        let details = req.body.details;
+
+        try {   
+            params = [nickname, project, example, action, details, formatDate(new Date())];
+            sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
+            await dbm.execQuery(sql, params);
+        } 
+        
+        catch(err) {
+            console.log(err);
+        }
+        
+        console.log("Log inserted correctly\n");
+        resp.status(200);
+        resp.json({success: "Log saved"});
+    });
+
+    /**
      * Restituzione di tutti i record della tabella Logs
      * Parametri: vuoto
      * Body: vuoto
@@ -358,11 +389,6 @@ function routes(app) {
             let sql = 'INSERT INTO Projects(id, title, inputType) VALUES (?, ?, ?)';
             let params = [projectId, title, inputType];
             await dbm.execQuery(sql, params);
-
-            // params = ['366564c9-a120-4f0b-a8e7-afd5c57703f1', projectId, uuid(), "POST", "Insert new project", formatDate(new Date())];
-            // params = ['123', '456', '789', "POST", "blabla", formatDate(new Date())];
-            // sql = 'INSERT INTO Logs(userId, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
-            // await dbm.execQuery(sql, params);
         }
 
         catch(err) {

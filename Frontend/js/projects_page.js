@@ -106,16 +106,30 @@ class Project {
         // Listener sul bottone di eliminazione di un progetto
          $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
             function(e) {
-                console.log("Deleting project n. " + id); // closure
-                // deleteProject(id);
+
                 // Inserisco l'id del progetto nell'elemento span più interno della modal
                 document.querySelector("#title-project-to-be-deleted").innerText = title;
                 e.stopImmediatePropagation();
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');
-                
-                // BUG --> viene eseguita troppe volte...
+
+                // Alla conferma, eseguo la delete del progetto
+                document.getElementById("confirmDeleteProject").addEventListener("click", function(e){
+                    e.stopImmediatePropagation(); // Necessario attualmente per la bozza
+                    $.ajax({
+                        url: '/api/project/'+id,
+                        type: 'DELETE',
+                        success: function(result) {
+                            $("#deleteModal").modal('hide');
+                            console.log("Deleted project n. " + id); // closure
+                            let nickname = document.getElementById("NickLogged").textContent
+                            SaveLog([nickname,id,"","DELETE","Delete Project '"+title+"'."]);
+                            goToHome(); // serve per fare il refresh della pagina in modo completo
+                        }
+                    });
+                });
+
             }
         );
   
@@ -197,6 +211,7 @@ function createProjectsPage(nickname) {
                 let p = new Project(response.result.id, title, inputType);
                 projects.push(p);
                 $('#add-project-modal').modal('hide');
+                SaveLog([nickname,response.result.id,"","POST","Create Project '" + title +"'."]);
             });
     });
     
