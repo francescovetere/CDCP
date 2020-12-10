@@ -335,7 +335,7 @@
 					</button>
 					</div>
 					<div class="modal-body deleteBody">
-						<span>You're about to delete project n. <span id="title-project-to-be-deleted"></span><br>Are you sure?</span>
+						<span>You're about to delete '<span id="title-project-to-be-deleted"></span>'<br>Are you sure?</span>
 					</div>
 					<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
@@ -351,31 +351,15 @@
 		<!--**************** EXAMPLES PAGE TEMPLATES ****************-->
 		<!-- Jumbotron project -->
 		<script type="text/html" id="project-jumbotron-template">
-			<div class="jumbotron jumbotron-fluid">
+			<div class="jumbotron jumbotron-fluid p-0">
 				<div class="container">
 		
 							<!-- Project Header -->
 							<div class="row">
-								<div class="col-auto"><h1 class="project-title display-4">Project's title</h1></div>
+								<div class="col-auto"><h1 class="project-title display-5">Project's title</h1></div>
 								<div class="col text-right"><button id="btn-add-example" type="button" class="btn btn-outline-success"><i class="fas fa-plus mr-2"></i>Add example</button></div>
 							</div>
 							
-							<!-- <div class="container mt-3">
-								<div class="media border p-3">
-									<span class="fa-stack fa-2x custom">
-										<i class="fas fa-circle fa-stack-2x" ></i>
-										<i class="fas fa-user-astronaut fa-stack-1x fa-inverse"></i>
-									</span>
-								<div class="media-body">
-									<h4 project-creator>Creator's nickname<small><i>Posted on February 19, 2016</i></small></h4>
-									<div class="row">
-										<div class="col-auto"><h5><strong>Tipo: </strong></h5></div>
-										<div class="project-inputType col-auto nopadding"><span class="label textLabel">Testuale</span> </div>
-									</div>
-								
-								</div>
-								</div> -->
-						<!-- </div> -->
 						<hr id="hr-jumbotron-template" class="my-4">
 
 					</div>
@@ -408,10 +392,16 @@
 					<div class="row">
 						<div class="col-sm-7">
 							<!-- <div class="row card-text"> -->
-								<span class="tagName col-auto"></span>
-								<button type="button" class="btn btn-update-tagName p-0"> <i class="far fa-edit btn-update-tagName"></i> </button>
-								<button type="button" class="btn btn-delete-tagName p-0 ml-1"> <i class="fas fa-trash btn-delete-tagName"></i> </button>
-							<!-- </div> -->
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="tagName col-auto" style="font-size:22px;"></span>
+									</div>
+									<div class="input-group-prepend">
+										<button type="button" class="btn btn-update-tagName p-0 ml-2"> <i class="fas fa-pen-square btn-update-tagName" style="font-size:1.6rem; color:orange;"></i> </button>
+										<button type="button" class="btn btn-delete-tagName p-0 ml-2"> <i class="fas fa-backspace btn-delete-tagName" style="font-size:1.6rem; color:darkred;"></i> </button>
+									</div>
+								</div>
+										<!-- </div> -->
 
 							<div class="tagValues-div col-auto"></div>
 						</div>
@@ -434,7 +424,7 @@
 			<!-- <p class="card-text"> -->
 			<!-- <div class="card-text TAGChip my-3"> -->
 				<span class="tagValue">Blue</span>
-				<i class="btn-update-tagValue far fa-edit ml-3"></i>
+				<i class="btn-update-tagValue fas fa-edit ml-3"></i>
 				<i class="btn-delete-tagValue fas fa-trash ml-1"></i>
 			<!-- </div> ./end of TAGValue Template  -->
 			<!-- </p> -->
@@ -684,27 +674,16 @@
 			<div class = "container-fluid p-5 mb-5">
 			<h1>Logs Page</h1>
 
-			<!-- mi piacerebbe farla colorata. Ogni tipo di log si innesta con un colore diverso -->
 			<table class="table">
 				<thead>
 				  <tr>
 					<th>ActionType</th> 
-					<th>Nickname</th> <!-- non e' una buona prassi usare l'uuid, meglio recuperare il nickname -->
-					
-					<th>Details</th> <!-- volendo esplicitare tutti i campi di logs (tutti gli id nella tabella), 
-									sarebbe carino recuparere i titoli anziché scrivere l'uuid di ognuno-->
+					<th>Nickname</th>
+					<th>Details</th> 
 					<th>Date</th>
 				  </tr>
 				</thead>
 				<tbody class="logsBody">
-					<!-- Esempio (eliminare)
-					<tr class="table-primary">
-					<td>Primary</td>
-					<td>Joe</td>
-					<td>joe@example.com</td>
-					<td></td>
-				  </tr>
-				-->
 				</tbody>
 			  </table>
 
