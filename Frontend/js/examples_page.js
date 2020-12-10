@@ -7,11 +7,13 @@ class Example {
         this._idExample = idExample;
         this._inputType = inputType;
         this._inputValue = inputValue;
+        this._tags = tags;
+        // Esempio di this._tags
+        //
         // [
         //   {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
         //   {"tagName": "colors", "tagValues": ["brown", "black"]}
         // ]
-        this._tags = tags;
 
         this.render();
         this.handleListeners();
@@ -48,9 +50,8 @@ class Example {
         // div che indica la fine del contenuto dell'example, e l'inizio dei tags
         let tagsDiv = cardNode.querySelector(".tags-div");
 
-        // rendering di tagNames e rispettivi tagValues
-        if(this._tags)
-            for(let i = 0; i < this._tags.length; ++i) {
+        // rendering di tagNames e rispettivi tagValues, se presenti
+        for(let i = 0; i < this._tags.length; ++i) {
                 let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
                 tagNameNode.setAttribute("class", "card collection-card mb-3");
                 tagNameNode.setAttribute("style", "width: 100%");
@@ -73,7 +74,7 @@ class Example {
                     // Sostituisco il tagName del template con quello corrente
                     tagValueNode.querySelector(".tagValue").innerText = this._tags[i].tagValues[j];
                 }
-            }
+        }
         
         return cardNode;
     }
@@ -112,7 +113,6 @@ class Example {
         $(document).on("click", "#example-content-"+idExample+ " .btn-delete-example",
             function() {
                 // TODO ...
-                console.log("aaa");
                 // Mostro la modal
                 $('#delete-example-modal').modal('show');
 
@@ -198,15 +198,10 @@ class Example {
             // Impedisco che l'evento venga propagato ad altri nodi
             event.stopImmediatePropagation();
 
-            // Individuo il cardText HTML di cui fa parte il tagValue
-            let cardText = event.target.parentNode;
-            // All'interno del cardText, inviduo lo span che identifica proprio il tagValue in questione
-            let tagValue = cardText.querySelector(".tagValue")
-
-            console.log("Updating tagValue " + tagValue.innerText);
+            console.log("Creating tagValue");
 
             // Mostro la modal
-            $('#update-tagValue-modal').modal('show');
+            $('#add-tagValue-modal').modal('show');
 
             // TODO ...
         }
@@ -232,37 +227,26 @@ class Example {
             }
         );
         
-        // // Listener(s) sui bottoni di update tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
-        // let btnsUpdateTagValue = cardNode.querySelectorAll(".btn-update-tagValue");
-        // for(let i = 0; i < btnsUpdateTagValue.length; ++i) {
-        //     btnsUpdateTagValue[i].addEventListener("click", 
-        //         function() {
-        //             // TODO ...
-        //             console.log("Updating a tagValue\n");
-
-        //             // Mostro la modal
-        //             $('#update-tagValue-modal').modal('show');
-
-        //             // TODO ...
-        //         }
-        //     );
-        // }
-
-        // // Listener(s) sui bottoni di delete tagValue ---> Uso un querySelectorAll, perchè in un example avrò molti di questi bottoni
-        // let btnsDeleteTagValue = cardNode.querySelectorAll(".btn-delete-tagValue");
-        // for(let i = 0; i < btnsDeleteTagValue.length; ++i) {
-        //     btnsDeleteTagValue[i].addEventListener("click", 
-        //         function() {
-        //             // TODO ...
-        //             console.log("Deleting a tagValue\n");
-
-        //             // Mostro la modal
-        //             $('#delete-tagValue-modal').modal('show');
-
-        //             // TODO ...
-        //         }
-        //     );
-        // }
+        // Listener(s) sui bottoni di delete tagValue (in un example avrò molti di questi bottoni)
+        $(document).on("click", "#example-content-"+idExample+ " .btn-delete-tagValue",
+            function(event) {
+                // Impedisco che l'evento venga propagato ad altri nodi
+                event.stopImmediatePropagation();
+    
+                // Individuo il cardText HTML di cui fa parte il tagValue
+                let cardText = event.target.parentNode;
+                // All'interno del cardText, inviduo lo span che identifica proprio il tagValue in questione
+                let tagValue = cardText.querySelector(".tagValue")
+    
+                console.log("Deleting tagValue " + tagValue.innerText);
+    
+                // Mostro la modal
+                $('#delete-tagValue-modal').modal('show');
+    
+                // TODO ...
+            }
+        );
+        
 
 
         
@@ -319,9 +303,13 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     let deleteTagValueModalHTML = document.querySelector('script#delete-tagValue-modal-script').textContent;
     variableContent.innerHTML += deleteTagValueModalHTML;
 
-    // Inserisce nel documento il codice per la modal di add example
+    // Inserisce nel documento il codice per la modal di add example (testuale)
     let addExampleModalHTML = document.querySelector('script#add-example-modal-script').textContent;
     variableContent.innerHTML += addExampleModalHTML;
+
+    // Inserisce nel documento il codice per la modal di add example (immagine)
+    let addExampleImgModalHTML = document.querySelector('script#add-example-img-modal-script').textContent;
+    variableContent.innerHTML += addExampleImgModalHTML;
 
     // Inserisce nel documento il codice per la modal di delete example
     let deleteExampleModalHTML = document.querySelector('script#delete-example-modal-script').textContent;
@@ -344,7 +332,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     function(response) {
         
         for(let i = 0; i < response.total; ++i) {
-            console.log(response.results[i]);
             let exampleId = response.results[i].id;
             let projectId = response.results[i].projectId;
             let inputType = response.results[i].inputType;
@@ -358,10 +345,15 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     let btnAddExample = document.getElementById("btn-add-example");
     btnAddExample.addEventListener("click", 
         function() {
-            console.log("Adding an example\n"); 
+            console.log("Creating example"); 
         
-            // Mostro la modal
-            $('#add-example-modal').modal('show');
+            // Mostro la modal (diversa in base al tipo di input del progetto)
+            let currentModal;
+            if(projectInputType === 'TEXT')
+                currentModal = $('#add-example-modal');
+            else currentModal = $('#add-example-img-modal');
+
+            currentModal.modal('show');
 
             $('#modal-form').on('submit', function(e) {
                 e.preventDefault();
