@@ -573,23 +573,27 @@
 
 		<!-- Add example modal -->
 		<script type="text/html" id="add-example-modal-script">
-			<div class="modal fade" id="add-example-modal" tabindex="-1" role="dialog" aria-labelledby="deleteExampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="add-example-modal" tabindex="-1" role="dialog" aria-labelledby="addExampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-					<h5 class="modal-title" id="deleteExampleModalLabel">Add example</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					<div class="modal-body deleteBody">
-						<span>You're about to delete this Example.<br>Are you sure?</span>
-					</div>
-					<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">No, go back</button>
-					<button type="button" class="btn btn-danger">Yes, I'm sure</button>
-					</div>
-				</div>
+					<form id="modal-form">
+						<div class="modal-content">
+				
+						<div class="modal-header">
+							<h1 class="modal-title" id="addProjectModalLabel">Create example</h1>
+						</div>
+						
+						<div class="modal-body">
+							<div class="form-group">
+								<input type="text" placeholder="insert inputValue" class="form-control" id="modal-example-inputValue" required>
+							</div>
+							
+						</div>
+				
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+							<button type="submit" class="btn btn-success">Create example</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</script>

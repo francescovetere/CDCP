@@ -9,15 +9,19 @@
      2) modifica(put) example (solo inputValue...inputType non ha molto senso...)
      (Io farei entrambe sempre con l'iconcina edit di font awesome, ma ho un dubbio su dove posizionare quella del progetto)
 
-// - azioni conseguenti alle modal 
-
-- riempire tabella Logs
-
-- implementare API di logs e stats
-
-- AJAX per recupero dati, pensare a come farlo in modo pulito (solito problema della callback)
+- gestione modals
+- hash psw
+- caricamento immagini
+- stats api
+- finire inserimenti in tabella logs
+- possibile problema nei logs con la creazione del primo progetto
 
 ***Cose fatte***
+10/12
 - Inserito bottone di modifica di un tagName
 - Inserite tutte le modal fatte fin'ora (notare il querySelectAll per add tagValue e delete tagName)
 - Gestione js delle modal: un metodo un po' brutto, ma è l'unico che ho trovato (come si farebbe con la action della form altrimenti?)
+
+11/12
+- start.sh
+- 

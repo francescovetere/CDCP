@@ -18,16 +18,6 @@ class Project {
     get inputType() { return this._inputType; }
     get timeStamp() { return this._timeStamp; }
 
-    // Data Transfer Object: oggetto adatto ad essere spedito in rete
-    toDTO() {
-        return {
-            id: this._id,
-            title: this._title,
-            inputType: this._inputType,
-            timeStamp: this._timeStamp
-        };
-    }
-
     /**
      * Metodo che costruisce e restituisce la card html per il progetto corrente
      */
@@ -76,38 +66,28 @@ class Project {
      * Gestione dei listeners associati ai bottoni della card del progetto
      */
     handleListeners() {
-
         // Salvo l'id, title, inputType, per effettuare successivamente la closure, nei listener
         let id = this._id;
         let title = this._title;
         let inputType = this._inputType;
-        let cardNode = document.querySelector("#card-content-"+id);
-        let btnView = cardNode.querySelector(".btn-view-project");
         
         // Listener sul bottone di view della card 
         // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
-        // $(document).on("click", "#card-content-"+id+ " .btn-view-project",
-        // cardNode.querySelector(".btn-view-project").addEventListener("click",
-        
-        
-
         $(document).on("click", "#card-content-"+id+ " .btn-view-project",
-            function(e) {
-                e.stopImmediatePropagation();
+            function(event) {
+                event.stopImmediatePropagation();
                 console.log("Viewing project n. " + id); // closure
                 createExamplesPage(id, title, inputType); // closure
-                
-                // BUG --> viene eseguita troppe volte...
             }
         );
         
         // Listener sul bottone di eliminazione di un progetto
          $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
-            function(e) {
+            function(event) {
 
                 // Inserisco l'id del progetto nell'elemento span più interno della modal
                 document.querySelector("#title-project-to-be-deleted").innerText = title;
-                e.stopImmediatePropagation();
+                event.stopImmediatePropagation();
 
                 // Mostro la modal
                 $('#deleteModal').modal('show');
@@ -115,22 +95,21 @@ class Project {
                 // Alla conferma, eseguo la delete del progetto
                 let nickname = document.getElementById("NickLogged").textContent;
                 document.getElementById("confirmDeleteProject").addEventListener("click", function(e){
-                    e.stopImmediatePropagation(); // Necessario attualmente per la bozza
-                    $.ajax({
-                        url: '/api/project/'+id,
-                        type: 'DELETE',
-                        data: {nickname: nickname, projectTitle: title},
-                        success: function(result) {
-                            $("#deleteModal").modal('hide');
-                            console.log("Deleted project n. " + id); // closure
-                            goToHome(); // serve per fare il refresh della pagina in modo completo
-                        }
-                    });
+                    
+                // e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/api/project/'+id,
+                    type: 'DELETE',
+                    data: {nickname: nickname, projectTitle: title},
+                    success: function(result) {
+                        $("#deleteModal").modal('hide');
+                        console.log("Deleted project n. " + id); // closure
+                        goToHome(); // serve per fare il refresh della pagina in modo completo
+                    },
+                    error: function(){alert("Something went wrong...");}
                 });
-
-            }
-        );
-  
+            });
+        });
     }
 }
 
