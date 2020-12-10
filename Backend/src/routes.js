@@ -503,7 +503,7 @@ function routes(app) {
 
 
     /**********************************
-     * PROJECT EXAMPLES ROUTES 
+     * EXAMPLES ROUTES 
      **********************************/
 
     /**
@@ -513,7 +513,7 @@ function routes(app) {
      * Risposta positiva: Tutti gli examples del progetto
      * Risposta negativa: error
      */
-    app.get('/project/:projectId/examples', async (req, resp) => {tag
+    app.get('/project/:projectId/examples', async (req, resp) => {
         let projectId = req.params.projectId;
         console.log("Retrieving examples");
         
