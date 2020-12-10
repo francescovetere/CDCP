@@ -510,7 +510,13 @@ function routes(app) {
      * Restituzione di tutti gli examples di un progetto
      * Parametri: id progetto
      * Body: vuoto
-     * Risposta positiva: Tutti gli examples del progetto
+     * Risposta positiva: Tutti gli examples del progetto (CON TAGNAMES E TAGVALUES!)
+     *                    Esempio di risposta:
+     * 
+     *                    [
+     *                      {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},
+     *                      {"tagName": "colors", "tagValues": ["brown", "black"]}
+     *                    ]
      * Risposta negativa: error
      */
     app.get('/project/:projectId/examples', async (req, resp) => {
@@ -542,17 +548,45 @@ function routes(app) {
             let sql = 'SELECT * FROM Examples WHERE projectId = ?';
             let params = [projectId];
             queryResult = await dbm.execQuery(sql, params);
-        }
-
-        catch(err) {
-            console.log(err);
-        }
+        } catch(err) {console.log(err);}
         
-        // Ciclo sull'array risultato e costruisco l'array di risposta
+        // Ciclo sull'array risultato e costruisco l'array degli examples
         let examples = [];
         for(let i = 0; i < queryResult.length; ++i) {
             examples.push(queryResult[i]);
+            examples[i].tags = [];
         }
+
+        // Ora inserisco in ciascun example i suoi tagNames, se presenti
+        for(let i = 0; i < examples.length; ++i) {
+            try {
+                let sql = 'SELECT * FROM TagNames WHERE exampleId = ?';
+                let params = [examples[i].id];
+                let tagNames = await dbm.execQuery(sql, params);
+                if(tagNames.length > 0) {
+
+                    // Ora inserisco in ciascun tagName dell'example corrente i suoi tagValues, se presenti
+                    for(let j = 0; j < tagNames.length; ++j) {
+                        console.log("..." + tagNames[j].tagName);
+                        examples[i].tags.push({"tagName": tagNames[j].tagName, "tagValues": []});
+                        try {
+                            let sql = 'SELECT * FROM TagValues WHERE projectId = ? AND exampleId = ? AND tagName = ?';
+                            let params = [examples[i].projectId, examples[i].id, tagNames[j].tagName];
+                            let tagValues = await dbm.execQuery(sql, params);
+                            for(let k = 0; k < tagValues.length; ++k) {
+                                console.log("......" + tagValues[k].tagValue);
+                                let tagVal = tagValues[k].tagValue;
+                                examples[i].tags[j].tagValues.push(tagVal);
+                                
+                            }
+                        } catch(err) {console.log(err);}
+                        
+                    }
+                }
+            } catch(err) {console.log(err);}
+        }
+
+        console.log(examples);
 
         // Invio il numero totale dei record, e l'array dei record stessi
         resp.status(200);

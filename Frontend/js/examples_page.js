@@ -12,8 +12,6 @@ class Example {
         //   {"tagName": "colors", "tagValues": ["brown", "black"]}
         // ]
         this._tags = tags;
-        // for(let i = 0; i < tags.length; ++i)
-        //     this._tags.push(tags[i]);
 
         this.render();
         this.handleListeners();
@@ -51,30 +49,31 @@ class Example {
         let tagsDiv = cardNode.querySelector(".tags-div");
 
         // rendering di tagNames e rispettivi tagValues
-        for(let i = 0; i < this._tags.length; ++i) {
-            let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
-            tagNameNode.setAttribute("class", "card collection-card mb-3");
-            tagNameNode.setAttribute("style", "width: 100%");
-            tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
-            tagsDiv.appendChild(tagNameNode);
-
-            // Sostituisco il tagName del template con quello corrente
-            tagNameNode.querySelector(".tagName").innerText = this._tags[i].tagName;
-
-            // div che indica il contenuto del tagName, ossia i tagValues
-            let tagValuesDiv = tagNameNode.querySelector(".tagValues-div");
-            
-            // Per il tagName corrente, renderizzo i suoi tagValues
-            for(let j = 0; j < this._tags[i].tagValues.length; ++j) {
-                let tagValueNode = document.createElement("div"); // Da sistemare, vedi nella console
-                tagValueNode.setAttribute("class", "card-text TAGChip my-3 mr-3");
-                tagValueNode.innerHTML = document.querySelector('script#tagValue-template').innerText;
-                tagValuesDiv.appendChild(tagValueNode);
+        if(this._tags)
+            for(let i = 0; i < this._tags.length; ++i) {
+                let tagNameNode = document.createElement("div"); // Da sistemare, vedi nella console
+                tagNameNode.setAttribute("class", "card collection-card mb-3");
+                tagNameNode.setAttribute("style", "width: 100%");
+                tagNameNode.innerHTML = document.querySelector('script#tagName-template').innerText;
+                tagsDiv.appendChild(tagNameNode);
 
                 // Sostituisco il tagName del template con quello corrente
-                tagValueNode.querySelector(".tagValue").innerText = this._tags[i].tagValues[j];
+                tagNameNode.querySelector(".tagName").innerText = this._tags[i].tagName;
+
+                // div che indica il contenuto del tagName, ossia i tagValues
+                let tagValuesDiv = tagNameNode.querySelector(".tagValues-div");
+                
+                // Per il tagName corrente, renderizzo i suoi tagValues
+                for(let j = 0; j < this._tags[i].tagValues.length; ++j) {
+                    let tagValueNode = document.createElement("div"); // Da sistemare, vedi nella console
+                    tagValueNode.setAttribute("class", "card-text TAGChip my-3 mr-3");
+                    tagValueNode.innerHTML = document.querySelector('script#tagValue-template').innerText;
+                    tagValuesDiv.appendChild(tagValueNode);
+
+                    // Sostituisco il tagName del template con quello corrente
+                    tagValueNode.querySelector(".tagValue").innerText = this._tags[i].tagValues[j];
+                }
             }
-        }
         
         return cardNode;
     }
@@ -339,18 +338,21 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     $(examplesDiv).insertAfter(document.getElementById("hr-jumbotron-template"));
 
     
-    // GET di tutti gli examples
-    $.ajax({
-        url: '/api/project/'+projectId+'/examples',
-        type: 'GET',
-            data: {},
-            success: function(response) {
-                console.log("Creating examples");
-                for(let i = 0; i < response.total; ++i)
-                    new Example(response.results[i].projectId, response.results[i].id, response.results[i].inputType, response.results[i].inputValue, []);
-            },
-            error: function(){alert("Something went wrong...");}
-        });
+    // GET di tutti gli examples (implementata in modo che restituisca già anche tagName e tagValues, se presenti)
+    $.get('api/project/'+projectId+'/examples',
+    {},
+    function(response) {
+        
+        for(let i = 0; i < response.total; ++i) {
+            console.log(response.results[i]);
+            let exampleId = response.results[i].id;
+            let projectId = response.results[i].projectId;
+            let inputType = response.results[i].inputType;
+            let inputValue = response.results[i].inputValue;
+            let tags = response.results[i].tags;
+            new Example(projectId, exampleId, inputType, inputValue, tags);
+        }
+    });
     
     // Listener gestito a parte sul bottone di aggiunta di un example
     let btnAddExample = document.getElementById("btn-add-example");
