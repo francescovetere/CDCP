@@ -93,26 +93,6 @@ function goToHome(){
     createProjectsPage(nickname);
 }
 
-function SaveLog(contentLog){
-    let LogData = {userNick : contentLog[0],
-                    projectId: contentLog[1],
-                    exampleId: contentLog[2],
-                    actionType: contentLog[3],
-                    details: contentLog[4]};
-    $.ajax({
-        url: 'api/logs',
-        type: 'POST',
-        data : JSON.stringify(LogData),
-        contentType: 'application/json',
-        success: function(response){
-           console.log("Log saved correctly");
-        },
-        error: function(error) {
-            
-        }
-    });
-}
-
 /* SPERIMENTALE: Questa funzione impedisce ogni forma di refresh della pagina (anche dei form)
  Facendo cosi', dovremmo poi solo gestire il page back - page next! (guarda la funzione goToHome sopra)
  https://stackoverflow.com/questions/3527041/prevent-any-form-of-page-refresh-using-jquery-javascript 

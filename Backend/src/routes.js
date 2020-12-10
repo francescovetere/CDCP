@@ -7,30 +7,25 @@ function formatDate(date) {
     return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
-function routes(app) {
-
-    /******************
-     * LOGS ROUTES 
-     ******************/
 
     /**
     * Inserimento Logs
     * Parametri: vuoto
-    * Body: userNick, projectId, exampleId, actionType, details 
-    * Risposta positiva: success
-    * Risposta negativa: error
+    * Campi: userNick, projectId, exampleId, actionType, details 
     */
-    app.post('/logs', async (req, resp) => {
-        console.log("Inserting a new log...");
 
-        let nickname = req.body.userNick;
-        let project = req.body.projectId;
-        let example = req.body.exampleId;
-        let action = req.body.actionType;
-        let details = req.body.details;
+async function SaveLog(contentLog){
+    console.log("Inserting a new log...");
+
+        let userNick = contentLog[0];
+        let projectId = contentLog[1];
+        let exampleId = contentLog[2];
+        let actionType = contentLog[3];
+        let details = contentLog[4];
+
+        params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
 
         try {   
-            params = [nickname, project, example, action, details, formatDate(new Date())];
             sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
             await dbm.execQuery(sql, params);
         } 
@@ -38,11 +33,17 @@ function routes(app) {
         catch(err) {
             console.log(err);
         }
-        
+
         console.log("Log inserted correctly\n");
-        resp.status(200);
-        resp.json({success: "Log saved"});
-    });
+
+}
+
+function routes(app) {
+
+    /******************
+     * LOGS ROUTES 
+     ******************/
+
 
     /**
      * Restituzione di tutti i record della tabella Logs
@@ -58,7 +59,7 @@ function routes(app) {
         
         let queryResult = [];
         try {
-            let sql = 'SELECT * FROM Logs';
+            let sql = 'SELECT * FROM Logs ORDER BY timeStamp DESC';
             queryResult = await dbm.execQuery(sql);
         }
 
@@ -365,11 +366,12 @@ function routes(app) {
      * Risposta negativa: error
      */
     app.post('/project', async (req, resp) => {
-        console.log("Inserting new project");
-
+        
         let title = req.body.title;
         let inputType = req.body.inputType;
+        let User = req.body.nickname;
 
+        console.log("Inserting new project by "+ User);
         console.log("title: " + title);
         console.log("inputType: " + inputType);
 
@@ -399,6 +401,8 @@ function routes(app) {
 
         resp.status(201);
         resp.json({result: {"id": projectId, "title": title, "inputType": inputType}});
+
+        SaveLog([User, projectId, "", "POST", "Project '"+ title +"' created."])
         
     });
 
@@ -467,6 +471,8 @@ function routes(app) {
         console.log("Deleting project");
 
         let id = req.params.id;
+        let User = req.body.nickname;
+        let projectTitle = req.body.projectTitle;
 
         let result;
         try {
@@ -493,6 +499,8 @@ function routes(app) {
 
         resp.status(200);
         resp.json({success: "Project deleted correctly"});
+
+        SaveLog([User, id, "", "DELETE", "Project '"+ projectTitle +"' deleted."])
     });
 
 

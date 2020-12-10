@@ -83,8 +83,6 @@ class Project {
         let inputType = this._inputType;
         let cardNode = document.querySelector("#card-content-"+id);
         let btnView = cardNode.querySelector(".btn-view-project");
-
-        // console.log()
         
         // Listener sul bottone di view della card 
         // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
@@ -115,16 +113,16 @@ class Project {
                 $('#deleteModal').modal('show');
 
                 // Alla conferma, eseguo la delete del progetto
+                let nickname = document.getElementById("NickLogged").textContent;
                 document.getElementById("confirmDeleteProject").addEventListener("click", function(e){
                     e.stopImmediatePropagation(); // Necessario attualmente per la bozza
                     $.ajax({
                         url: '/api/project/'+id,
                         type: 'DELETE',
+                        data: {nickname: nickname, projectTitle: title},
                         success: function(result) {
                             $("#deleteModal").modal('hide');
                             console.log("Deleted project n. " + id); // closure
-                            let nickname = document.getElementById("NickLogged").textContent
-                            SaveLog([nickname,id,"","DELETE","Delete Project '"+title+"'."]);
                             goToHome(); // serve per fare il refresh della pagina in modo completo
                         }
                     });
@@ -204,14 +202,13 @@ function createProjectsPage(nickname) {
         e.preventDefault();
         let title =  $("#modal-project-title").val();
         let inputType = $("#modal-project-inputType option:selected").text();
-        let formData = {"title" : title, "inputType": inputType};
+        let formData = {"title" : title, "inputType": inputType, "nickname": nickname};
         $.post('api/project',
             formData,
             function(response) {
                 let p = new Project(response.result.id, title, inputType);
                 projects.push(p);
                 $('#add-project-modal').modal('hide');
-                SaveLog([nickname,response.result.id,"","POST","Create Project '" + title +"'."]);
             });
     });
     
