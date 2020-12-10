@@ -304,8 +304,8 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     variableContent.innerHTML += deleteTagValueModalHTML;
 
     // Inserisce nel documento il codice per la modal di add example (testuale)
-    let addExampleModalHTML = document.querySelector('script#add-example-modal-script').textContent;
-    variableContent.innerHTML += addExampleModalHTML;
+    let addExampleTxtModalHTML = document.querySelector('script#add-example-txt-modal-script').textContent;
+    variableContent.innerHTML += addExampleTxtModalHTML;
 
     // Inserisce nel documento il codice per la modal di add example (immagine)
     let addExampleImgModalHTML = document.querySelector('script#add-example-img-modal-script').textContent;
@@ -330,7 +330,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     $.get('api/project/'+projectId+'/examples',
     {},
     function(response) {
-        
         for(let i = 0; i < response.total; ++i) {
             let exampleId = response.results[i].id;
             let projectId = response.results[i].projectId;
@@ -350,21 +349,24 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
             // Mostro la modal (diversa in base al tipo di input del progetto)
             let currentModal;
             if(projectInputType === 'TEXT')
-                currentModal = $('#add-example-modal');
+                currentModal = $('#add-example-txt-modal');
             else currentModal = $('#add-example-img-modal');
 
             currentModal.modal('show');
 
-            $('#modal-form').on('submit', function(e) {
+            currentModal.on('submit', function(e) {
                 e.preventDefault();
-                let inputValue = $("#modal-example-inputValue").val();
+                let inputValue;  // ************************* TODO: caso di input immagine 
+                if(projectInputType === 'TEXT') inputValue = $("#modal-example-inputValue").val();
+                else inputValue = "TODO";
+
                 // console.log(inputValue);
                 $.ajax({
                     url: 'api/project/'+projectId+'/example',
                     type: 'POST',
                         data: {"inputType": projectInputType, "inputValue": inputValue},
                         success: function(response) {
-                            $("#add-example-modal").modal('hide');
+                            currentModal.modal('hide');
                             console.log("Created example");
                             // goToHome();
                             createExamplesPage(projectId, projectTitle, projectInputType);  // serve per fare il refresh della pagina in modo completo

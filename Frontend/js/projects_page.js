@@ -82,11 +82,8 @@ class Project {
         );
         
         // Listener sul bottone di eliminazione di un progetto
-         $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
+        $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
             function(event) {
-
-                // Inserisco l'id del progetto nell'elemento span più interno della modal
-                document.querySelector("#title-project-to-be-deleted").innerText = title;
                 event.stopImmediatePropagation();
 
                 // Mostro la modal
@@ -94,21 +91,22 @@ class Project {
 
                 // Alla conferma, eseguo la delete del progetto
                 let nickname = document.getElementById("NickLogged").textContent;
-                document.getElementById("confirmDeleteProject").addEventListener("click", function(e){
+                $('#modal-form-project-delete').on('submit', function(e) {
                     
-                // e.stopImmediatePropagation();
-                $.ajax({
-                    url: '/api/project/'+id,
-                    type: 'DELETE',
-                    data: {nickname: nickname, projectTitle: title},
-                    success: function(result) {
-                        $("#deleteModal").modal('hide');
-                        console.log("Deleted project n. " + id); // closure
-                        goToHome(); // serve per fare il refresh della pagina in modo completo
-                    },
-                    error: function(){alert("Something went wrong...");}
+                    // e.stopImmediatePropagation();
+                    $.ajax({
+                        url: '/api/project/'+id,
+                        type: 'DELETE',
+                        data: {nickname: nickname, projectTitle: title},
+                        success: function(result) {
+                            $("#deleteModal").modal('hide');
+                            console.log("Deleted project n. " + id); // closure
+                            goToHome(); // serve per fare il refresh della pagina in modo completo
+                        },
+                        error: function(){alert("Something went wrong...");}
+                    });
                 });
-            });
+            
         });
     }
 }
@@ -165,6 +163,21 @@ function createProjectsPage(nickname) {
     
             // Mostro la modal
             $('#add-project-modal').modal('show');
+                
+            // POST di un progetto 
+            $('#modal-form-add-project').on('submit', function(e) {
+                e.preventDefault();
+                let title =  $("#modal-project-title").val();
+                let inputType = $("#modal-project-inputType option:selected").text();
+                let formData = {"title" : title, "inputType": inputType, "nickname": nickname};
+                $.post('api/project',
+                    formData,
+                    function(response) {
+                        let p = new Project(response.result.id, title, inputType);
+                        projects.push(p);
+                        $('#add-project-modal').modal('hide');
+                    });
+            });
         }
     );
     
@@ -175,21 +188,5 @@ function createProjectsPage(nickname) {
                 for(let i = 0; i < response.total; ++i)
                     projects.push(new Project(response.results[i].id, response.results[i].title, response.results[i].inputType));
             });
-    
-    // POST di un progetto 
-    $('#modal-form').on('submit', function(e) {
-        e.preventDefault();
-        let title =  $("#modal-project-title").val();
-        let inputType = $("#modal-project-inputType option:selected").text();
-        let formData = {"title" : title, "inputType": inputType, "nickname": nickname};
-        $.post('api/project',
-            formData,
-            function(response) {
-                let p = new Project(response.result.id, title, inputType);
-                projects.push(p);
-                $('#add-project-modal').modal('hide');
-            });
-    });
-    
 }
 
