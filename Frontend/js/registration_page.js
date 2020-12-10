@@ -4,6 +4,9 @@ function createRegistrationPage() {
 
     // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
     variableContent.innerHTML = registrationHTML;
+
+    // Cliccando su "Alredy have an account? Login!", viene richiamata la funzione per la costruzione della pagina di login
+    document.getElementById("login-redirect").addEventListener("click", createLoginPage);
     
     // Cliccando su "Sign in", viene fatta la chiamata AJAX al server (validando prima i campi)
     // Se la registrazione va a buon fine, si viene redirezionati alla pagina di login

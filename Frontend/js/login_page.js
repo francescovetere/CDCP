@@ -6,7 +6,7 @@ function createLoginPage() {
     // Inserisco l'HTML recuperato nel div che rappresenta il contenuto variabile
     variableContent.innerHTML = loginHTML;
     
-    // Cliccando su "New to CDCP? Sign in!", viene richiamata la funzione per la costruzione della pagina di login
+    // Cliccando su "New to CDCP? Sign in!", viene richiamata la funzione per la costruzione della pagina di registrazione
     document.getElementById("sign-in-redirect").addEventListener("click", createRegistrationPage);
 
     // Cliccando su "Login", viene fatta la chiamata AJAX al server (validando prima i campi)
