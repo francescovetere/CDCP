@@ -102,10 +102,9 @@ function routes(app) {
         console.log("Retrieving all stats\n");
         
         let statsResult = [];
-        let stat_1_a;
-        let stat_1_b;
-        let stat_2;
-        let stat_3;
+        let stat_1_a, stat_1_b, stat_2, stat_3;
+        let numText, numImage;
+        let top5;
 
         try {
 
@@ -120,6 +119,15 @@ function routes(app) {
 
             let sqlStat_3 = 'SELECT COUNT(*) AS NumExampleWOTags FROM Examples AS EX WHERE (SELECT COUNT(*) AS TAGS FROM TagNames WHERE EX.id = exampleId) = 0';
             stat_3 = await dbm.execQuery(sqlStat_3);
+
+            let sqlStat_4_a = 'SELECT COUNT(*) AS NumText FROM Projects WHERE inputType = "TEXT" ';
+            numText = await dbm.execQuery(sqlStat_4_a);
+
+            let sqlStat_4_b = 'SELECT COUNT(*) AS NumImage FROM Projects WHERE inputType = "IMAGE" ';
+            numImage = await dbm.execQuery(sqlStat_4_b);
+
+            let sqlStat_5 = 'SELECT title, COUNT(*) as NExamples FROM Projects as P, Examples as E WHERE P.id = E.projectId GROUP BY title ORDER BY COUNT(*) DESC LIMIT 5';
+            top5 = await dbm.execQuery(sqlStat_5);
         }
 
         catch(err) {
@@ -130,6 +138,11 @@ function routes(app) {
         statsResult.push(stat_1_b);
         statsResult.push(stat_2);
         statsResult.push(stat_3);
+
+        statsResult.push(numText);
+        statsResult.push(numImage);
+
+        statsResult.push(top5);
 
         resp.status(200);
         resp.json({statsResult});
@@ -341,7 +354,7 @@ function routes(app) {
         // Recupero tutti i progetti
         let queryResult = [];
         try {
-            let sql = 'SELECT * FROM Projects;';
+            let sql = 'SELECT * FROM Projects ORDER BY title ASC;';
             queryResult = await dbm.execQuery(sql);
         }
 
