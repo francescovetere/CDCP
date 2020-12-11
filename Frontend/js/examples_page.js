@@ -467,17 +467,23 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
             // Quando scelgo un'immagine da caricare, cambio il testo nella label 
             $('#InputFileImg').on("change",function() {
                 let file = $('#InputFileImg')[0].files[0].name;
-                $('#labelUploadImg').text(file);         
+                $('#labelUploadImg').text(file);
             });
 
             $(currentModal + ' form').off('submit');
             $(currentModal + ' form').on('submit', function(e) {
                 e.preventDefault();
-                let inputValue;  // ************************* TODO: caso di input immagine 
+
+                let inputValue;  // caso di input immagine 
+                
+                // Caso Upload Immagine
+                let formDataImage = new FormData();
+                let file = $('#InputFileImg')[0].files[0];
+                formDataImage.append('example_image',file,file.name);
+
                 if(projectInputType === 'TEXT') inputValue = $(currentModal + ' input').val();
                 else inputValue = "TODO";
 
-                console.log(inputValue);
                 let nickname = document.getElementById("NickLogged").textContent;
 
                 $.ajax({

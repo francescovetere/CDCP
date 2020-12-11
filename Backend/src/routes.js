@@ -366,7 +366,6 @@ function routes(app) {
         let projects = [];
         for(let i = 0; i < queryResult.length; ++i) {
             projects.push(queryResult[i]);
-            console.log(queryResult[i].title);
         }
 
         // Invio il numero totale dei progetti, e l'array dei progetti stessi
@@ -636,6 +635,7 @@ function routes(app) {
 
         let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
+
         // let tags;
         // if(req.body.tags) tags = JSON.parse(req.body.tags);
 

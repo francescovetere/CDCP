@@ -94,6 +94,6 @@ function goToHome(){
 P.S.: Se fai un refresh  con cookie salvato, ti fa rimanere nel sito. Se lo fai senza, ti riporta al login! 
 Potrebbe aver senso, no? Il browser ti avvisa del reload (a modo suo) oppure dell'uscita dal sito (se fai il pageback dalla root)
  */
-window.onbeforeunload = function() {
+/*window.onbeforeunload = function() {
     return "Dude, are you sure you want to leave? Think of the kittens!"; // non viene mostrato però..
-}
+}*/

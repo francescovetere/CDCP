@@ -94,7 +94,8 @@ class Project {
                 $('#modal-form-project-delete').off('submit');
                 $('#modal-form-project-delete').on('submit', (function(e) {
                     
-                    //e.stopImmediatePropagation();
+                    e.preventDefault(); // evita il refresh della pagina
+
                     $.ajax({
                         url: '/api/project/'+id,
                         type: 'DELETE',
@@ -102,7 +103,7 @@ class Project {
                         success: function(result) {
                             $("#deleteModal").modal('hide');
                             console.log("Deleted project n. " + id); // closure
-                            goToHome(); // serve per fare il refresh della pagina in modo completo
+                            goToHome(); // serve per disegnare il contenuto aggiornato
                         },
                         error: function(){alert("Something went wrong...");}
                     });
