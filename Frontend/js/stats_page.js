@@ -145,6 +145,29 @@ function createStatsPage(){
     let statsTemplate = document.querySelector('script#stats-jumbotron-template');
     variableContent.innerHTML += statsTemplate.innerText; 
 
-    createCharts(); // ERROR: Chart is not defined??? problema di sincronizzazione?
+    // GET di tutte le stats
+    $.get('api/stats',
+            {},
+        function(response) {
+
+            // Retrieve tagNames with insuffient number of examples
+             for(let i = 0; i < response.statsResult[0].length; ++i){
+                document.getElementById("stats-a-TagName").innerHTML += response.statsResult[0][i].tagName + "; "
+             }
+             
+            // Retrieve tagValues with insuffient number of examples
+            for(let i = 0; i < response.statsResult[1].length; ++i){
+                document.getElementById("stats-a-TaValue").innerHTML += response.statsResult[1][i].tagValue + "; "
+            }
+
+            // Retrieve num of example in the datasets
+            document.getElementById("stats-b").innerHTML += response.statsResult[2][0].NumExample;
+           
+            // Retrieve Total number of examples w/o tags
+            document.getElementById("stats-c").innerHTML += response.statsResult[3][0].NumExampleWOTags;
+            
+        });
+
+    createCharts();
 
 }

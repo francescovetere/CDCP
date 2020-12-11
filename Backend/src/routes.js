@@ -101,29 +101,38 @@ function routes(app) {
     app.get('/stats', async (req, resp) => {
         console.log("Retrieving all stats\n");
         
-        let queryResult = [];
+        let statsResult = [];
+        let stat_1_a;
+        let stat_1_b;
+        let stat_2;
+        let stat_3;
+
         try {
-            // TODO
-            // let sql = '...';
-            // queryResult = await dbm.execQuery(sql);
+
+            let sqlStat_1_a = 'SELECT tagName FROM TagNames GROUP BY tagName HAVING COUNT(*) < 3;';
+            stat_1_a = await dbm.execQuery(sqlStat_1_a);
+
+            let sqlStat_1_b = 'SELECT tagValue FROM TagValues GROUP BY tagValue HAVING COUNT(*) < 3;';
+            stat_1_b = await dbm.execQuery(sqlStat_1_b);
+
+            let sqlStat_2 = 'SELECT COUNT(*) as NumExample FROM Examples';
+            stat_2 = await dbm.execQuery(sqlStat_2);
+
+            let sqlStat_3 = 'SELECT COUNT(*) AS NumExampleWOTags FROM Examples AS EX WHERE (SELECT COUNT(*) AS TAGS FROM TagNames WHERE EX.id = exampleId) = 0';
+            stat_3 = await dbm.execQuery(sqlStat_3);
         }
 
         catch(err) {
             console.log(err);
         }
         
-        // Ciclo sull'array risultato e costruisco l'array di risposta
-        let stats = [];
-        for(let i = 0; i < queryResult.length; ++i) {
-            logs.push(queryResult[i]);
-        }
+        statsResult.push(stat_1_a);
+        statsResult.push(stat_1_b);
+        statsResult.push(stat_2);
+        statsResult.push(stat_3);
 
-        // Invio il numero totale dei record, e l'array dei record stessi
         resp.status(200);
-        resp.json({
-            total: stats.length,
-            results: stats
-        });
+        resp.json({statsResult});
 
         console.log("Stats retrieved correctly\n");
     });

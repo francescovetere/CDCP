@@ -93,7 +93,7 @@ class Project {
                 let nickname = document.getElementById("NickLogged").textContent;
                 $('#modal-form-project-delete').on('submit', function(e) {
                     
-                    // e.stopImmediatePropagation();
+                    //e.stopImmediatePropagation();
                     $.ajax({
                         url: '/api/project/'+id,
                         type: 'DELETE',
