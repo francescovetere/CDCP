@@ -567,14 +567,14 @@ function routes(app) {
 
                     // Ora inserisco in ciascun tagName dell'example corrente i suoi tagValues, se presenti
                     for(let j = 0; j < tagNames.length; ++j) {
-                        console.log("..." + tagNames[j].tagName);
+                        // console.log("..." + tagNames[j].tagName);
                         examples[i].tags.push({"tagName": tagNames[j].tagName, "tagValues": []});
                         try {
                             let sql = 'SELECT * FROM TagValues WHERE projectId = ? AND exampleId = ? AND tagName = ?';
                             let params = [examples[i].projectId, examples[i].id, tagNames[j].tagName];
                             let tagValues = await dbm.execQuery(sql, params);
                             for(let k = 0; k < tagValues.length; ++k) {
-                                console.log("......" + tagValues[k].tagValue);
+                                // console.log("......" + tagValues[k].tagValue);
                                 let tagVal = tagValues[k].tagValue;
                                 examples[i].tags[j].tagValues.push(tagVal);
                                 
@@ -585,8 +585,6 @@ function routes(app) {
                 }
             } catch(err) {console.log(err);}
         }
-
-        console.log(examples);
 
         // Invio il numero totale dei record, e l'array dei record stessi
         resp.status(200);
