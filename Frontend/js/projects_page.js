@@ -97,7 +97,7 @@ class Project {
                     $.ajax({
                         url: '/api/project/'+id,
                         type: 'DELETE',
-                        data: {nickname: nickname, projectTitle: title},
+                        data: {projectTitle: title, "nickname": nickname},
                         success: function(result) {
                             $("#deleteModal").modal('hide');
                             console.log("Deleted project n. " + id); // closure

@@ -281,41 +281,37 @@ class Example {
                 event.stopImmediatePropagation();
                 
                 // Mostro la modal
-                $('#update-tagName-modal').modal('show');
+                $('#update-tagValue-modal').modal('show');
 
-                $('#modal-form-update-tagName').on('submit', function(e) {
+                $('#modal-form-update-tagValue').on('submit', function(e) {
                     e.preventDefault();
                     let nickname = document.getElementById("NickLogged").textContent;
                     let titleProject = document.querySelector(".project-title").textContent;
                     
                     // Individuo il div del tagName corrispondente a questo tagValue
-                    let tagName = event.target.parentNode.parentNode.parentNode;
+                    let tagName = event.target.parentNode.parentNode.parentNode.querySelector(".tagName");
 
                     // Individuo il cardText HTML di cui fa parte il tagValue
                     let cardText = event.target.parentNode;
                     // All'interno del cardText, inviduo lo span che identifica proprio il tagValue in questione
-                    let tagValue = cardText.querySelector(".tagValue")
-        
+                    let tagValue = cardText.querySelector(".tagValue");
+                    
+                    let newTagValue = $("#modal-form-update-tagValue .modal-tagValue").val();
+
                     console.log("Updating tagValue " + tagValue.innerText);
-                    console.log(tagName);
 
                     $.ajax({
-                        url: 'api/project/'+idProject+'/example/'+idExample+'/tagName/'+tagName.innerText,
-                        type: 'DELETE',
-                        data: {"nickname": nickname}, // mando sempre il nickname, per la tabella Logs
+                        url: 'api/project/'+idProject+'/example/'+idExample+'/tagName/'+tagName.innerText+"/tagValue/"+tagValue.innerText,
+                        type: 'PUT',
+                        data: {"tagValue": newTagValue, "nickname": nickname}, // mando sempre il nickname, per la tabella Logs
                         success: function(response) {
-                        $("#delete-tagName-modal").modal('hide');
-                            console.log("Deleted tagName");
+                        $("#update-tagValue-modal").modal('hide');
+                            console.log("Updated tagValue");
                             createExamplesPage(idProject, titleProject, inputType);  // serve per fare il refresh della pagina in modo completo
                         },
                         error: function(){alert("Something went wrong...");}
                     });
                 });
-
-                // Mostro la modal
-                $('#update-tagValue-modal').modal('show');
-    
-                // TODO ...
             }
         );
         
@@ -324,26 +320,38 @@ class Example {
             function(event) {
                 // Impedisco che l'evento venga propagato ad altri nodi
                 event.stopImmediatePropagation();
-    
-                // Individuo il cardText HTML di cui fa parte il tagValue
-                let cardText = event.target.parentNode;
-                // All'interno del cardText, inviduo lo span che identifica proprio il tagValue in questione
-                let tagValue = cardText.querySelector(".tagValue")
-    
-                console.log("Deleting tagValue " + tagValue.innerText);
-    
+                    
                 // Mostro la modal
                 $('#delete-tagValue-modal').modal('show');
-    
-                // TODO ...
-            }
-        );
-        
 
+                $('#modal-form-delete-tagValue').on('submit', function(e) {
+                    e.preventDefault();
+                    let nickname = document.getElementById("NickLogged").textContent;
+                    let titleProject = document.querySelector(".project-title").textContent;
+                    
+                    // Individuo il div del tagName corrispondente a questo tagValue
+                    let tagName = event.target.parentNode.parentNode.parentNode.querySelector(".tagName");
 
-        
-        // TODO: tutti gli altri listener per gli altri bottoni + 
-        // il listener (esterno a questa funzione) per il bottone di aggiunta di un example
+                    // Individuo il cardText HTML di cui fa parte il tagValue
+                    let cardText = event.target.parentNode;
+                    // All'interno del cardText, inviduo lo span che identifica proprio il tagValue in questione
+                    let tagValue = cardText.querySelector(".tagValue");
+
+                    console.log("Deleting tagValue " + tagValue.innerText);
+
+                    $.ajax({
+                        url: 'api/project/'+idProject+'/example/'+idExample+'/tagName/'+tagName.innerText+"/tagValue/"+tagValue.innerText,
+                        type: 'DELETE',
+                        data: {"nickname": nickname}, // mando sempre il nickname, per la tabella Logs
+                        success: function(response) {
+                        $("#delete-tagValue-modal").modal('hide');
+                            console.log("Deleted tagValue");
+                            createExamplesPage(idProject, titleProject, inputType);  // serve per fare il refresh della pagina in modo completo
+                        },
+                        error: function(){alert("Something went wrong...");}
+                    });
+                });
+            });
     }
 }
 
@@ -454,10 +462,12 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                 else inputValue = "TODO";
 
                 // console.log(inputValue);
+                let nickname = document.getElementById("NickLogged").textContent;
+
                 $.ajax({
                     url: 'api/project/'+projectId+'/example',
                     type: 'POST',
-                        data: {"inputType": projectInputType, "inputValue": inputValue},
+                        data: {"inputType": projectInputType, "inputValue": inputValue, "nickname": nickname},
                         success: function(response) {
                             $(currentModal).modal('hide');
                             console.log("Created example");
