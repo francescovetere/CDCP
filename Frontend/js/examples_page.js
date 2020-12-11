@@ -457,48 +457,76 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
         
             // Mostro la modal (diversa in base al tipo di input del progetto)
             let currentModal;
-            if(projectInputType === 'TEXT') 
+
+            if(projectInputType === 'TEXT') {
                 currentModal = '#add-example-txt-modal';
-            else 
-                currentModal = '#add-example-img-modal';
+                $(currentModal).modal('show');
 
-            $(currentModal).modal('show');
-
-            // Quando scelgo un'immagine da caricare, cambio il testo nella label 
-            $('#InputFileImg').on("change",function() {
-                let file = $('#InputFileImg')[0].files[0].name;
-                $('#labelUploadImg').text(file);
-            });
-
-            $(currentModal + ' form').off('submit');
-            $(currentModal + ' form').on('submit', function(e) {
-                e.preventDefault();
-
-                let inputValue;  // caso di input immagine 
+                $(currentModal + ' form').off('submit');
+                $(currentModal + ' form').on('submit', function(e) {
                 
-                // Caso Upload Immagine
-                let formDataImage = new FormData();
-                let file = $('#InputFileImg')[0].files[0];
-                formDataImage.append('example_image',file,file.name);
+                    e.preventDefault();
 
-                if(projectInputType === 'TEXT') inputValue = $(currentModal + ' input').val();
-                else inputValue = "TODO";
+                    let inputValue = $(currentModal + ' input').val();
 
-                let nickname = document.getElementById("NickLogged").textContent;
+                    let nickname = document.getElementById("NickLogged").textContent;
 
-                $.ajax({
-                    url: 'api/project/'+projectId+'/example',
-                    type: 'POST',
+                    $.ajax({
+                        url: 'api/project/'+projectId+'/example',
+                        type: 'POST',
                         data: {"inputType": projectInputType, "inputValue": inputValue, "nickname": nickname},
                         success: function(response) {
                             $(currentModal).modal('hide');
                             console.log("Created example");
-                            // goToHome();
                             createExamplesPage(projectId, projectTitle, projectInputType);  // serve per fare il refresh della pagina in modo completo
                         },
                         error: function(){alert("Something went wrong...");}
                     });
+                });   
+            }    
             
-            });
+            else if(projectInputType === 'IMAGE') {
+                currentModal = '#add-example-img-modal';
+
+                $(currentModal).modal('show');
+
+                // // Quando scelgo un'immagine da caricare, cambio il testo nella label 
+                // $('#InputFileImg').on("change",function() {
+                //     let file = $('#InputFileImg')[0].files[0].name;
+                //     $('#labelUploadImg').text(file);
+                // });
+
+                $(currentModal + ' form').off('submit');
+                $(currentModal + ' form').on('submit', function(e) {
+                
+                    e.preventDefault();
+                        
+                    // Caso Upload Immagine
+                    let formData = new FormData();
+                    let file = document.querySelector(currentModal + " input").files[0];
+                    formData.append('example_image', file);
+
+                    console.log(file);
+                    console.log(formData);
+                    
+                    let inputValue = "TODO";
+                    let nickname = document.getElementById("NickLogged").textContent;
+
+                    $.ajax({
+                        url: 'api/project/'+projectId+'/exampleImg',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        success: function (data) {
+                            alert('upload successful!\n' + data);
+                        },
+                        error: function(){alert("Something went wrong...");}
+                    });
+
+                });   
+            } 
         });
+
 }

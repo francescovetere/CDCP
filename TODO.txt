@@ -15,6 +15,7 @@
 - stats api
 - finire inserimenti in tabella logs
 - possibile problema nei logs con la creazione del primo progetto
+- sistemare ?#viewProject
 
 ***Cose fatte***
 10/12

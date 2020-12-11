@@ -1,18 +1,18 @@
 const DBManager = require("./DBManager");
+const uuid = require('uuid').v4;
+var multer  =   require('multer');
 
 let dbm = new DBManager();
-const uuid = require('uuid').v4;
 
 function formatDate(date) {
     return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
-
-    /**
-    * Inserimento Logs
-    * Parametri: vuoto
-    * Campi: userNick, projectId, exampleId, actionType, details 
-    */
+/**
+ * Inserimento Logs
+ * Parametri: vuoto
+ * Campi: userNick, projectId, exampleId, actionType, details 
+ */
 
 async function SaveLog(contentLog){
     console.log("Inserting a new log...\n");
@@ -731,7 +731,46 @@ function routes(app) {
         resp.json({success: "Example inserted correctly"});
     });
 
+    /**
+     * Inserimento di un nuovo example (di tipo immagine) nel progetto
+     * Parametri: id progetto
+     * Body: inputType, inputValue
+     * Risposta positiva: success
+     * Risposta negativa: error
+     * 
+     * TODO: verificare che inputType inserito sia uguale a quello del progetto
+     */
+    let storage = multer.diskStorage({
+        destination: function (req, file, callback) {
+          callback(null, './uploads');
+        },
+        filename: function (req, file, callback) {
+          callback(null, file.fieldname + '-' + Date.now());
+        }
+      });
+      
+    let upload = multer({ storage : storage}).single('example_image');
+      
+    // app.get('/',function(req,res){
+    //     res.sendFile(__dirname + "/index.html");
+    // });
+    
+    app.post('/project/:projectId/exampleImg', async (req, resp) => {
+        let projectId = req.params.projectId;
+        console.log("Inserting new example img");
 
+        upload(req,resp,function(err) {
+            if(err) {
+                return resp.end("Error uploading file.");
+            }
+            resp.end("File is uploaded");
+        });
+
+        console.log("Example inserted correctly\n");
+
+        resp.status(201);
+        resp.json({success: "Example inserted correctly"});
+    });
 
     /**
      * Aggiornamento di un example esistente nel progetto
