@@ -1,6 +1,6 @@
 const DBManager = require("./DBManager");
 const uuid = require('uuid').v4;
-var multer  =   require('multer');
+const multer = require('multer');
 
 let dbm = new DBManager();
 
@@ -703,7 +703,10 @@ function routes(app) {
           callback(null, file.fieldname + '-' + Date.now());
         }
       });
-      
+    
+      // Qui invece di example_image ci vorrebbe il nome dell'immagine vero e proprio, recuperabile con 
+      // Object.values(req.files)[0].name grazie a express-fileupload
+      // Purtroppo però non funziona ancora...
     let upload = multer({ storage : storage}).single('example_image');
       
     // app.get('/',function(req,res){
@@ -713,6 +716,8 @@ function routes(app) {
     app.post('/project/:projectId/exampleImg', async (req, resp) => {
         let projectId = req.params.projectId;
         console.log("Inserting new example img");
+
+        // console.log(req.files); // --> purtroppo dà undefined, ma non dovrebbe...
 
         upload(req,resp,function(err) {
             if(err) {
