@@ -1,11 +1,11 @@
 /* Protitipi di funzioni per cookies */ 
 
-// Crea un cookie
+// Crea un cookie. Siccome non e' in https, non si puo' impostare il flag Secure. 
 function setCookie(cname, cvalue, exdays) {
     let d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     let expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/" + ";SameSite=Lax";
 }
 
 // Legge un cookie
@@ -73,6 +73,6 @@ function deleteCookie( name, path, domain ) {
     document.cookie = name + "=" +
       ((path) ? ";path="+path:"")+
       ((domain)?";domain="+domain:"") +
-      ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+      ";expires=Thu, 01 Jan 1970 00:00:01 GMT;SameSite=Lax";
   }
 }

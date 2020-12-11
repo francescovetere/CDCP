@@ -2,28 +2,6 @@
 
 This repository contains the final project for the course "Internet Oriented Systems" of the Master's Degree in Computer Engineering @ University of Parma.
 
-## Domain name and Folder
-We used to config **Apache** Web Server a virtual host (http only) that he points to **"cdcp/Frontend"** folder in /var/www. So you can clone the entire repo without separate Frontend and Backend. 
-
-```conf
-<VirtualHost *:80>
-    ServerName cdcp
-    ServerAlias www.cdcp cdcp.soi
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/cdcp/Frontend
-    LogLevel info
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    ProxyPass     /api/        http://localhost:8000/
-</VirtualHost>
-```
-
-If you want to modify this, you have to change the cookies's domain for "deleteCookie" function in [login_page.js](/Frontend/js/login_page.js). 
-
-```JavaScript
-deleteCookie(name, "/", "cdcp");
-```
 ### Database Setup
 
 Before you start, you need **MySQL server** on your machine. 
