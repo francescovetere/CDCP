@@ -159,8 +159,7 @@ function createProjectsPage(nickname) {
     let btnAddProject = document.getElementById("btn-add-project");
     btnAddProject.addEventListener("click", 
         function() {
-            console.log("Adding a project\n"); 
-    
+  
             // Mostro la modal
             $('#add-project-modal').modal('show');
                 
@@ -176,6 +175,7 @@ function createProjectsPage(nickname) {
                         let p = new Project(response.result.id, title, inputType);
                         projects.push(p);
                         $('#add-project-modal').modal('hide');
+                        console.log("Project '"+ title + "' created");
                     });
             });
         }

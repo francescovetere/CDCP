@@ -258,7 +258,6 @@ class Example {
 
                 let newTagValue = $("#modal-form-add-tagValue .modal-tagValue").val();
 
-                console.log(tagName);
                 $.ajax({
                     url: 'api/project/'+idProject+'/example/'+idExample+'/tagName/'+tagName.innerText+"/tagValue",
                     type: 'POST',
@@ -455,13 +454,19 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
 
             $(currentModal).modal('show');
 
+            // Quando scelgo un'immagine da caricare, cambio il testo nella label 
+            $('#InputFileImg').on("change",function() {
+                let file = $('#InputFileImg')[0].files[0].name;
+                $('#labelUploadImg').text(file);         
+              });
+
             $(currentModal + ' form').on('submit', function(e) {
                 e.preventDefault();
                 let inputValue;  // ************************* TODO: caso di input immagine 
                 if(projectInputType === 'TEXT') inputValue = $(currentModal + ' input').val();
                 else inputValue = "TODO";
 
-                // console.log(inputValue);
+                console.log(inputValue);
                 let nickname = document.getElementById("NickLogged").textContent;
 
                 $.ajax({
