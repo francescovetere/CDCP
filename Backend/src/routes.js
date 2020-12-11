@@ -369,7 +369,7 @@ function routes(app) {
         
         let title = req.body.title;
         let inputType = req.body.inputType;
-        let User = req.body.nickname;
+        let nickname = req.body.nickname;
 
         // Validazione campi body
         if(inputType != "TEXT" && inputType != "IMAGE") {
@@ -399,7 +399,7 @@ function routes(app) {
         resp.json({result: {"id": projectId, "title": title, "inputType": inputType}});
 
         // Non metto await perchè non mi interessa avere sincronìa
-        SaveLog([User, projectId, "", "POST", "Project '"+ title +"' created."]);
+        SaveLog([nickname, projectId, "", "POST", "Project '"+ title +"' created."]);
         
     });
 
@@ -468,8 +468,8 @@ function routes(app) {
         console.log("Deleting project");
 
         let id = req.params.id;
-        let User = req.body.nickname;
         let projectTitle = req.body.projectTitle;
+        let nickname = req.body.nickname;
 
         let result;
         try {
@@ -497,7 +497,7 @@ function routes(app) {
         resp.status(200);
         resp.json({success: "Project deleted correctly"});
 
-        SaveLog([User, id, "", "DELETE", "Project '"+ projectTitle +"' deleted."])
+        SaveLog([nickname, id, "", "DELETE", "Project '"+ projectTitle +"' deleted."])
     });
 
 
