@@ -761,7 +761,8 @@ function routes(app) {
 
         upload(req,resp,function(err) {
             if(err) {
-                return resp.end("Error uploading file.");
+                resp.end("Error uploading file.");
+                return;
             }
             resp.end("File is uploaded");
         });

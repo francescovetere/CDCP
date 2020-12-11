@@ -490,11 +490,10 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
 
                 $(currentModal).modal('show');
 
-                // // Quando scelgo un'immagine da caricare, cambio il testo nella label 
-                // $('#InputFileImg').on("change",function() {
-                //     let file = $('#InputFileImg')[0].files[0].name;
-                //     $('#labelUploadImg').text(file);
-                // });
+                // Quando scelgo un'immagine da caricare, cambio il testo nella label 
+                $('#InputFileImg').on("change",function() { 
+                    $('#labelUploadImg').text($('#InputFileImg')[0].files[0].name);
+                });
 
                 $(currentModal + ' form').off('submit');
                 $(currentModal + ' form').on('submit', function(e) {
@@ -520,6 +519,7 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                         contentType: false,
                         enctype: 'multipart/form-data',
                         success: function (data) {
+                            $(currentModal).modal('hide');
                             alert('upload successful!\n' + data);
                         },
                         error: function(){alert("Something went wrong...");}
