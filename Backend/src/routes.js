@@ -680,51 +680,6 @@ function routes(app) {
             console.log(err);
         }
 
-        // // Inserisco tagNames e tagValues presenti eventualmente presenti nel campo tags, nelle rispettive tabelle
-
-        // // esempio di accesso: console.log(tags[0].tagValues[1]);
-        // if(tags) {
-        //     for(let i = 0; i < tags.length; ++i) {
-        //         /*** inserisco ogni tagName nella tabella TagNames ***/
-        //         let tagName = tags[i].tagName;
-        //         // console.log(tagName);
-                
-        //         try {
-        //             let sql = 'INSERT INTO TagNames(projectId, exampleId, tagName) VALUES (?, ?, ?)';
-        //             let params = [projectId, exampleId, tagName];
-        //             await dbm.execQuery(sql, params);
-        //         }
-        
-        //         catch(err) {
-        //             console.log(err);
-        //             resp.status(400);
-        //             resp.json({error: err});
-        //             return;                
-        //         }
-                
-        //         /*** per ogni tagValue associato al tagName corrente, effettuo un inserimento nella tabella TagValues ***/
-        //         let tagValues = tags[i].tagValues;
-        //         // console.log(tagValues);
-
-        //         for(let j = 0; j < tagValues.length; ++j) {
-        //             // console.log(tagValues[j]);
-        //             try {
-        //                 let sql = 'INSERT INTO TagValues(projectId, exampleId, tagName, tagValue) VALUES (?, ?, ?, ?)';
-            
-        //                 let params = [projectId, exampleId, tagName, tagValues[j]];
-        //                 await dbm.execQuery(sql, params);
-        //             }
-            
-        //             catch(err) {
-        //                 console.log(err);
-        //                 resp.status(400);
-        //                 resp.json({error: err}); 
-        //                 return; 
-        //             }
-        //         }
-        //     }
-        // }
-
         console.log("Example inserted correctly\n");
 
         resp.status(201);
