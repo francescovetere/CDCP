@@ -91,7 +91,8 @@ class Project {
 
                 // Alla conferma, eseguo la delete del progetto
                 let nickname = document.getElementById("NickLogged").textContent;
-                $('#modal-form-project-delete').on('submit', function(e) {
+                $('#modal-form-project-delete').off('submit');
+                $('#modal-form-project-delete').on('submit', (function(e) {
                     
                     //e.stopImmediatePropagation();
                     $.ajax({
@@ -105,7 +106,7 @@ class Project {
                         },
                         error: function(){alert("Something went wrong...");}
                     });
-                });
+                }));
             
         });
     }
@@ -118,8 +119,6 @@ class Project {
 function createProjectsPage(nickname) {
     // Azzero il contenuto variabile della pagina
     variableContent.innerHTML = "";
-    // Azzero l'array dei progetti, che verranno presi con una get
-    projects.splice(0, projects.length);
 
     /* CREAZIONE ELEMENT FISSI */
     // Creo il bottone dell'utente nella navbar, in alto a destra
@@ -164,6 +163,9 @@ function createProjectsPage(nickname) {
             $('#add-project-modal').modal('show');
                 
             // POST di un progetto 
+
+            // The .off() method removes event handlers that were attached with .on().
+            $('#modal-form-add-project').off('submit');
             $('#modal-form-add-project').on('submit', function(e) {
                 e.preventDefault();
                 let title =  $("#modal-project-title").val();
@@ -172,10 +174,10 @@ function createProjectsPage(nickname) {
                 $.post('api/project',
                     formData,
                     function(response) {
-                        let p = new Project(response.result.id, title, inputType);
-                        projects.push(p);
+                        new Project(response.result.id, title, inputType);
                         $('#add-project-modal').modal('hide');
                         console.log("Project '"+ title + "' created");
+                        goToHome();
                     });
             });
         }
@@ -186,7 +188,7 @@ function createProjectsPage(nickname) {
             {},
             function(response) {
                 for(let i = 0; i < response.total; ++i)
-                    projects.push(new Project(response.results[i].id, response.results[i].title, response.results[i].inputType));
+                    new Project(response.results[i].id, response.results[i].title, response.results[i].inputType);
             });
 }
 

@@ -366,6 +366,7 @@ function routes(app) {
         let projects = [];
         for(let i = 0; i < queryResult.length; ++i) {
             projects.push(queryResult[i]);
+            console.log(queryResult[i].title);
         }
 
         // Invio il numero totale dei progetti, e l'array dei progetti stessi
@@ -533,7 +534,7 @@ function routes(app) {
      * Parametri: id progetto
      * Body: vuoto
      * Risposta positiva: Tutti gli examples del progetto (CON TAGNAMES E TAGVALUES!)
-     *                    Esempio di risposta:
+     *                    Esempio di tags in una risposta:
      * 
      *                    [
      *                      {"tagName": "animals", "tagValues": ["mammals", "vertebrates"]},

@@ -4,12 +4,6 @@
 // Il contenuto variabile della pagina 
 let variableContent = document.getElementById("variable-content");
 
-// Array di projects
-let projects = [];
-
-// Array di projects
-let examples = [];
-
 // Create Scroll to Top in all page
 // ************ TODO: Risolvere waning
 $(document).ready(function(){

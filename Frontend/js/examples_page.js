@@ -114,6 +114,8 @@ class Example {
 
             // Mostro la modal
             $('#delete-example-modal').modal('show');
+
+            $('#modal-form-delete-example').off('submit');
             $('#modal-form-delete-example').on('submit', function(e) {
                 e.preventDefault();
                 let nickname = document.getElementById("NickLogged").textContent;
@@ -141,6 +143,7 @@ class Example {
             // Mostro la modal
             $('#add-tagName-modal').modal('show');
 
+            $('#modal-form-add-tagName').off('submit');
             $('#modal-form-add-tagName').on('submit', function(e) {
                 e.preventDefault();
                 let nickname = document.getElementById("NickLogged").textContent;
@@ -170,7 +173,12 @@ class Example {
                 
                 // Mostro la modal
                 $('#update-tagName-modal').modal('show');
+                
+                // Best practice: always unbind before binding unless you are certain that there aren't currently binds to your element that you want
+                // The off() method removes event handlers that were attached with .on().
+                $('#modal-form-update-tagName').off('submit');
 
+                // on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM
                 $('#modal-form-update-tagName').on('submit', function(e) {
                     e.preventDefault();
                     let nickname = document.getElementById("NickLogged").textContent;
@@ -209,6 +217,7 @@ class Example {
                 // Mostro la modal
                 $('#delete-tagName-modal').modal('show');
 
+                $('#modal-form-delete-tagName').off('submit');
                 $('#modal-form-delete-tagName').on('submit', function(e) {
                     e.preventDefault();
                     let nickname = document.getElementById("NickLogged").textContent;
@@ -248,6 +257,7 @@ class Example {
             // Mostro la modal
             $('#add-tagValue-modal').modal('show');
 
+            $('#modal-form-add-tagValue').off('submit');
             $('#modal-form-add-tagValue').on('submit', function(e) {
                 e.preventDefault();
                 let nickname = document.getElementById("NickLogged").textContent;
@@ -282,6 +292,7 @@ class Example {
                 // Mostro la modal
                 $('#update-tagValue-modal').modal('show');
 
+                $('#modal-form-update-tagValue').off('submit');
                 $('#modal-form-update-tagValue').on('submit', function(e) {
                     e.preventDefault();
                     let nickname = document.getElementById("NickLogged").textContent;
@@ -322,7 +333,8 @@ class Example {
                     
                 // Mostro la modal
                 $('#delete-tagValue-modal').modal('show');
-
+                
+                $('#modal-form-delete-tagValue').off('submit');
                 $('#modal-form-delete-tagValue').on('submit', function(e) {
                     e.preventDefault();
                     let nickname = document.getElementById("NickLogged").textContent;
@@ -361,8 +373,6 @@ class Example {
 function createExamplesPage(projectId, projectTitle, projectInputType) {
     // Azzero il contenuto variabile della pagina
     variableContent.innerHTML = "";
-    // // Azzero l'array dei progetti, che verranno presi con una get
-    // examples.splice(0, examples.length);
 
     /* CREAZIONE ELEMENT FISSI */
     // Non creo più la navbar, la lascio invariata! Così in tutte le pagine che non siano la projects page
@@ -458,8 +468,9 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
             $('#InputFileImg').on("change",function() {
                 let file = $('#InputFileImg')[0].files[0].name;
                 $('#labelUploadImg').text(file);         
-              });
+            });
 
+            $(currentModal + ' form').off('submit');
             $(currentModal + ' form').on('submit', function(e) {
                 e.preventDefault();
                 let inputValue;  // ************************* TODO: caso di input immagine 
