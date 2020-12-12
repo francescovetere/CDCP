@@ -30,8 +30,9 @@ function getCookie(cname) {
 // Validazione cookie di autenticazione
 function checkAuth(name) {
     let cookieValues = getCookie(name);
+    let cookieSession = getCookie("id_session");
 
-    if(cookieValues!= "") { // check if cookie exist (Remember me checked)
+    if(cookieValues!= "") { // check if cookie auth exist (Remember me checked)
 
         cookieValues = JSON.parse(cookieValues);
 
@@ -64,8 +65,14 @@ function checkAuth(name) {
 
     } 
 
-    else { // if not exist, go to login page
-        createLoginPage();
+    else { // if not exist, check session cookie
+        if(cookieSession!=""){
+          // recupera il nickname dal local storage anziche' da una variabile globale 
+          // per evitare la sovrascrittura ad ogni refresh
+          createProjectsPage(sessionStorage.getItem("nick_session")); 
+        }
+        else
+          createLoginPage();
     }
 }
 

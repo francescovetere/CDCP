@@ -30,7 +30,11 @@ $(document).ready(function(){
 // Logout
 function logout() {
     let thisDomain = window.location.hostname;
+
+    // Delete all cookies on logout
     deleteCookie("tk_auth", "/", thisDomain);
+    deleteCookie("id_session", "/", thisDomain);
+    sessionStorage.setItem("nick_session", "");
 
     // Rimuovo navbar (parte del nickname)
     let nickbarContent = document.getElementById("nickChip");
@@ -63,11 +67,12 @@ function viewLogs() {
 /****************************************/
 /****************************************/
 
+
 $(window).on('load', function() {
     checkAuth("tk_auth");
 });
 
 // // Eventale gestione del reload
 // window.onbeforeunload = function() {
-//     return "Dude, are you sure you want to leave? Think of the kittens!"; // non viene mostrato però..
+//     return "Are you sure you want to leave?"; 
 // }

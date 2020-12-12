@@ -42,7 +42,7 @@ function createLoginPage() {
 
                     }
 
-                    variableContent.innerHTML = "";
+                    setCookie("id_session", Math.random()); // cookie to keep session alive on refresh
                     createProjectsPage(username);
                     document.getElementById("NickLogged").innerHTML = username;
                     

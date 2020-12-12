@@ -143,6 +143,10 @@ function createProjectsPage(nickname) {
 
     document.getElementById("NickLogged").innerHTML = nickname;
 
+    // Salva il nickname in storage locale per cookie session
+    if(!sessionStorage.getItem("nick_session"))
+        sessionStorage.setItem("nick_session", nickname);
+
     // Inserisce nel documento il codice per il bottone di add project
     let addProjectHTML = document.querySelector('script#add-project-template').textContent;
     variableContent.innerHTML += addProjectHTML;
@@ -188,7 +192,6 @@ function createProjectsPage(nickname) {
                         new Project(response.result.id, title, inputType);
                         $('#add-project-modal').modal('hide');
                         console.log("Project '"+ title + "' created");
-                        // goToHome();
                         createProjectsPage(nickname);
                     });
             });
