@@ -2,10 +2,6 @@
 
 const util = require('util');
 
-// https://stackoverflow.com/questions/23114374/file-uploading-with-express-4-0-req-files-undefined
-// usato SOLO per recuperare il nome del file
-let fileUpload = require("express-fileupload");
-
 // utilities
 const uuid = require('uuid').v4;
 
@@ -69,9 +65,6 @@ function fallbacks(app) {
         res.status(404);
         res.json({error: 'Not found'});
     });
-
-    // *********** Usato per recuperare filename
-    app.use(fileUpload());
 }
 
 const app = express();

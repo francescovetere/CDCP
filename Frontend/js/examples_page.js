@@ -45,7 +45,12 @@ class Example {
 
         // inputType
         let cardNodeInputValue = cardNode.querySelector('.example-inputValue');
-        cardNodeInputValue.innerHTML = this._inputValue;
+
+        if(this._inputType == "TEXT")
+            cardNodeInputValue.innerHTML = this._inputValue;
+        else if(this._inputType == "IMAGE")
+            cardNodeInputValue.innerHTML = this._inputValue;
+        
         
         // div che indica la fine del contenuto dell'example, e l'inizio dei tags
         let tagsDiv = cardNode.querySelector(".tags-div");
@@ -499,16 +504,17 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                 $(currentModal + ' form').on('submit', function(e) {
                 
                     e.preventDefault();
-                        
+                
                     // Caso Upload Immagine
                     let formData = new FormData();
-                    let file = document.querySelector(currentModal + " input").files[0];
-                    formData.append('example_image', file);
 
-                    console.log(file);
-                    console.log(formData);
-                    
-                    let inputValue = "TODO";
+                    let file = document.querySelector(currentModal + " input").files[0];
+                    let currentData = new Date().getTime();
+                    let newFileName = currentData + "_" + file.name;
+
+                    formData.append("example_image", file, newFileName);
+                
+                    let inputValue = newFileName;
                     let nickname = document.getElementById("NickLogged").textContent;
 
                     $.ajax({
@@ -519,8 +525,21 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                         contentType: false,
                         enctype: 'multipart/form-data',
                         success: function (data) {
-                            $(currentModal).modal('hide');
-                            alert('upload successful!\n' + data);
+                            
+                            // Questa strada "sloppy coded" e' solo per la bozza
+                            // Dopo l'upload corretto, si puo' inserire nel database il record 
+                            $.ajax({
+                                url: 'api/project/'+projectId+'/example',
+                                type: 'POST',
+                                data: {"inputType": projectInputType, "inputValue": inputValue, "nickname": nickname},
+                                success: function(response) {
+                                    $(currentModal).modal('hide');
+                                    alert(data);
+                                    createExamplesPage(projectId, projectTitle, projectInputType);  // serve per fare il refresh della pagina in modo completo
+                                },
+                                error: function(){alert("Something went wrong...");}
+                            });
+
                         },
                         error: function(){alert("Something went wrong...");}
                     });

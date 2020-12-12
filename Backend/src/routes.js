@@ -1,6 +1,8 @@
 const DBManager = require("./DBManager");
 const uuid = require('uuid').v4;
 const multer = require('multer');
+const path = require('path')
+const express = require('express'); 
 
 let dbm = new DBManager();
 
@@ -39,6 +41,9 @@ async function SaveLog(contentLog){
 }
 
 function routes(app) {
+
+    // configure public directory
+    //app.use(express.static(__dirname + '/public'));
 
     /******************
      * LOGS ROUTES 
@@ -692,32 +697,21 @@ function routes(app) {
      * Body: inputType, inputValue
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: verificare che inputType inserito sia uguale a quello del progetto
      */
-    let storage = multer.diskStorage({
-        destination: function (req, file, callback) {
-          callback(null, './uploads');
-        },
-        filename: function (req, file, callback) {
-          callback(null, file.fieldname + '-' + Date.now());
-        }
-      });
-    
-      // Qui invece di example_image ci vorrebbe il nome dell'immagine vero e proprio, recuperabile con 
-      // Object.values(req.files)[0].name grazie a express-fileupload
-      // Purtroppo però non funziona ancora...
-    let upload = multer({ storage : storage}).single('example_image');
-      
-    // app.get('/',function(req,res){
-    //     res.sendFile(__dirname + "/index.html");
-    // });
-    
-    app.post('/project/:projectId/exampleImg', async (req, resp) => {
-        let projectId = req.params.projectId;
-        console.log("Inserting new example img");
 
-        // console.log(req.files); // --> purtroppo dà undefined, ma non dovrebbe...
+    // Non puo' essere asincrona se c'e' il file upload! (err_write_after_end)
+    app.post('/project/:projectId/exampleImg', (req, resp) => {
+
+        let storage = multer.diskStorage({
+            destination: function (req, file, callback) {
+              callback(null, './public/uploads');
+            },
+            filename: function (req, file, callback) {
+              callback(null, file.originalname);
+            }
+          });
+        
+        let upload = multer({ storage : storage}).single('example_image');
 
         upload(req,resp,function(err) {
             if(err) {
@@ -727,10 +721,8 @@ function routes(app) {
             resp.end("File is uploaded");
         });
 
-        console.log("Example inserted correctly\n");
+        console.log("Uploaded new img");
 
-        resp.status(201);
-        resp.json({success: "Example inserted correctly"});
     });
 
     /**
