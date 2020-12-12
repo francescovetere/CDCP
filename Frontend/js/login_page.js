@@ -41,7 +41,7 @@ function createLoginPage() {
                     }
 
                     variableContent.innerHTML = "";
-                    createProjectsPage();
+                    createProjectsPage(username);
                     document.getElementById("NickLogged").innerHTML = username;
                     
 

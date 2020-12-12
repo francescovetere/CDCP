@@ -42,12 +42,15 @@ async function SaveLog(contentLog){
 
 function routes(app) {
 
-    app.get("/getImage/:image", (req, res) => {
+    app.get("/getImage/:image", async (req, res) => {
             //console.log("Required " + req.params.image);
             let pathImg = __dirname + "/../public/uploads/" + req.params.image;
             console.log(pathImg);
-            res.sendFile(path.join(pathImg));
-        });
+            
+            let file = path.join(pathImg);
+            await res.sendFile(file);
+            // res.json("ok");
+    });
 
 
     /******************
@@ -492,7 +495,7 @@ function routes(app) {
     /**
      * Rimozione di un progetto esistente
      * Parametri: id progetto
-     * Body: vuoto
+     * Body: inputValue
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -692,6 +695,9 @@ function routes(app) {
 
         console.log("Example inserted correctly\n");
 
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "POST", "Example '"+ inputValue +"' created."]);
+
         resp.status(201);
         resp.json({success: "Example inserted correctly"});
     });
@@ -840,7 +846,7 @@ function routes(app) {
     /**
      * Rimozione di un example esistente nel progetto
      * Parametri: id progetto, id example
-     * Body: vuoto
+     * Body: inputValue
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -849,7 +855,7 @@ function routes(app) {
 
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
-
+        
         let result;
         try {
             let sql = 'DELETE FROM Examples WHERE id=?';
@@ -872,6 +878,10 @@ function routes(app) {
         }
 
         console.log("Example deleted correctly\n");
+
+        let nickname = req.body.nickname;
+        let inputValue = req.body.inputValue;
+        SaveLog([nickname, projectId, exampleId, "DELETE", "Example "+ inputValue +" deleted."]);
 
         resp.status(200);
         resp.json({success: "Example deleted correctly"});
@@ -995,6 +1005,9 @@ function routes(app) {
 
         console.log("TagName inserted correctly\n");
 
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "POST", "TagName "+ tagName +" created."]);
+
         resp.status(201);
         resp.json({success: "TagName inserted correctly"});
     });
@@ -1058,6 +1071,9 @@ function routes(app) {
 
         console.log("tagName updated correctly\n");
 
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "PUT", "TagName "+ tagName +" updated with " + newTagName + "."]);
+
         resp.status(201);
         resp.json({success: "tagName updated correctly"});
     });
@@ -1098,6 +1114,9 @@ function routes(app) {
         }
 
         console.log("tagName deleted correctly\n");
+
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "DELETE", "TagName "+ tagName +" deleted."]);
 
         resp.status(200);
         resp.json({success: "tagName deleted correctly"});
@@ -1224,6 +1243,9 @@ function routes(app) {
 
         console.log("tagValue inserted correctly\n");
 
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "POST", "TagValue "+ tagValue +" created."]);
+
         resp.status(201);
         resp.json({success: "tagValue inserted correctly"});
     });
@@ -1288,6 +1310,9 @@ function routes(app) {
 
         console.log("tagValue updated correctly\n");
 
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "PUT", "TagValue "+ tagValue +" updated with " + newTagValue + "."]);
+
         resp.status(201);
         resp.json({success: "tagValue updated correctly"});
     });
@@ -1329,6 +1354,9 @@ function routes(app) {
         }
 
         console.log("tagValue deleted correctly\n");
+
+        let nickname = req.body.nickname;
+        SaveLog([nickname, projectId, exampleId, "DELETE", "TagValue "+ tagValue +" deleted."]);
 
         resp.status(200);
         resp.json({success: "tagValue deleted correctly"});

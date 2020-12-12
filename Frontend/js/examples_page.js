@@ -48,16 +48,12 @@ class Example {
 
         if(this._inputType == "TEXT")
             cardNodeInputValue.innerHTML = this._inputValue;
-        else if(this._inputType == "IMAGE"){
+        else if(this._inputType == "IMAGE") {
             let imagePath = this._inputValue;
-            $.get('api/getImage/'+this._inputValue,
-            {},
-            function(response) {
-                console.log("obtaining " + imagePath);
-                //console.log(response);
-                cardNodeInputValue.innerHTML = "<img style='heigth:200px; width:200px;' class='img-thumbnail' src='api/getImage/"+imagePath+"'>";
-            });
-
+            // Se il valore dell'attributo src è una stringa contenente una API, questa viene eseguita in automatico
+            // In questo caso, viene quindi invocata automaticamente la API di get dell'immagine
+            let imgHTML = "<img style='heigth:200px; width:200px;' class='img-thumbnail' src='api/getImage/"+imagePath+"'>";
+            cardNodeInputValue.innerHTML = imgHTML;
         }
         
         
@@ -138,7 +134,7 @@ class Example {
                 $.ajax({
                     url: 'api/project/'+idProject+'/example/'+idExample,
                     type: 'DELETE',
-                    data: {"nickname": nickname}, // mando sempre il nickname, per la tabella Logs
+                    data: {"nickname": nickname, inputValue: inputValue}, // mando sempre il nickname, per la tabella Logs
                     success: function(result) {
                     $("#delete-example-modal").modal('hide');
                         console.log("Deleted example");
