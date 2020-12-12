@@ -1000,7 +1000,10 @@ function routes(app) {
         }
 
         catch(err) {
+            resp.status(404);
+            resp.json({error: "TagName already exists"});
             console.log(err);
+            return;
         }
 
         console.log("TagName inserted correctly\n");
@@ -1238,7 +1241,10 @@ function routes(app) {
         }
 
         catch(err) {
+            resp.status(404);
+            resp.json({error: "TagValue already exists"});
             console.log(err);
+            return;
         }
 
         console.log("tagValue inserted correctly\n");
