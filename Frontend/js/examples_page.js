@@ -48,8 +48,17 @@ class Example {
 
         if(this._inputType == "TEXT")
             cardNodeInputValue.innerHTML = this._inputValue;
-        else if(this._inputType == "IMAGE")
-            cardNodeInputValue.innerHTML = this._inputValue;
+        else if(this._inputType == "IMAGE"){
+            let imagePath = this._inputValue;
+            $.get('api/getImage/'+this._inputValue,
+            {},
+            function(response) {
+                console.log("obtaining " + imagePath);
+                //console.log(response);
+                cardNodeInputValue.innerHTML = "<img style='heigth:200px; width:200px;' class='img-thumbnail' src='api/getImage/"+imagePath+"'>";
+            });
+
+        }
         
         
         // div che indica la fine del contenuto dell'example, e l'inizio dei tags
