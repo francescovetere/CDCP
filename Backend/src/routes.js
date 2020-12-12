@@ -1,8 +1,9 @@
+'use strict';
+
 const DBManager = require("./DBManager");
 const uuid = require('uuid').v4;
 const multer = require('multer');
 const path = require('path')
-const express = require('express'); 
 
 let dbm = new DBManager();
 
@@ -16,7 +17,7 @@ function formatDate(date) {
  * Campi: userNick, projectId, exampleId, actionType, details 
  */
 
-async function SaveLog(contentLog){
+async function SaveLog(contentLog) {
     console.log("Inserting a new log...\n");
 
     let userNick = contentLog[0];
@@ -25,10 +26,10 @@ async function SaveLog(contentLog){
     let actionType = contentLog[3];
     let details = contentLog[4];
 
-    params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
+    let params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
 
     try {   
-        sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
+        let sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
         await dbm.execQuery(sql, params);
     } 
         

@@ -1,3 +1,5 @@
+'use strict';
+
 function createLoginPage() {
     
     // Recupero l'HTML del template della form di login
@@ -17,7 +19,7 @@ function createLoginPage() {
             let username = $("#id-nickname").val();
             let pwd = $("#id-password").val();
 
-            // AJAX con JQuery
+            // AJAX con JQuery per login
             let formData = {nickname : username, password: pwd};
             $.ajax({
                 url: 'api/login',
@@ -47,7 +49,7 @@ function createLoginPage() {
 
                 },
                 error: function(error){
-                    alert("Hai inserito i dati sbagliati!"); // e' solo per debug attualmente, poi lo faremo piu' carino...
+                    alert("Something went wrong...");
                 }
             });
 

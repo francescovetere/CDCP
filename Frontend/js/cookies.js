@@ -1,4 +1,6 @@
-/* Protitipi di funzioni per cookies */ 
+'use strict';
+
+/* Protitipi di funzione per cookies */ 
 
 // Crea un cookie. Siccome non e' in https, non si puo' impostare il flag Secure. 
 function setCookie(cname, cvalue, exdays) {

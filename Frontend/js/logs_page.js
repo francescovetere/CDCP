@@ -1,3 +1,7 @@
+'use strict';
+
+// Pagina dei logs
+
 function createLogsPage() {
     // Identifico il template dei logs
     let logsTemplate = document.querySelector('script#logs-container-template');
@@ -28,7 +32,7 @@ function createLogsPage() {
         {},
         function(response) {
             for(let i = 0; i < response.total; ++i){
-                //projects.push(new Project(response.results[i].id, response.results[i].title, response.results[i].inputType));
+                
                 let log = document.createElement("tr");
                 log.setAttribute("class", customRow(response.results[i].actionType));
 

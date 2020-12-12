@@ -1,5 +1,8 @@
+'use strict';
 
-function createdonutChart(numText,numImage) {
+// Pagina delle statistiche
+
+function createdonutChart(numText, numImage) {
 
     const doughnutCanvas = document.getElementById("doughnut-chart");
 

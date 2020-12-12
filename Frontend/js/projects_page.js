@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Classe che modella le informazioni essenziali di un progetto
  */
@@ -103,7 +105,8 @@ class Project {
                         success: function(result) {
                             $("#deleteModal").modal('hide');
                             console.log("Deleted project n. " + id); // closure
-                            goToHome(); // serve per disegnare il contenuto aggiornato
+                            // goToHome(); // serve per disegnare il contenuto aggiornato
+                            createProjectsPage(nickname);
                         },
                         error: function(){alert("Something went wrong...");}
                     });
@@ -122,14 +125,21 @@ function createProjectsPage(nickname) {
     variableContent.innerHTML = "";
 
     /* CREAZIONE ELEMENT FISSI */
-    // Creo il bottone dell'utente nella navbar, in alto a destra
+    
     let navbarContent = document.getElementById("id-navbar");
     
-    let navbarNickname = document.createElement("div");
-    navbarNickname.setAttribute("id","nickChip");
-    navbarNickname.innerHTML = document.querySelector("script#navbar-nickname").textContent;
+    // Listener sul logo del sito (se già esistente, lo rimuovo)
+    $("#id-logo").off("click");
+    $("#id-logo").on("click", function() {createProjectsPage(nickname)});
 
-    navbarContent.appendChild(navbarNickname);
+    // Nel caso il bottone dell'utente nella navbar non esista di già, lo creo
+    // (facendo un refresh della pagina in questo modo, non lo ricreo ogni volta)
+    if(!(document.getElementById("nickChip"))) {
+        let navbarNickname = document.createElement("div");
+        navbarNickname.setAttribute("id", "nickChip");
+        navbarNickname.innerHTML = document.querySelector("script#navbar-nickname").textContent;
+        navbarContent.appendChild(navbarNickname);
+    }
 
     document.getElementById("NickLogged").innerHTML = nickname;
 
@@ -165,7 +175,7 @@ function createProjectsPage(nickname) {
                 
             // POST di un progetto 
 
-            // The .off() method removes event handlers that were attached with .on().
+            // The .off() method removes event handlers that were attached with .on()
             $('#modal-form-add-project').off('submit');
             $('#modal-form-add-project').on('submit', function(e) {
                 e.preventDefault();
@@ -178,7 +188,8 @@ function createProjectsPage(nickname) {
                         new Project(response.result.id, title, inputType);
                         $('#add-project-modal').modal('hide');
                         console.log("Project '"+ title + "' created");
-                        goToHome();
+                        // goToHome();
+                        createProjectsPage(nickname);
                     });
             });
         }

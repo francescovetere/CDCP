@@ -1,3 +1,5 @@
+'use strict';
+
 function createRegistrationPage() {
     // Recupero l'HTML del template della form di registrazione
     let registrationHTML = document.querySelector('script#registration-form-template').textContent;
@@ -30,7 +32,7 @@ function createRegistrationPage() {
                     createLoginPage();
                 },
                 error: function(error){
-                    alert("Hai inserito i dati sbagliati!"); // e' solo per debug attualmente, poi lo faremo piu' carino...
+                    alert("Something went wrong...");
                 }
             });
 

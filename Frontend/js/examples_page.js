@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Classe che modella le informazioni essenziali di un example
  */
@@ -514,6 +516,7 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                     let formData = new FormData();
 
                     let file = document.querySelector(currentModal + " input").files[0];
+                    // Diamo al file un nome univoco, aggiungendovi in testa un timestamp
                     let currentData = new Date().getTime();
                     let newFileName = currentData + "_" + file.name;
 
@@ -522,6 +525,9 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                     let inputValue = newFileName;
                     let nickname = document.getElementById("NickLogged").textContent;
 
+                    // POST di un example di tipo immagine: prima viene caricata l'immagine sul server,
+                    // dopodichè si fa una normale POST per l'inserimento di un example, il cui inputValue 
+                    // è valorizzato col nome dell'immagine
                     $.ajax({
                         url: 'api/project/'+projectId+'/exampleImg',
                         type: 'POST',
@@ -530,9 +536,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                         contentType: false,
                         enctype: 'multipart/form-data',
                         success: function (data) {
-                            
-                            // Questa strada "sloppy coded" e' solo per la bozza
-                            // Dopo l'upload corretto, si puo' inserire nel database il record 
                             $.ajax({
                                 url: 'api/project/'+projectId+'/example',
                                 type: 'POST',
@@ -540,7 +543,7 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                                 success: function(response) {
                                     $(currentModal).modal('hide');
                                     alert(data);
-                                    createExamplesPage(projectId, projectTitle, projectInputType);  // serve per fare il refresh della pagina in modo completo
+                                    createExamplesPage(projectId, projectTitle, projectInputType);
                                 },
                                 error: function(){alert("Something went wrong...");}
                             });
