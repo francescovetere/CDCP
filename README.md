@@ -3,28 +3,39 @@
 This repository contains the final project for the course "Internet Oriented Systems" of the Master's Degree in Computer Engineering @ University of Parma.
 
 ### Database Setup
-
-Before you start, you need **MySQL server** on your machine. 
-
-Then, you have to **configure** your account and password.
-
-**If you don't want to modify any scripts**, you can set in your MySQL config "root" user with "root" password. This is the default config our script:
+In order to correctly execute the Node server, **MySQL server** is required.
+A [start.sh](/Backend/start.sh) script is already provided: it runs both MySQL DB (automatically creating a database described in [makeDB.sql](/Backend/DB/makeDB.sql) file) and the Node server, so all you have to do is execute it:
 
 ```bash
-PSW="root"
-mysql -u root -p$PSW < DB/makeDB.sql
+> cd Backend
+> ./start.sh
 ```
 
-### Server Installation and Start
-You need **Node.js** and so you can execute [start.sh](/Backend/start.sh) to start the server and **create automatically** DB and necessary tables.
+### Node server dependencies
+Server is written in **Node.js**. Before you run the server, you'll need to install some dependecies:
 
 ```bash
-> sudo ./start.sh
+> cd Backend
+> npm install
 ```
-This script contains the startup and configuration of the database server and server node.
+
+### Apache server setup
+An Apache server is required, which you can configure with the file provided in [cdcp.config](/Apache/cdcp.config)
+These will be the typical commands you have to run in order to properly setup your Apache server:
+
+```bash
+> sudo cp -r Frontend/ /var/www/cdcp
+> sudo cp cdcp.conf /etc/apache2/sites-available
+> sudo a2enmod proxy_http # in order to have the 'ProxyPass' command working
+> sudo a2ensite cdcp.conf
+> sudo systemctl reload apache2
+> echo "127.0.0.1 cdcp www.cdcp cdcp.soi" | sudo tee -a /etc/hosts
+```
 
 ## First Use of Web App
-After successfully starting the server server, you can go to http://cdcp/ (or other aliases configured) and register a user. Then, proceed to login.
+After you successfully started MySQL, Node and Apache servers, you can point your browser to http://cdcp (or other aliases configured), and begin to interact with the web app.
+Then, you'll be asked to register yourself as a user.
+You can now login and start using the web app.
 
 
 ## Authors
