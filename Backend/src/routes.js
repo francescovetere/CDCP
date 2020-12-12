@@ -42,8 +42,13 @@ async function SaveLog(contentLog){
 
 function routes(app) {
 
-    // configure public directory
-    //app.use(express.static(__dirname + '/public'));
+    app.get("/getImage/:image", async (req, res) => {
+        console.log("Serve an image");
+        let pathImg = __dirname + "/public/uploads/1607773271354_20171031_121005.JPG";
+        //let html = "<img src='"+pathImg+"'>";
+        res.sendFile(path.join(__dirname, "./public/uploads/1607773271354_20171031_121005.JPG"));
+        //res.send(html);
+    });
 
     /******************
      * LOGS ROUTES 
