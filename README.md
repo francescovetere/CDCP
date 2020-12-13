@@ -11,7 +11,7 @@ A [start.sh](/Backend/start.sh) script is already provided: it runs both MySQL D
 > ./start.sh
 ```
 
-### Node server dependencies
+### Node server setup
 Server is written in **Node.js**. Before you run the server, you'll need to install some dependecies:
 
 ```bash
@@ -20,7 +20,7 @@ Server is written in **Node.js**. Before you run the server, you'll need to inst
 ```
 
 ### Apache server setup
-An Apache server is required, which you can configure with the file provided in [cdcp.config](/Apache/cdcp.config)
+An Apache server is required, which you can configure with the file provided in [cdcp.conf](/Apache/cdcp.conf): with this configuration, the Apache server will run on port 80, and it will automatically redirect all API requests to the Node server listening on port 8000.
 These will be the typical commands you have to run in order to properly setup your Apache server:
 
 ```bash
@@ -34,8 +34,7 @@ These will be the typical commands you have to run in order to properly setup yo
 
 ## First Use of Web App
 After you successfully started MySQL, Node and Apache servers, you can point your browser to http://cdcp (or other aliases configured), and begin to interact with the web app.
-Then, you'll be asked to register yourself as a user.
-You can now login and start using the web app.
+At first, you'll be asked to register yourself as a user. Then, you can login with your credentials and begin to use the web app.
 
 
 ## Authors
