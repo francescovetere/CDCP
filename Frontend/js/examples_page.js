@@ -45,7 +45,7 @@ class Example {
         let cardNodeInputType = cardNode.querySelector('.example-inputType');
         cardNodeInputType.innerText = this._inputType;
 
-        // inputType
+        // inputValue
         let cardNodeInputValue = cardNode.querySelector('.example-inputValue');
 
         if(this._inputType == "TEXT")
@@ -275,8 +275,11 @@ class Example {
                 let nickname = document.getElementById("NickLogged").textContent;
                 let titleProject = document.querySelector(".project-title").textContent;
 
-                // Identifico l'elemento span del tagName corrispondente a questo tagValue
-                let tagName = event.target.parentNode.parentNode.querySelector(".tagName");
+                // console.log(event.target);
+
+                // // Identifico l'elemento span del tagName corrispondente a questo tagValue
+                let tagName = event.target.parentNode.parentNode.parentNode.querySelector(".tagName");
+                // console.log("tagName: " + tagName.innerText);
 
                 let newTagValue = $("#modal-form-add-tagValue .modal-tagValue").val();
 
@@ -287,7 +290,7 @@ class Example {
                     success: function(response) {
                     $("#add-tagValue-modal").modal('hide');
                         console.log("Created tagValue");
-                        createExamplesPage(idProject, titleProject, inputType);  // serve per fare il refresh della pagina in modo completo
+                        createExamplesPage(idProject, titleProject, inputType);
                     },
                     error: function(){alert("Something went wrong...");}
                 });
@@ -479,7 +482,9 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                 
                     e.preventDefault();
 
-                    let inputValue = $(currentModal + ' input').val();
+                    let inputValue = $(currentModal + ' textarea').val();
+                    // console.log($(currentModal + ' textarea'));
+                    // console.log(inputValue);
 
                     let nickname = document.getElementById("NickLogged").textContent;
 
