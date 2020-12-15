@@ -697,7 +697,7 @@ function routes(app) {
         console.log("Example inserted correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "POST", "Example '"+ inputValue +"' created."]);
+        SaveLog([nickname, projectId, exampleId, "POST", "Example created."]);
 
         resp.status(201);
         resp.json({success: "Example inserted correctly"});
@@ -882,7 +882,7 @@ function routes(app) {
 
         let nickname = req.body.nickname;
         let inputValue = req.body.inputValue;
-        SaveLog([nickname, projectId, exampleId, "DELETE", "Example "+ inputValue +" deleted."]);
+        SaveLog([nickname, projectId, exampleId, "DELETE", "Example deleted."]);
 
         resp.status(200);
         resp.json({success: "Example deleted correctly"});
