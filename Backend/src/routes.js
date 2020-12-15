@@ -3,7 +3,8 @@
 const DBManager = require("./DBManager");
 const uuid = require('uuid').v4;
 const multer = require('multer');
-const path = require('path')
+const path = require('path');
+const bcrypt = require('bcryptjs');
 
 let dbm = new DBManager();
 
@@ -183,7 +184,7 @@ function routes(app) {
 
         let nickname = req.body.nickname;
         let email = req.body.email;
-        let password = req.body.password; // la password andra' cifrata con hash prima di essere inserita
+        let password = bcrypt.hashSync(req.body.password, 10); // hash password and salt
         let registrationDate = formatDate(new Date());
 
         // Validazione campi body
@@ -246,13 +247,12 @@ function routes(app) {
         console.log("Login in user");
 
         let nickname = req.body.nickname;
-        let password = req.body.password; // la password andra' cifrata con hash prima di essere controllata
-        
+        let password = req.body.password; // clear password
         let result;
 
-        try {   
-            let sql = "SELECT * FROM Users WHERE BINARY ? = nickname AND BINARY ? = password";
-            let params = [nickname, password];
+        try {  // Load hash from DB
+            let sql = "SELECT password FROM Users WHERE BINARY ? = nickname";
+            let params = [nickname];
             result = await dbm.execQuery(sql, params);
         } 
         
@@ -260,7 +260,9 @@ function routes(app) {
             console.log(err);
         }
         
-        if(result.length === 0) {
+        let hashStored = JSON.stringify(result[0].password);
+
+        if(result.length === 0 || !bcrypt.compareSync(password, JSON.parse(hashStored))) {
             console.log("Login failed\n");
             resp.status(401);
             resp.json({error: "Login failed"});
@@ -329,6 +331,7 @@ function routes(app) {
         
         let tk = uuid();
         let nickname = req.body.nickname;
+        let result;
 
         // add 30 days to current day
         let d = new Date();
