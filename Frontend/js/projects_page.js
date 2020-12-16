@@ -77,11 +77,48 @@ class Project {
         // (on() di JQuery mi permette di assegnare handler a oggetti non ancora nel DOM)
         $(document).on("click", "#card-content-"+id+ " .btn-view-project",
             function(event) {
+                // prevents other listeners of the same event from being called
                 event.stopImmediatePropagation();
-                console.log("Viewing project n. " + id); // closure
+                console.log("Viewing project '" + title + "'"); // closure
                 createExamplesPage(id, title, inputType); // closure
             }
         );
+
+        // Listener sul bottone di aggiornamento titolo di un progetto
+        $(document).on("click", "#card-content-"+id+ " .btn-update-project",
+            function(event) {
+                event.stopImmediatePropagation();
+
+                // Mostro la modal
+                $('#update-project-modal').modal('show');
+
+                // Alla conferma, eseguo l'update del titolo del progetto
+                let nickname = document.getElementById("NickLogged").textContent;
+                $('#modal-form-update-project').off('submit');
+                $('#modal-form-update-project').on('submit', (function(e) {
+                    
+                    e.preventDefault(); // evita il refresh della pagina
+
+                    // recupero il nuovo titolo inserito nella form
+                    let newTitle = $("#modal-form-update-project input").val();
+
+                    title = newTitle;
+                    
+                    $.ajax({
+                        url: '/api/project/'+id,
+                        type: 'PUT',
+                        // passo lo stesso inputType, è pericoloso renderlo modificabile
+                        data: {"title": newTitle, "inputType": inputType, "nickname": nickname},
+                        success: function(result) {
+                            $("#update-project-modal").modal('hide');
+                            console.log("Updated project '" + title + "' with '" + newTitle + "'"); // closure
+                            createProjectsPage(nickname);
+                        },
+                        error: function(){alert("Something went wrong...");}
+                    });
+                }));
+            
+        });
         
         // Listener sul bottone di eliminazione di un progetto
         $(document).on("click", "#card-content-"+id+ " .btn-delete-project",
@@ -151,12 +188,16 @@ function createProjectsPage(nickname) {
     let addProjectHTML = document.querySelector('script#add-project-template').textContent;
     variableContent.innerHTML += addProjectHTML;
 
+    // Inserisce nel documento il codice per il bottone di update project's title
+    let updateProjectModalHTML = document.querySelector('script#update-project-modal-script').textContent;
+    variableContent.innerHTML += updateProjectModalHTML;
+
     // Inserisce nel documento il codice per la modal di eliminazione
-    let deleteModalHTML = document.querySelector('script#delete-card-modal').textContent;
+    let deleteModalHTML = document.querySelector('script#delete-card-modal-script').textContent;
     variableContent.innerHTML += deleteModalHTML;
 
     // Inserisce nel documento il codice per la modal di aggiunta del progetto
-    let addProjectModalHTML = document.querySelector('script#add-project-modal').textContent;
+    let addProjectModalHTML = document.querySelector('script#add-project-modal-script').textContent;
     variableContent.innerHTML += addProjectModalHTML;
 
     /* CREAZIONE ELEMENTI VARIABILI (CARD DEI PROGETTI) */

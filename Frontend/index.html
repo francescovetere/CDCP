@@ -32,7 +32,7 @@
 		<!-- ----------------- -->
 
 		<!-- Cookies logic (typically not deferrable) -->
-		<script src="js/cookies.js" type="text/javascript"></script>
+		<script src="js/cookies.js" type="text/javascript" defer></script>
 
 		<!-- Login page -->
 		<script src="js/login_page.js" type="text/javascript" defer></script>
@@ -285,7 +285,7 @@
 		</script>
 
 		<!-- Add Project modal -->
-		<script type="text/html" id="add-project-modal">
+		<script type="text/html" id="add-project-modal-script">
 			<div class="modal fade" id="add-project-modal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<form id="modal-form-add-project">
@@ -309,7 +309,7 @@
 							</div>
 							<div class="form-group">
 						
-								<input type="text" placeholder="Insert title" class="form-control" id="modal-project-title" required></textarea>
+								<input type="text" placeholder="Insert title" class="form-control" id="modal-project-title" required>
 							</div>
 						</div>
 				
@@ -323,8 +323,37 @@
 			</div>
 		</script>
 
+		<!-- Update Project modal -->
+		<script type="text/html" id="update-project-modal-script">
+			<div class="modal fade" id="update-project-modal" tabindex="-1" role="dialog" aria-labelledby="updateProjectModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<form id="modal-form-update-project">
+						<div class="modal-content">
+				
+						<div class="modal-header">
+							<h5 class="modal-title" id="updateProjectModalLabel">Update Project's title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						
+						<div class="modal-body addBody">
+							<div class="form-group">
+								<input type="text" placeholder="Insert new title" class="form-control" id="modal-project-update-title" required>
+							</div>
+						</div>
+				
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+							<button type="submit" class="btn btn-success">Update project</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</script>
+
 		<!-- Project delete modal -->
-		<script type="text/html" id="delete-card-modal">
+		<script type="text/html" id="delete-card-modal-script">
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<form id="modal-form-project-delete">

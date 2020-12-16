@@ -457,6 +457,7 @@ function routes(app) {
         let id = req.params.id;
         let title = req.body.title;
         let inputType = req.body.inputType;
+        let nickname = req.body.nickname;
 
         // Validazione campi body
         if(inputType != "TEXT" && inputType != "IMAGE") {
@@ -488,10 +489,12 @@ function routes(app) {
             return;
         }
 
-        console.log("Project updated correctly\n");
+        console.log("Project updated correctly");
 
         resp.status(200);
         resp.json({success: "Project updated correctly"});
+
+        SaveLog([nickname, id, "", "PUT", "Project's title updated with '" + title + "'."])
     });
 
 
@@ -499,7 +502,7 @@ function routes(app) {
     /**
      * Rimozione di un progetto esistente
      * Parametri: id progetto
-     * Body: inputValue
+     * Body: inputValue, projectTitle
      * Risposta positiva: success
      * Risposta negativa: error
      */
