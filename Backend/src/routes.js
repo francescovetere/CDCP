@@ -765,7 +765,7 @@ function routes(app) {
         
         let queryResult;
         try {
-            let sql = 'SELECT * FROM Examples WHERE id=?';
+            let sql = 'SELECT inputValue as PreValue FROM Examples WHERE id=?';
             let params = [exampleId];
             queryResult = await dbm.execQuery(sql, params);
         }
@@ -811,7 +811,23 @@ function routes(app) {
             previewText = inputValue.substring(0, K) + "...";
         else previewText = inputValue;
 
+        // Delete immagine precedente (PreValue)
+        if(inputType === 'IMAGE') {
+            let imageToDelete = JSON.stringify(queryResult[0].PreValue);
+            imageToDelete = JSON.parse(imageToDelete);
+            console.log("Delete '" + imageToDelete + "'.");
+
+            fs.unlink('./public/uploads/' + imageToDelete, (err) => {
+                if (err) {
+                  console.error(err)
+                  return
+                }
+                //file removed
+            });
+        }
+
         SaveLog([nickname, projectId, exampleId, "PUT", "Example updated with '" + previewText + "'."]);
+
     });
 
 

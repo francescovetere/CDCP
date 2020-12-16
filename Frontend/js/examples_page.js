@@ -164,13 +164,13 @@ class Example {
                     $(currentModal).modal('show');
     
                     // Quando scelgo un'immagine da caricare, cambio il testo nella label 
-                    $('#InputFileImg').on("change",function() { 
-                        $('#labelUploadImg').text($('#InputFileImg')[0].files[0].name);
+                    $('#InputUpdateFileImg').on("change",function() { 
+                        $('#labelUploadUpdateImg').text($('#InputUpdateFileImg')[0].files[0].name);
                     });
     
                     $(currentModal + ' form').off('submit');
                     $(currentModal + ' form').on('submit', function(e) {
-                        console.log("ok");
+
                         e.preventDefault();
                     
                         // Caso Upload Immagine
@@ -178,7 +178,7 @@ class Example {
     
                         let file = document.querySelector(currentModal + " input").files[0];
                         // Diamo al file un nome univoco, aggiungendovi in coda un timestamp
-                        let newFileName = file.name + "_" + Date.now();
+                        let newFileName =  Date.now() + "_" + file.name;
     
                         formData.append("example_image", file, newFileName);
                     
@@ -632,7 +632,7 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
 
                     let file = document.querySelector(currentModal + " input").files[0];
                     // Diamo al file un nome univoco, aggiungendovi in coda un timestamp
-                    let newFileName = file.name + "_" + Date.now();
+                    let newFileName = Date.now() + "_" + file.name;
 
                     formData.append("example_image", file, newFileName);
                 
