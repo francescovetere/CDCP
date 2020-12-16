@@ -392,7 +392,7 @@ function routes(app) {
         console.log("Projects retrieved correctly\n");
     });
     
-
+ 
 
     /**
      * Inserimento di un nuovo progetto
