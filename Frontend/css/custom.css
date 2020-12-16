@@ -162,3 +162,9 @@
 .navLogo:hover{
   cursor: pointer;
 }
+
+/* change bs btn-warning */
+.btn-warning{
+  background-color: #ffdc5f;
+  border-color: #f5c04b;
+}
