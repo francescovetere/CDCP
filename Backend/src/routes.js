@@ -511,9 +511,33 @@ function routes(app) {
         let nickname = req.body.nickname;
 
         let result;
+
         try {
-            let sql = 'DELETE FROM Projects WHERE id=?';
+
             let params = [id];
+
+            /* Recupera tutte le immagini da eliminare se il tipo e' IMAGE */
+            let sqlRetrieveType = 'SELECT inputType FROM Projects WHERE id=?';
+            let inputTypeResult = await dbm.execQuery(sqlRetrieveType, params);
+            inputTypeResult = JSON.parse(JSON.stringify(inputTypeResult[0].inputType));
+
+            if(inputTypeResult == "IMAGE"){
+                console.log("Delete all images of project");
+                let sqlImageToDelete = 'SELECT inputValue FROM Examples WHERE projectId=?';
+                let imagesToDelete = await dbm.execQuery(sqlImageToDelete, params);
+                imagesToDelete = JSON.parse(JSON.stringify(imagesToDelete));
+                for(let i=0; i < imagesToDelete.length; ++i){
+                    fs.unlink('./public/uploads/' + imagesToDelete[i].inputValue, (err) => {
+                        if (err) {
+                          console.error(err)
+                          return
+                        }
+                        //file removed
+                    });
+                }
+            }
+
+            let sql = 'DELETE FROM Projects WHERE id=?';
             result = await dbm.execQuery(sql, params);
         }
 
