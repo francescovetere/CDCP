@@ -2,7 +2,8 @@
 
 const DBManager = require("./DBManager");
 const uuid = require('uuid').v4;
-const multer = require('multer');
+const multer = require('multer'); // per caricare file
+const fs = require('fs')          // per eliminare file
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
@@ -66,8 +67,6 @@ function routes(app) {
      * Body: vuoto
      * Risposta positiva: Tutti i logs
      * Risposta negativa: nessuna
-     * 
-     * TODO: Aggiungere un record nella tabella Logs per (quasi) ogni API
      */
     app.get('/logs', async (req, resp) => {
         console.log("Retrieving all log records\n");
@@ -110,8 +109,6 @@ function routes(app) {
      * Body: vuoto
      * Risposta positiva: Tutti i record che soddisfano le statistiche richieste
      * Risposta negativa: nessuna
-     * 
-     * TODO: Scrivere la stirnga SQL per il recupero delle statistiche dalle varie tabelle esistenti
      */
     app.get('/stats', async (req, resp) => {
         console.log("Retrieving all stats\n");
@@ -646,8 +643,6 @@ function routes(app) {
      * Body: inputType, inputValue
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: verificare che inputType inserito sia uguale a quello del progetto
      */
     app.post('/project/:projectId/example', async (req, resp) => {
         let projectId = req.params.projectId;
@@ -757,16 +752,16 @@ function routes(app) {
      * Body: inputType, inputValue
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: verificare che inputType inserito sia uguale a quello del progetto
      */
     app.put('/project/:projectId/example/:exampleId', async (req, resp) => {
         let projectId = req.params.projectId;
         let exampleId = req.params.exampleId;
+        
         console.log("Updating example");
 
         let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
+        let nickname = req.body.nickname;
         
         let queryResult;
         try {
@@ -804,56 +799,19 @@ function routes(app) {
             return; 
         }
 
-        // // Aggiorno tagNames e tagValues presenti eventualmente presenti nel campo tags, nelle rispettive tabelle
-        // // esempio di accesso: console.log(tags[0].tagValues[1]);
-        // if(tags) {
-        //     for(let i = 0; i < tags.length; ++i) {
-        //         /*** inserisco ogni tagName nella tabella TagNames ***/
-        //         let tagName = tags[i].tagName;
-        //         // console.log(tagName);
-                
-        //         try {
-        //             let sql = 'UPDATE TagNames SET tagName=? WHERE exampleId=?';
-        //             let params = [tagName, exampleId];
-        //             await dbm.execQuery(sql, params);
-        //         }
-        
-        //         catch(err) {
-        //             console.log(err);
-        //             resp.status(400);
-        //             resp.json({error: err});
-        //             return;                
-        //         }
-                
-        //         /*** per ogni tagValue associato al tagName corrente, effettuo un inserimento nella tabella TagValues ***/
-        //         let tagValues = tags[i].tagValues;
-        //         // console.log(tagValues);
-
-        //         if(tagValues) {
-        //             for(let j = 0; j < tagValues.length; ++j) {
-        //                 // console.log(tagValues[j]);
-        //                 try {
-        //                     let sql = 'UPDATE TagValues SET tagName=?, tagValue=? WHERE exampleId=?';
-                
-        //                     let params = [tagName, tagValues[j], exampleId];
-        //                     await dbm.execQuery(sql, params);
-        //                 }
-                
-        //                 catch(err) {
-        //                     console.log(err);
-        //                     resp.status(400);
-        //                     resp.json({error: err}); 
-        //                     return; 
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
         console.log("Example updated correctly\n");
 
         resp.status(201);
         resp.json({success: "Example updated correctly"});
+        
+        // Visualizzazione anteprima inputValue nei log
+        let K = 10;
+        let previewText;
+        if(inputValue.length > K)
+            previewText = inputValue.substring(0, K) + "...";
+        else previewText = inputValue;
+
+        SaveLog([nickname, projectId, exampleId, "PUT", "Example updated with '" + previewText + "'."]);
     });
 
 
@@ -861,9 +819,11 @@ function routes(app) {
     /**
      * Rimozione di un example esistente nel progetto
      * Parametri: id progetto, id example
-     * Body: inputValue
+     * Body: inputValue, inputType
      * Risposta positiva: success
      * Risposta negativa: error
+     * 
+     * N.B. Se inputType === 'IMAGE' ==> elimino la vecchia immagine dal file system!
      */
     app.delete('/project/:projectId/example/:exampleId', async (req, resp) => {
         console.log("Deleting example");
@@ -892,10 +852,22 @@ function routes(app) {
             return;
         }
 
-        console.log("Example deleted correctly\n");
-
+        //  N.B. Se inputType === 'IMAGE' ==> elimino la vecchia immagine dal file system!
         let nickname = req.body.nickname;
+        let inputType = req.body.inputType;
         let inputValue = req.body.inputValue;
+
+        if(inputType === 'IMAGE') {
+            fs.unlink('./public/uploads/' + inputValue, (err) => {
+                if (err) {
+                  console.error(err)
+                  return
+                }
+                //file removed
+            });
+        }
+
+        console.log("Example deleted correctly\n");
 
         // Visualizzazione anteprima inputValue nei log
         let K = 10;
@@ -984,8 +956,6 @@ function routes(app) {
      * Body: tagName
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: controllare di non inserire un tagName che esista già in quell'example
      */
     app.post('/project/:projectId/example/:exampleId/tagName', async (req, resp) => {
         let projectId = req.params.projectId;
@@ -1046,8 +1016,6 @@ function routes(app) {
      * Body: tagName
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: controllare di non inserire un tagName che esista già in quell'example
      */
     app.put('/project/:projectId/example/:exampleId/tagName/:tagName', async (req, resp) => {
         console.log("Updating tagName");
@@ -1223,9 +1191,6 @@ function routes(app) {
      * Body: tagValue
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * 
-     * TODO: controllare di non inserire un tagValue che esista già per quel tagName di quell'example
      */
     app.post('/project/:projectId/example/:exampleId/tagName/:tagName/tagValue', async (req, resp) => {
         let projectId = req.params.projectId;
@@ -1287,8 +1252,6 @@ function routes(app) {
      * Body: nuovo tagValue
      * Risposta positiva: success
      * Risposta negativa: error
-     * 
-     * TODO: controllare di non inserire un tagValue che esista già per quel tagName di quell'example
      */
     app.put('/project/:projectId/example/:exampleId/tagName/:tagName/tagValue/:tagValue', async (req, resp) => {
         console.log("Updating tagValue");

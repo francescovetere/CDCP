@@ -404,16 +404,16 @@
 			<div id="example-content" class="card collection-card mb-3" style="width: 100%">
 				<div class="card-body">
 					<h5 class="example-inputType"></h5>
-					<div class="example-inputValue text-center"></div>
-					<!-- <h6 class="example-subtitle mb-2 text-muted">Created on February 19, 2016 by User</h6> -->
+					<button type="button" class="btn btn-update-example p-0 ml-2"><i class="fas fa-pen-square btn-update-example" style="font-size:1.6rem; color:orange;"></i></button>
+					<button type="button" class="btn btn-delete-example p-0 ml-2"><i class="fas fa-backspace btn-delete-example" style="font-size:1.6rem; color:darkred;"></i></button>
+									
+					<div class="example-inputValue text-center"></div> 
 
 					<hr class="hr-example-card-template my-4">
 
 					<div class="tags-div col-auto"></div>
 
 					<button type="button" class="btn btn-outline-success btn-add-tagName"><i class="fas fa-folder-plus mr-2"></i>Add tagName</button>
-					<button type="button" class="btn btn-outline-danger btn-delete-example"><i class="fas fa-folder-minus mr-2"></i>Delete example</button>
-						
 				</div>
 			</div>
 		</script>
@@ -459,7 +459,7 @@
 			<!-- </p> -->
 		</script>
 
-		<!--*** MODALS (TODO: contenuto testuale)***-->
+		<!--*** MODALS ***-->
 		<!-- Add tagName modal -->
 		<script type="text/html" id="add-tagName-modal-script">
 			<div class="modal fade" id="add-tagName-modal" tabindex="-1" role="dialog" aria-labelledby="addTagNameModalLabel" aria-hidden="true">
@@ -666,6 +666,36 @@
 			</div>
 		</script>
 
+		<!-- Update text example modal -->
+		<script type="text/html" id="update-example-txt-modal-script">
+			<div class="modal fade" id="update-example-txt-modal" tabindex="-1" role="dialog" aria-labelledby="updateExampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<form id="modal-form-update-example-txt">
+						<div class="modal-content">
+				
+						<div class="modal-header">
+							<h5 class="modal-title" id="addExampleModalLabel">Update textual example</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						
+						<div class="modal-body">
+							<div class="form-group">
+								<textarea rows="1" placeholder="insert new inputValue" class="form-control inputValue-txt" required></textarea>
+							</div>
+							
+						</div>
+				
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+							<button type="submit" class="btn btn-success">Update example</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</script>
+
 		<!-- Add img example modal -->
 		<script type="text/html" id="add-example-img-modal-script">
 			<div class="modal fade" id="add-example-img-modal" tabindex="-1" role="dialog" aria-labelledby="addExampleModalLabel" aria-hidden="true">
@@ -686,7 +716,7 @@
 								<div class="custom-file" id="customFile">
 									<input type="file" required class="custom-file-input inputValue-img" id="InputFileImg" aria-describedby="fileHelp">
 									<label class="custom-file-label" for="InputFileImg" id="labelUploadImg">
-										Seleziona un'immagine
+										Choose an image
 									</label>
 								</div>
 							</div>
@@ -696,6 +726,42 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
 							<button type="submit" class="btn btn-success">Create example</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</script>
+
+		<!-- Update img example modal -->
+		<script type="text/html" id="update-example-img-modal-script">
+			<div class="modal fade" id="update-example-img-modal" tabindex="-1" role="dialog" aria-labelledby="updateExampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<form id="modal-form-update-example-img">
+						<div class="modal-content">
+				
+						<div class="modal-header">
+							<h5 class="modal-title" id="updateExampleModalLabel">Update image example</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						
+						<div class="modal-body">
+
+							<div class="container">
+								<div class="custom-file" id="customFile">
+									<input type="file" required class="custom-file-input inputValue-img" id="InputFileImg" aria-describedby="fileHelp">
+									<label class="custom-file-label" for="InputFileImg" id="labelUploadImg">
+										Choose and image
+									</label>
+								</div>
+							</div>
+							
+						</div>
+				
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+							<button type="submit" class="btn btn-success">Update example</button>
 						</div>
 					</form>
 				</div>

@@ -119,7 +119,106 @@ class Example {
         let inputValue = this._inputValue;
         let tags = this._tags;
 
+
+        let titleProject = document.querySelector(".project-title").textContent;
+
         /***  EXAMPLE ***/
+        // Listener sul bottone di update example
+        $(document).on("click", "#example-content-"+idExample+ " .btn-update-example", function(event) {
+            event.stopImmediatePropagation();
+            
+            // Mostro la modal (diversa in base al tipo di input del progetto)
+            let currentModal;
+
+            if(inputType === 'TEXT') {
+                currentModal = '#update-example-txt-modal';
+                    $(currentModal).modal('show');
+    
+                    $(currentModal + ' form').off('submit');
+                    $(currentModal + ' form').on('submit', function(e) {
+                    
+                        e.preventDefault();
+                        
+                        let newInputValue = $(currentModal + ' textarea').val();
+                        inputValue = newInputValue;
+
+                        let nickname = document.getElementById("NickLogged").textContent;
+    
+                        $.ajax({
+                            url: 'api/project/'+idProject+'/example/'+idExample,
+                            type: 'PUT',
+                            data: {"inputType": inputType, "inputValue": newInputValue, "nickname": nickname},
+                            success: function(response) {
+                                $(currentModal).modal('hide');
+                                console.log("Updated example");
+                                createExamplesPage(idProject, titleProject, inputType);  // serve per fare il refresh della pagina in modo completo
+                            },
+                            error: function(){alert("Something went wrong...");}
+                        });
+                    });   
+            }    
+                
+            else if(inputType === 'IMAGE') {
+                    currentModal = '#update-example-img-modal';
+    
+                    $(currentModal).modal('show');
+    
+                    // Quando scelgo un'immagine da caricare, cambio il testo nella label 
+                    $('#InputFileImg').on("change",function() { 
+                        $('#labelUploadImg').text($('#InputFileImg')[0].files[0].name);
+                    });
+    
+                    $(currentModal + ' form').off('submit');
+                    $(currentModal + ' form').on('submit', function(e) {
+                        console.log("ok");
+                        e.preventDefault();
+                    
+                        // Caso Upload Immagine
+                        let formData = new FormData();
+    
+                        let file = document.querySelector(currentModal + " input").files[0];
+                        // Diamo al file un nome univoco, aggiungendovi in coda un timestamp
+                        let newFileName = file.name + "_" + Date.now();
+    
+                        formData.append("example_image", file, newFileName);
+                    
+                        let newInputValue = newFileName;
+                        inputValue = newInputValue;
+
+                        let nickname = document.getElementById("NickLogged").textContent;
+    
+                        // PUT di un example di tipo immagine: prima viene caricata l'immagine sul server (con POST!!),
+                        // dopodichè si fa una normale PUT per l'inserimento di un example, il cui inputValue 
+                        // è valorizzato col nome dell'immagine
+                        $.ajax({
+                            url: 'api/project/'+idProject+'/exampleImg',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            enctype: 'multipart/form-data',
+                            success: function (data) {
+                                $.ajax({
+                                    url: 'api/project/'+idProject+'/example/'+idExample,
+                                    type: 'PUT',
+                                    data: {"inputType": inputType, "inputValue": newInputValue, "nickname": nickname},
+                                    success: function(response) {
+                                        $(currentModal).modal('hide');
+                                        alert(data);
+                                        createExamplesPage(idProject, titleProject, inputType);
+                                    },
+                                    error: function(){alert("Something went wrong...");}
+                                });
+    
+                            },
+                            error: function(){alert("Something went wrong...");}
+                        });
+    
+                    });   
+            } 
+            
+        });
+
         // Listener sul bottone di delete example
         $(document).on("click", "#example-content-"+idExample+ " .btn-delete-example", function(event) {
             event.stopImmediatePropagation();
@@ -136,7 +235,10 @@ class Example {
                 $.ajax({
                     url: 'api/project/'+idProject+'/example/'+idExample,
                     type: 'DELETE',
-                    data: {"nickname": nickname, inputValue: inputValue}, // mando sempre il nickname, per la tabella Logs
+                    // mando sempre il nickname, per la tabella Logs
+                    // mando in questo caso anche inputType, perchè è comodo averlo nell'implementazione della delete sul server
+                    // (evito di dover una query aggiuntiva)
+                    data: {"nickname": nickname, inputValue: inputValue, "inputType": inputType}, 
                     success: function(result) {
                     $("#delete-example-modal").modal('hide');
                         console.log("Deleted example");
@@ -377,7 +479,7 @@ class Example {
                         error: function(){alert("Something went wrong...");}
                     });
                 });
-            });
+        });
     }
 }
 
@@ -431,9 +533,17 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
     let addExampleTxtModalHTML = document.querySelector('script#add-example-txt-modal-script').textContent;
     variableContent.innerHTML += addExampleTxtModalHTML;
 
+    // Inserisce nel documento il codice per la modal di update example (testuale)
+    let updateExampleTxtModalHTML = document.querySelector('script#update-example-txt-modal-script').textContent;
+    variableContent.innerHTML += updateExampleTxtModalHTML;
+
     // Inserisce nel documento il codice per la modal di add example (immagine)
     let addExampleImgModalHTML = document.querySelector('script#add-example-img-modal-script').textContent;
     variableContent.innerHTML += addExampleImgModalHTML;
+
+    // Inserisce nel documento il codice per la modal di update example (immagine)
+    let updateExampleImgModalHTML = document.querySelector('script#update-example-img-modal-script').textContent;
+    variableContent.innerHTML += updateExampleImgModalHTML;
 
     // Inserisce nel documento il codice per la modal di delete example
     let deleteExampleModalHTML = document.querySelector('script#delete-example-modal-script').textContent;
@@ -521,9 +631,8 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
                     let formData = new FormData();
 
                     let file = document.querySelector(currentModal + " input").files[0];
-                    // Diamo al file un nome univoco, aggiungendovi in testa un timestamp
-                    let currentData = new Date().getTime();
-                    let newFileName = currentData + "_" + file.name;
+                    // Diamo al file un nome univoco, aggiungendovi in coda un timestamp
+                    let newFileName = file.name + "_" + Date.now();
 
                     formData.append("example_image", file, newFileName);
                 
@@ -559,6 +668,6 @@ function createExamplesPage(projectId, projectTitle, projectInputType) {
 
                 });   
             } 
-        });
+    });
 
 }
