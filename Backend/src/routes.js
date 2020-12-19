@@ -62,7 +62,7 @@ function routes(app) {
         
         let queryResult = [];
         try {
-            let sql = 'SELECT * FROM Logs ORDER BY timeStamp DESC';
+            let sql = 'SELECT * FROM Logs ORDER BY id DESC';
             queryResult = await dbm.execQuery(sql);
         }
 
