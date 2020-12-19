@@ -1,5 +1,5 @@
 -- sudo mysql -u root -p < makeDB.sql
--- DROP DATABASE IF EXISTS CDCP_DB;
+
 CREATE DATABASE IF NOT EXISTS CDCP_DB;
 USE CDCP_DB;
 
@@ -20,11 +20,8 @@ CREATE TABLE IF NOT EXISTS TagValues (projectId VARCHAR(36), exampleId VARCHAR(3
                             PRIMARY KEY (projectId, exampleId, tagName, tagValue));
 
 
--- Nei Logs e Token non uso la ON DELETE CASCADE/ON UPDATE CASCADE, perchè sono interessato a tenere traccia di tutte le modifiche!
-CREATE TABLE IF NOT EXISTS Logs (id int NOT NULL AUTO_INCREMENT, userNick VARCHAR(25), projectId VARCHAR(36), exampleId VARCHAR(36), actionType VARCHAR(50), details VARCHAR(255), timeStamp DATETIME, 
-                            -- FOREIGN KEY (userId) REFERENCES Users(id), 
-                            -- FOREIGN KEY (exampleId) REFERENCES Examples(id), 
-                            -- FOREIGN KEY (projectId) REFERENCES Projects(id),
+-- In Logs e TokenAuth non uso la ON DELETE CASCADE/ON UPDATE CASCADE, perchè sono interessato a tenere traccia di tutte le modifiche
+CREATE TABLE IF NOT EXISTS Logs (id int NOT NULL AUTO_INCREMENT, userNick VARCHAR(25), projectId VARCHAR(36), exampleId VARCHAR(36), actionType VARCHAR(50), details VARCHAR(255), timeStamp DATETIME,
                             PRIMARY KEY (id));
 
 CREATE TABLE IF NOT EXISTS TokenAuth (id int NOT NULL AUTO_INCREMENT, nickname VARCHAR(25), token VARCHAR(36), expirationDate DATETIME, PRIMARY KEY(id));

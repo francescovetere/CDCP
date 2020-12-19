@@ -1,11 +1,11 @@
 'use strict';
 
-const DBManager = require("./DBManager");
+const DBManager = require("./DBManager");   // managing queries
 const uuid = require('uuid').v4;
-const multer = require('multer'); // per caricare file
-const fs = require('fs')          // per eliminare file
+const multer = require('multer');           // uploading files
+const fs = require('fs')                    // deleting files
 const path = require('path');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');         // hashing psw
 
 let dbm = new DBManager();
 
@@ -18,7 +18,6 @@ function formatDate(date) {
  * Parametri: vuoto
  * Campi: userNick, projectId, exampleId, actionType, details 
  */
-
 async function SaveLog(contentLog) {
     console.log("Inserting a new log...\n");
 
@@ -39,27 +38,14 @@ async function SaveLog(contentLog) {
         console.log(err);
     }
 
-    console.log("Log inserted correctly\n");
-
+    console.log("Log inserted correctly");
 }
 
 function routes(app) {
 
-    app.get("/getImage/:image", async (req, res) => {
-            //console.log("Required " + req.params.image);
-            let pathImg = __dirname + "/../public/uploads/" + req.params.image;
-            console.log(pathImg);
-            
-            let file = path.join(pathImg);
-            await res.sendFile(file);
-            // res.json("ok");
-    });
-
-
     /******************
      * LOGS ROUTES 
      ******************/
-
 
     /**
      * Restituzione di tutti i record della tabella Logs
@@ -351,6 +337,8 @@ function routes(app) {
         console.log("Token retrieved correctly\n");
     });
 
+
+
     /******************
      * PROJECTS ROUTES 
      ******************/
@@ -444,7 +432,7 @@ function routes(app) {
     /**
      * Aggiornamento di un progetto esistente
      * Parametri: id progetto
-     * Body: title, inputType
+     * Body: title, inputType, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -499,7 +487,7 @@ function routes(app) {
     /**
      * Rimozione di un progetto esistente
      * Parametri: id progetto
-     * Body: inputValue, projectTitle
+     * Body: inputValue, projectTitle, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -659,12 +647,23 @@ function routes(app) {
         console.log("Examples retrieved correctly\n");
     });
 
-
+    /** 
+     * Restituzione dell'immagine associata ad un example di tipo immagine
+     * Pensata per essere chiamata dal client nella fase di rendering dell'example ( nella funzione createExampleCard() )
+     */
+    app.get("/getImage/:image", async (req, res) => {
+        //console.log("Required " + req.params.image);
+        let pathImg = __dirname + "/../public/uploads/" + req.params.image;
+        console.log(pathImg);
+        
+        let file = path.join(pathImg);
+        await res.sendFile(file);
+    });
 
     /**
      * Inserimento di un nuovo example nel progetto
      * Parametri: id progetto
-     * Body: inputType, inputValue
+     * Body: inputType, inputValue, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -739,7 +738,7 @@ function routes(app) {
     /**
      * Inserimento di un nuovo example (di tipo immagine) nel progetto
      * Parametri: id progetto
-     * Body: inputType, inputValue
+     * Body: inputType, inputValue, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -773,9 +772,11 @@ function routes(app) {
     /**
      * Aggiornamento di un example esistente nel progetto
      * Parametri: id progetto, id example
-     * Body: inputType, inputValue
+     * Body: inputType, inputValue, nickname
      * Risposta positiva: success
      * Risposta negativa: error
+     * 
+     * N.B. Se inputType === 'IMAGE' ==> elimino la vecchia immagine dal file system!
      */
     app.put('/project/:projectId/example/:exampleId', async (req, resp) => {
         let projectId = req.params.projectId;
@@ -859,7 +860,7 @@ function routes(app) {
     /**
      * Rimozione di un example esistente nel progetto
      * Parametri: id progetto, id example
-     * Body: inputValue, inputType
+     * Body: inputValue, inputType, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      * 
@@ -993,7 +994,7 @@ function routes(app) {
     /**
      * Inserimento di un nuovo tagName nell'example
      * Parametri: id progetto, id example
-     * Body: tagName
+     * Body: tagName, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1042,7 +1043,7 @@ function routes(app) {
         console.log("TagName inserted correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "POST", "TagName "+ tagName +" created."]);
+        SaveLog([nickname, projectId, exampleId, "POST", "TagName '"+ tagName +"' created."]);
 
         resp.status(201);
         resp.json({success: "TagName inserted correctly"});
@@ -1053,7 +1054,7 @@ function routes(app) {
     /**
      * Aggiornamento di un tagName esistente nell'example
      * Parametri: id progetto, id example, tagName
-     * Body: tagName
+     * Body: tagName, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1106,7 +1107,7 @@ function routes(app) {
         console.log("tagName updated correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "PUT", "TagName "+ tagName +" updated with " + newTagName + "."]);
+        SaveLog([nickname, projectId, exampleId, "PUT", "TagName '"+ tagName +"' updated with '" + newTagName + "'."]);
 
         resp.status(201);
         resp.json({success: "tagName updated correctly"});
@@ -1117,7 +1118,7 @@ function routes(app) {
     /**
      * Rimozione di un tagName esistente nell'example
      * Parametri: id progetto, id example, tagName
-     * Body: vuoto
+     * Body: nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1150,7 +1151,7 @@ function routes(app) {
         console.log("tagName deleted correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "DELETE", "TagName "+ tagName +" deleted."]);
+        SaveLog([nickname, projectId, exampleId, "DELETE", "TagName '"+ tagName +"' deleted."]);
 
         resp.status(200);
         resp.json({success: "tagName deleted correctly"});
@@ -1228,7 +1229,7 @@ function routes(app) {
     /**
      * Inserimento di un nuovo tagValue per un tagName dell'example
      * Parametri: id progetto, id example, tagName
-     * Body: tagValue
+     * Body: tagValue, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1278,7 +1279,7 @@ function routes(app) {
         console.log("tagValue inserted correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "POST", "TagValue "+ tagValue +" created."]);
+        SaveLog([nickname, projectId, exampleId, "POST", "TagValue '"+ tagValue +"' created."]);
 
         resp.status(201);
         resp.json({success: "tagValue inserted correctly"});
@@ -1289,7 +1290,7 @@ function routes(app) {
     /**
      * Aggiornamento di un tagValue esistente per un tagValue dell'example
      * Parametri: id progetto, id example, tagName, tagValue
-     * Body: nuovo tagValue
+     * Body: nuovo tagValue, nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1343,7 +1344,7 @@ function routes(app) {
         console.log("tagValue updated correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "PUT", "TagValue "+ tagValue +" updated with " + newTagValue + "."]);
+        SaveLog([nickname, projectId, exampleId, "PUT", "TagValue '"+ tagValue +"' updated with '" + newTagValue + "'."]);
 
         resp.status(201);
         resp.json({success: "tagValue updated correctly"});
@@ -1354,7 +1355,7 @@ function routes(app) {
     /**
      * Rimozione di un tagValue esistente per un tag Value nell'example
      * Parametri: id progetto, id example, tagName, tagValue
-     * Body: vuoto
+     * Body: nickname
      * Risposta positiva: success
      * Risposta negativa: error
      */
@@ -1388,7 +1389,7 @@ function routes(app) {
         console.log("tagValue deleted correctly\n");
 
         let nickname = req.body.nickname;
-        SaveLog([nickname, projectId, exampleId, "DELETE", "TagValue "+ tagValue +" deleted."]);
+        SaveLog([nickname, projectId, exampleId, "DELETE", "TagValue '"+ tagValue +"' deleted."]);
 
         resp.status(200);
         resp.json({success: "tagValue deleted correctly"});

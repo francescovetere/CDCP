@@ -1,11 +1,11 @@
 'use strict';
 
-// non uso mysql standard, che prevede solo callback,
-// ma promise-mysql, che ammette anche le promise (e quindi async/await)
-const mysql = require('promise-mysql'); 
+// mysql.js prevede solo callback
+// Per poter gestire le query tramite promises (e quindi async/await) uso promise-mysql.js
+const promise_mysql = require('promise-mysql'); 
 
 /**
- * Classe DBManager, utile per utilizzare query senza callback, ma con async/await
+ * Classe che si occupa di tutti gli aspetti legati all'interazione col DB
  */
 class DBManager {
     constructor() {
@@ -21,7 +21,7 @@ class DBManager {
 
     async connect(config) {
         try {
-            this._con = await mysql.createConnection(config);
+            this._con = await promise_mysql.createConnection(config);
         }
         
         catch(err) {
@@ -32,7 +32,6 @@ class DBManager {
     async execQuery(sql, params = []) {
         try {
             const result = await this._con.query(sql, params);
-            // console.log(result); --> Posso farlo, grazie ad async/await
 
             // ritorno direttamente il risultato in JSON
             return JSON.parse(JSON.stringify(result));
