@@ -49,7 +49,7 @@ function createLoginPage() {
 
                 },
                 error: function(error){
-                    alert("Something went wrong...");
+                    alert("Login failed!");
                 }
             });
 

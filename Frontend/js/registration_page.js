@@ -40,12 +40,12 @@ function createRegistrationPage() {
                     data : JSON.stringify(formData),
                     contentType: 'application/json',
                     success: function(response){
-                        alert("Registrazione avvenuta con successo!"); // solo per debug adesso
+                        alert("Registration completed!"); // solo per debug adesso
                         variableContent.innerHTML = "";
                         createLoginPage();
                     },
                     error: function(error){
-                        alert("Nickname già esistente!");
+                        alert("Nickname '" + username + "' is not available!");
                     }
                 });
             }

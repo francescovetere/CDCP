@@ -9,8 +9,11 @@ const bcrypt = require('bcryptjs');         // hashing psw
 
 let dbm = new DBManager();
 
-function formatDate(date) {
-    return date.toISOString().slice(0, 19).replace('T', ' ');
+function formatDate() {
+    let date = new Date();
+    let formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 19).replace('T', ' ');
+
+    return formattedDate;
 }
 
 /**
@@ -27,7 +30,7 @@ async function SaveLog(contentLog) {
     let actionType = contentLog[3];
     let details = contentLog[4];
 
-    let params = [userNick, projectId, exampleId, actionType, details, formatDate(new Date())];
+    let params = [userNick, projectId, exampleId, actionType, details, formatDate()];
 
     try {   
         let sql = 'INSERT INTO Logs(userNick, projectId, exampleId, actionType, details, timeStamp) VALUES (?, ?, ?, ?, ?, ?)';
@@ -243,7 +246,8 @@ function routes(app) {
             console.log(err);
         }
         
-        let hashStored = JSON.stringify(result[0].password);
+        let hashStored = "";
+        if(result.length != 0) hashStored = JSON.stringify(result[0].password);
 
         if(result.length === 0 || !bcrypt.compareSync(password, JSON.parse(hashStored))) {
             console.log("Login failed\n");
