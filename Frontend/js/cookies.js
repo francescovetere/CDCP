@@ -28,16 +28,21 @@ function getCookie(cname) {
 }
 
 // Validazione cookie di autenticazione
+
+// Due check: prima controllo se esiste il cookie di autenticazione. Se esiste, procedo con la creazione della pagina dei progetti
+// Se non esiste tale cookie, controllo se eventualmente esiste quello di sessione, e in caso positivo procedo sempre alla creazione della 
+// pagina dei progetti, recuperando il nickname dal sessionStorage (settato in projects_page)
+// Se non esiste nemmeno questo cookie, creo invece la pagina di login
 function checkAuth(name) {
     let cookieValues = getCookie(name);
     let cookieSession = getCookie("id_session");
 
-    if(cookieValues!= "") { // check if cookie auth exist (Remember me checked)
+    if(cookieValues != "") { // check if cookie auth exist (Remember me checked)
 
         cookieValues = JSON.parse(cookieValues);
 
         if (cookieValues[0] != "" && cookieValues[1] != "") {
-          /* Faccio il check nel db e se e' tutto giusto procedo */
+          /* Faccio il check nel db e se e' tutto corretto procedo */
           let cookieData = {nickname : cookieValues[0], tk: cookieValues[1]};
               $.ajax({
                 url: 'api/auth',
@@ -57,7 +62,7 @@ function checkAuth(name) {
         }
 
         else {
-          /* TODO: Che succede se il cookie e' in formato non valido? -> cancello/invalido */
+          /* Che succede se il cookie e' in formato non valido? -> cancello/invalido */
           variableContent.innerHTML = "<h1>Server error</h1>";
           deleteCookie(name, "/", "cdcp");
           createLoginPage();

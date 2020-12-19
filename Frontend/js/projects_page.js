@@ -180,7 +180,7 @@ function createProjectsPage(nickname) {
 
     document.getElementById("NickLogged").innerHTML = nickname;
 
-    // Salva il nickname in storage locale per cookie session
+    // Salva il nickname nello storage locale per il cookie di sessione
     if(!sessionStorage.getItem("nick_session"))
         sessionStorage.setItem("nick_session", nickname);
 
