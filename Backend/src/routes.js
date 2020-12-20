@@ -276,8 +276,7 @@ function routes(app) {
         let nickname = req.body.nickname;
         let tk = req.body.tk;
 
-        let currentDate = formatDate(new Date());
-        
+        let currentDate = "'"+formatDate(new Date())+ "'";
         let result;
 
        

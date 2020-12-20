@@ -71,7 +71,7 @@ function checkAuth(name) {
     } 
 
     else { // if not exist, check session cookie
-        if(cookieSession!=""){
+        if(cookieSession!="" && sessionStorage.getItem("nick_session")){
           // recupera il nickname dal local storage anziche' da una variabile globale 
           // per evitare la sovrascrittura ad ogni refresh
           createProjectsPage(sessionStorage.getItem("nick_session")); 
