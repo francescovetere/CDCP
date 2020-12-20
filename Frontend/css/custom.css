@@ -77,6 +77,11 @@
   background-color: #f1f1f1;
 }
 
+.nickbar a{
+  text-decoration: none;
+  color: black;
+}
+
 .nickbarAvatar {
   float: left;
   margin: 10px 10px 0 -10px;
@@ -167,4 +172,10 @@
 .btn-warning{
   background-color: #ffdc5f;
   border-color: #f5c04b;
+}
+
+/* Change background contrast for accessibilty */
+.btn-outline-success {
+  background-color: white;
+  color: #187e2f;
 }
